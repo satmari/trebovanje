@@ -29,6 +29,7 @@ class CreateRequestHeadersTable extends Migration {
             $table->string('leader', 40);
 
             $table->string('status', 20);
+            $table->string('first_time', 10);
             $table->smallInteger('deleted')->default(0);
             // $table->smallInteger('printed')->default(1);
 

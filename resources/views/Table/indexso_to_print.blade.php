@@ -6,6 +6,11 @@
 		<div class="text-center">
 			<div class="panel panel-default">
 				<div class="panel-heading">Request header table</div>
+
+				<div>
+					<a href="{{ url('/printall') }}" class="btn btn-info btn center">Print all</a>
+				</div>
+
 				<div class="input-group"> <span class="input-group-addon">Filter</span>
 				    <input id="filter" type="text" class="form-control" placeholder="Type here...">
                 </div>
@@ -94,10 +99,6 @@
 				        		<a href="{{ url('/delete_header/'.$d->id) }}" class="btn btn-danger btn-xs center-block" >Cancel all</a>
 				        	@endif
 				        	</td>
-				        	<td>
-				        		<a href="{{ url('/edit_header/'.$d->id) }}" class="btn btn-default btn-xs center-block" >Edit</a>
-				        	</td>
-
 
 						</tr>
 				    

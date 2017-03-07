@@ -39,11 +39,14 @@ Route::get('/table', 'TableController@index');
 Route::get('/tableso', 'TableController@indexso');
 Route::get('/tabletoprint', 'TableController@toprint');
 Route::get('/tabletocreate', 'TableController@tocreate');
+Route::get('/last_used', 'TableController@last_used');
 
 Route::get('/print/{id}', 'TableController@printrequest');
-
+Route::get('/printall', 'TableController@printall');
 Route::get('/delete_header/{id}', 'TableController@delete_header');
 Route::get('/delete_line/{id}', 'TableController@delete_line');
+Route::get('/edit_header/{id}', 'TableController@edit_header');
+Route::post('/update_header/{id}', 'TableController@update_header');
 
 // Import
 Route::get('/import', 'ImportController@index');

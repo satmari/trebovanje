@@ -388,8 +388,10 @@ class RequestController extends Controller {
 
 		if ($so == '') {
 			$status = 'TO CREATE';
+			$first_time = 'YES';
 		} else {
 			$status = 'TO PRINT';	
+			$first_time = 'NO';
 		}
 		
 
@@ -415,6 +417,7 @@ class RequestController extends Controller {
 			$table->leader = $leader;
 
 			$table->status = $status;
+			$table->first_time = $first_time;
 			$table->deleted = 0;
 
 			$table->comment = $comment;

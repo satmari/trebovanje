@@ -40,7 +40,7 @@
                 -->
 				    <thead>
 				        <tr>
-				           {{-- <th>id</th> --}}
+				           <th>Last Updated</th>
 				           <th><span style="color: blueviolet;">Name</span></th>
 				           <th><span style="color: blueviolet;">Style</span></th>
 				           <th><span style="color: blueviolet;">Color</span></th>
@@ -51,10 +51,7 @@
 				           <th><span style="color: blueviolet;">Po</span></th>
 				           <th><span style="color: blueviolet;">First</span></th>
 				           <th><span style="color: blueviolet;">So</span></th>
-				           
-				           <th></th>
-				           <th></th>
-
+				          
 				        </tr>
 				    </thead>
 				    <tbody class="searchable">
@@ -62,7 +59,7 @@
 				    @foreach ($data as $d)
 				    	
 				        <tr>
-				        	{{-- <td>{{ $d->id }}</td> --}}
+				        	<td>{{ $d->updated_at }}</td>
 				        	<td>{{ $d->name }}</td>
 				        	<td>{{ $d->stylefg }}</td>
 				        	<td>{{ $d->colorfg }}</td>
@@ -80,25 +77,7 @@
 				        		 	{{ $d->so }}
 				        		@endif
 				        	</td>
-				        	<td>
-				        	@if ($d->status == "TO PRINT")
-				        		<a href="{{ url('/print/'.$d->id) }}" class="btn btn-info btn-xs center-block">Print</a>
-				        	@else
-				        		<a href="{{ url('/print/'.$d->id) }}" class="btn btn-info btn-xs center-block">Print</a>
-				        	@endif
-				        	</td>
-				        	<td>
-				        	@if ($d->status == "PRINTED")
-				        		<a href="{{ url('/delete_header/'.$d->id) }}" class="btn btn-danger btn-xs center-block" disabled>Cancel all</a>
-				        	@else
-				        		<a href="{{ url('/delete_header/'.$d->id) }}" class="btn btn-danger btn-xs center-block" >Cancel all</a>
-				        	@endif
-				        	</td>
-				        	<td>
-				        		<a href="{{ url('/edit_header/'.$d->id) }}" class="btn btn-default btn-xs center-block" >Edit</a>
-				        	</td>
-
-
+				        	
 						</tr>
 				    
 				    @endforeach

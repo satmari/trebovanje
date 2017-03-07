@@ -60,8 +60,19 @@
 						<li><a href="{{ url('/table') }}">Table (requests+lines)</a></li>
 						<li><a href="{{ url('/tabletoprint') }}">To Print</a></li>
 						<li><a href="{{ url('/tabletocreate') }}">To Create</a></li>
-						<li><a href="{{ url('/refresh') }}">Refresh</a></li>
-					
+						<li><a href="{{ url('/last_used') }}">Last used SO</a></li>
+						
+					<li>
+						 <button class="btn btn-default dropdown-toggle" style="margin: 6px 5px !important;" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+								    Functions
+							    <span class="caret"></span>
+						  </button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						    
+							<li><a href="{{ url('/refresh') }} " type="button">Refresh</a></li>
+							
+						</ul>
+					</li>
 					<li>
 						 <button class="btn btn-default dropdown-toggle" style="margin: 6px 5px !important;" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								    Translations
