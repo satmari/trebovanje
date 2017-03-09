@@ -14,10 +14,10 @@
                 <table class="table table-striped table-bordered" id="sort" 
                 data-show-export="true"
                 data-export-types="['excel']"
-                data-show-toggle="true"
-                data-show-columns="true" 
                 >
                 <!--
+                data-show-toggle="true"
+                data-show-columns="true" 
                 data-show-export="true"
                 data-export-types="['excel']"
                 data-search="true"

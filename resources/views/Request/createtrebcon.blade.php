@@ -20,25 +20,27 @@
 				<div class="panel-body">
 
 				@foreach ($newarray as $line)
-					<p>
-						<span class="button-checkbox">
-							<button style="width: 100%;" type="button" class="btn" data-color="primary">
-									<span style="min-width: 10px">
-											{{ $line['item_t'] }}
+			    <div class="checkbox">
+			    	<label style="width: 100%;" type="button" class="btn check btn-default"  data-color="primary">
+			      		<input type="checkbox" class="btn check" name="items[]" value="{{ $line['item'].'#'.$line['item_t'].'#'.$line['color'].'#'.$line['color_t'].'#'.$line['size'].'#'.$line['size_t'].'#'.$line['uom'].'#'.$line['hu']}}">  
 
-											@if (($line['item_t'] == 'Kuma') OR ($line['item_t'] == 'Elan'))
-													{{ $line['color_t'] }}
-											@endif
-											
-											{{ $line['size_t'] }}
-									</span>
-							</button>
-					        <input type="checkbox" class="hidden" name="items[]" value="{{ $line['item'].'#'.$line['item_t'].'#'.$line['color'].'#'.$line['color_t'].'#'.$line['size'].'#'.$line['size_t'].'#'.$line['uom'].'#'.$line['hu']}}" />
-					    </span>
-					</p>
-				@endforeach
+			      		{{ $line['item_t'] }}
 
-			    </div>
+						@if (($line['item_t'] == 'Kuma') OR ($line['item_t'] == 'Elan'))
+								{{ $line['color_t'] }}
+						@endif
+						
+						{{ $line['size_t'] }}
+
+			    	</label>
+			  	</div>
+			  	@endforeach
+			  	<div class="checkbox">
+			    	<label style="width: 30%;" type="button" class="btn check btn-warrning"  data-color="info">
+			      		<input type="checkbox" class="btn check" id="checkAll"><b>Izaberi sve</b>
+			    	</label>
+			  	</div>
+					
 
 			    <div class="panel-body">
 			    	<p>Comment:</p>

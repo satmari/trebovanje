@@ -196,58 +196,27 @@ $(function() {
 		}
 	});
 
-	// $('td').click(function() {
-	//    	var myCol = $(this).index();
- 	//    	var $tr = $(this).closest('tr');
- 	//    	var myRow = $tr.index();
+	// Select all
+	/*$("#checkAll").click(function () {
+    	
+    	// window.alert("test");
+    	// $(".check").prop('checked', $(this).prop('checked'));
+    	// $(".check").attr('style','width: 50%');
+    	$(".check").removeAttr('calss');
+    	$(".check").attr('class','btn btn-primary check checked active btn-active');
+    	// $(".check").attr('','');
+    	$(".check").data('state',"on");
 
- 	//    	console.log("col: "+myCol+" tr: "+$tr+" row:"+ myRow);
-	// });
+    	$(".state-icon").removeAttr('calss');
+    	$(".state-icon").attr('class','state-icon glyphicon glyphicon-check');
 
-	//baner
-	// var target = $('#target');
-	// var change = function(str) {
-	// var tmp = $('<h2>' + str + '</h2>');
-	// tmp.css({
-	//   display: "inline-block",
-	//   position: "absolute"
-	// })
-	// .appendTo('body')
-	// .hide();
-	// var targetWidth = tmp.outerWidth();
-	// tmp.remove();
-	// target.animate({
-	// opacity: 0
-	// }, 200, function() {
-	// target.animate({
-	//   width: targetWidth
-	// }, 200, function() {
-	//   target.empty()
-	//     .html(str)
-	//     .css({
-	//       display: "initial"
-	//     })
-	//     .animate({
-	//       opacity: 1
-	//     }, 200);
-	// });
-	// });
-	// }
-	// var samples = [
-	// "some sample some sample some sample ",
-	// "some sample some sample some sample sample some sample ",
-	// "some sample some sample some sample sample some sample sample some sample ",
-	// "another example",
-	// "just"
-	// ];
-	// var i = 0;
-	// setInterval(function() {
-	// change(samples[++i % samples.length]);
-	// }, 2000);
-	// //
+	});*/
+	
+	$("#checkAll").click(function () {
+    	$(".check").prop('checked', $(this).prop('checked'));
+	});
 
 	/*checkbox*/
-
     $('.button-checkbox').each(function () {
 
         // Settings

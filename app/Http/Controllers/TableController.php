@@ -109,6 +109,7 @@ class TableController extends Controller {
 			h.status,
 			h.po,
 			h.so,
+			h.comment,
 			h.first_time
 		  FROM [trebovanje].[dbo].[request_header] as h
 		  WHERE h.deleted = 0
@@ -131,6 +132,7 @@ class TableController extends Controller {
 			h.status,
 			h.po,
 			h.so,
+			h.comment,
 			h.first_time
 		  FROM [trebovanje].[dbo].[request_header] as h
 		  WHERE h.status = 'TO PRINT' AND h.deleted = 0
@@ -154,6 +156,7 @@ class TableController extends Controller {
 			h.status,
 			h.po,
 			h.so,
+			h.comment,
 			h.first_time
 		  FROM [trebovanje].[dbo].[request_header] as h
 		  WHERE h.status = 'TO CREATE' AND h.deleted = 0
@@ -161,28 +164,89 @@ class TableController extends Controller {
 		  "));
 
 		// return view('Table.index', compact('data'));
-		return view('Table.indexso', compact('data'));
+		return view('Table.indexso_to_create', compact('data'));
 	}
 
 	public function last_used() {
 		//
-		$data = DB::connection('sqlsrv')->select(DB::raw("SELECT
-			h.id,
-			h.name,
-			h.style as stylefg,
-			h.color as colorfg,
-			h.size as sizefg,
+		$data = DB::connection('sqlsrv')->select(DB::raw("SELECT	
+		
+			h.id, 
+			h.so,
+			h.po,
 			h.module,
 			h.leader,
 			h.status,
-			h.po,
-			h.so,
-			h.updated_at,
-			h.first_time
+			h.updated_at
+			
 		  FROM [trebovanje].[dbo].[request_header] as h
 		  WHERE h.deleted = 0
 		  ORDER BY h.updated_at asc
 		  "));
+
+		// dd($data);
+
+		if (isset($data[0])) {
+			for ($i=0; $i < count($data); $i++) { 
+
+				$so = DB::connection('sqlsrv3')->select(DB::raw("SELECT		   
+				   p.[No_] as so,
+				   /*l.[Item No_] as item,*/
+				   /*l.[Shortcut Dimension 2 Code],*/
+				   /*(RIGHT(l.[Shortcut Dimension 2 Code],5)) as po,*/
+				   /*l.[PfsHorizontal Component] as size,*/
+				   /*l.[PfsVertical Component] as color,*/
+				   /*p.[Description],*/
+				   p.[WMS Status] as sowmsstatus
+				   
+					FROM [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Line] as l
+					JOIN [Gordon_LIVE].[dbo].[GORDON\$Production Order] as p ON p.[No_] = l.[Prod_ Order No_]
+					WHERE p.[No_] = '".$data[$i]->so."'
+				"));
+				// var_dump($so[0]->so);
+				// dd($so[0]->sowmsstatus);
+
+				if (isset($so[0])) {
+					if 	($so[0]->sowmsstatus == '0') {
+						$sowmsstatus = "Open";
+					} elseif ($so[0]->sowmsstatus == '1') {
+						$sowmsstatus = "Close";
+					}
+				} else {
+					$sowmsstatus = NULL;	
+				}
+
+				$table = RequestHeader::findOrFail($data[$i]->id);
+		
+				try {		
+					
+					$table->sowmsstatus = $sowmsstatus;
+					$table->save();
+				}
+				catch (\Illuminate\Database\QueryException $e) {
+					return view('Table.error');			
+				}
+			}
+
+		} else {
+
+		}
+
+		$data = DB::connection('sqlsrv')->select(DB::raw("SELECT	
+			/*h.id, */
+			h.so,
+			h.po,
+			h.module,
+			h.leader,
+			h.status,
+			h.updated_at,
+			h.sowmsstatus
+			
+		  FROM [trebovanje].[dbo].[request_header] as h
+		  WHERE h.deleted = 0 AND sowmsstatus = 'Open'
+		  ORDER BY h.updated_at asc
+		  "));
+
 
 		// return view('Table.index', compact('data'));
 		return view('Table.indexso_last_update', compact('data'));
@@ -400,7 +464,6 @@ class TableController extends Controller {
 
 		
 		return Redirect::to('/');
-
 	}
 
 	public function printall (Request $request) {
@@ -621,7 +684,6 @@ class TableController extends Controller {
 		}
 		
 		return Redirect::to('/');
-
 	}
 
 	public function delete_header($id)	{
@@ -632,8 +694,7 @@ class TableController extends Controller {
 		$header->status = "DELETED";
 		$header->deleted = 1;
 		$header->save();
-		// $header->delete();
-
+		
 		}
 			catch (\Illuminate\Database\QueryException $e) {
 				$msg = "Problem to delete header";
@@ -657,7 +718,6 @@ class TableController extends Controller {
 		}
 
 		return Redirect::to('/tableso');
-
 	}
 
 	public function delete_line($id) {
@@ -674,15 +734,14 @@ class TableController extends Controller {
 			return view('Table.error',compact('msg'));
 		}
 		return Redirect::to('/table');
-
 	}
 
 	public function edit_header($id)
 	{
 		$data = RequestHeader::findOrFail($id);		
 		return view('Table.edit_header', compact('data'));
-
 	}
+	
 	public function update_header($id, Request $request) 
 	{
 		//

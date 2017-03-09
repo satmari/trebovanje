@@ -8,10 +8,12 @@ use App\Exceptions\Handler;
 
 use Illuminate\Http\Request;
 //use Gbrock\Table\Facades\Table;
+use Illuminate\Support\Facades\Redirect;
 
 use App\trans_color;
 use App\trans_item;
 use App\trans_size;
+use App\temp_print;
 use App\RequestHeader;
 use App\RequestLine;
 use DB;
@@ -19,7 +21,6 @@ use DB;
 use App\User;
 use Bican\Roles\Models\Role;
 use Bican\Roles\Models\Permission;
-use Illuminate\Support\Facades\Redirect;
 use Auth;
 
 use Session;
@@ -148,7 +149,7 @@ class RequestController extends Controller {
 			  FROM [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Component] as c
 			  JOIN [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Line] as l ON c.[Prod_ Order No_] = l.[Prod_ Order No_] AND c.[Prod_ Order Line No_] = l.[Line No_]
 			  INNER JOIN [Gordon_LIVE].[dbo].[GORDON\$Barcode] as b ON c.[Item No_] = b.[No_] AND c.[Variant Code] = b.[Variant Code] AND b.[Barcode No_] like 'NOT%'
-			  WHERE l.[Status] = '0'  AND c.[Prod_ Order No_] like '".$so."' 
+			  WHERE l.[Status] = '0'  AND c.[Prod_ Order No_] like '".$so."' AND c.[Area Code] != 'PREPARATION'
 			  "));
 
 		// dd($components[]);
@@ -285,7 +286,7 @@ class RequestController extends Controller {
 			  FROM [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Component] as c
 			  JOIN [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Line] as l ON c.[Prod_ Order No_] = l.[Prod_ Order No_] AND c.[Prod_ Order Line No_] = l.[Line No_]
 			  INNER JOIN [Gordon_LIVE].[dbo].[GORDON\$Barcode] as b ON c.[Item No_] = b.[No_] AND c.[Variant Code] = b.[Variant Code] AND b.[Barcode No_] like 'NOT%'
-			  WHERE l.[Status] = '3' AND c.[Prod_ Order No_] like '%".$po."' AND l.[PfsHorizontal Component] = '".$size."'
+			  WHERE l.[Status] = '3' AND c.[Prod_ Order No_] like '%".$po."' AND l.[PfsHorizontal Component] = '".$size."' AND c.[Area Code] != 'PREPARATION'
 			  "));
 
 		if ($components) {
@@ -378,11 +379,18 @@ class RequestController extends Controller {
 			return view('Request.error',compact('msg'));
 		}
 
+		if (!isset($input['items'])) {
+			$msg = 'Izaberite odredjeni materijal!';
+			return view('Request.error',compact('msg'));
+		}
+
 		$so = $input['so']; 
 		$po = $input['po'];
 		$itemfg = $input['itemfg'];
 		$colorfg = $input['colorfg'];
 		$sizefg = $input['sizefg'];
+
+		// dd($input['items']);
 		$items = $input['items'];
 		// dd($items);
 

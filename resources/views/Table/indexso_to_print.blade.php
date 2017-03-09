@@ -5,7 +5,7 @@
 	<div class="row vertical-center-row">
 		<div class="text-center">
 			<div class="panel panel-default">
-				<div class="panel-heading">Request header table</div>
+				<div class="panel-heading">Request header table (to print)</div>
 
 				<div>
 					<a href="{{ url('/printall') }}" class="btn btn-info btn center">Print all</a>
@@ -17,11 +17,10 @@
                 <table class="table table-striped table-bordered" id="sort" 
                 data-show-export="true"
                 data-export-types="['excel']"
-                data-show-toggle="true"
-                data-show-columns="true" 
-                
                 >
                 <!--
+                data-show-toggle="true"
+                data-show-columns="true" 
                 data-show-export="true"
                 data-export-types="['excel']"
                 data-search="true"
