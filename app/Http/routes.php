@@ -37,6 +37,7 @@ Route::post('/createnewso', 'RequestController@createnewso');
 // Table
 Route::get('/table', 'TableController@index');
 Route::get('/tableso', 'TableController@indexso');
+Route::get('/tablesotoday', 'TableController@indexsotoday');
 Route::get('/tabletoprint', 'TableController@toprint');
 Route::get('/tabletocreate', 'TableController@tocreate');
 Route::get('/last_used', 'TableController@last_used');

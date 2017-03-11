@@ -28,6 +28,7 @@ class CreateTempPrintsTable extends Migration {
 
 			$table->string('module')->nullable();
             $table->string('leader')->nullable();
+            $table->string('comment')->nullable();
 
 			$table->string('item_0')->nullable();
 			$table->string('item_t_0')->nullable();
@@ -118,6 +119,52 @@ class CreateTempPrintsTable extends Migration {
 			$table->string('color_t_9')->nullable();
 			$table->string('uom_9')->nullable();
 			$table->string('hu_9')->nullable();
+
+			$table->string('item_10')->nullable();
+			$table->string('item_t_10')->nullable();
+			$table->string('size_10')->nullable();
+			$table->string('size_t_10')->nullable();
+			$table->string('color_10')->nullable();
+			$table->string('color_t_10')->nullable();
+			$table->string('uom_10')->nullable();
+			$table->string('hu_10')->nullable();
+
+			$table->string('item_11')->nullable();
+			$table->string('item_t_11')->nullable();
+			$table->string('size_11')->nullable();
+			$table->string('size_t_11')->nullable();
+			$table->string('color_11')->nullable();
+			$table->string('color_t_11')->nullable();
+			$table->string('uom_11')->nullable();
+			$table->string('hu_11')->nullable();
+
+			$table->string('item_12')->nullable();
+			$table->string('item_t_12')->nullable();
+			$table->string('size_12')->nullable();
+			$table->string('size_t_12')->nullable();
+			$table->string('color_12')->nullable();
+			$table->string('color_t_12')->nullable();
+			$table->string('uom_12')->nullable();
+			$table->string('hu_12')->nullable();
+
+			$table->string('item_13')->nullable();
+			$table->string('item_t_13')->nullable();
+			$table->string('size_13')->nullable();
+			$table->string('size_t_13')->nullable();
+			$table->string('color_13')->nullable();
+			$table->string('color_t_13')->nullable();
+			$table->string('uom_13')->nullable();
+			$table->string('hu_13')->nullable();
+
+			$table->string('item_14')->nullable();
+			$table->string('item_t_14')->nullable();
+			$table->string('size_14')->nullable();
+			$table->string('size_t_14')->nullable();
+			$table->string('color_14')->nullable();
+			$table->string('color_t_14')->nullable();
+			$table->string('uom_14')->nullable();
+			$table->string('hu_14')->nullable();
+
 
 			$table->timestamps();
 		});

@@ -28,6 +28,11 @@ use Validator;
 
 class TableController extends Controller {
 
+	public function __construct()
+	{
+		$this->middleware('auth');
+	}
+
 	public function index() {
 		//
 		$user = User::find(Auth::id());
@@ -113,6 +118,29 @@ class TableController extends Controller {
 			h.first_time
 		  FROM [trebovanje].[dbo].[request_header] as h
 		  WHERE h.deleted = 0
+		  ORDER BY h.created_at desc
+		  "));
+
+		return view('Table.indexso', compact('data'));
+	}
+
+	public function indexsotoday() {
+		//
+		$data = DB::connection('sqlsrv')->select(DB::raw("SELECT
+			h.id,
+			h.name,
+			h.style as stylefg,
+			h.color as colorfg,
+			h.size as sizefg,
+			h.module,
+			h.leader,
+			h.status,
+			h.po,
+			h.so,
+			h.comment,
+			h.first_time
+		  FROM [trebovanje].[dbo].[request_header] as h
+		  WHERE h.deleted = 0 AND h.created_at BETWEEN CAST(GETDATE() AS DATE) AND DATEADD(DAY, 1, CAST(GETDATE() AS DATE))
 		  ORDER BY h.created_at desc
 		  "));
 
@@ -234,7 +262,7 @@ class TableController extends Controller {
 
 		$data = DB::connection('sqlsrv')->select(DB::raw("SELECT	
 			/*h.id, */
-			h.so,
+			DISTINCT h.so,
 			h.po,
 			h.module,
 			h.leader,
@@ -292,7 +320,7 @@ class TableController extends Controller {
 			$so = "";
 		}
 
-		for ($i=0; $i < 10 ; $i++) { 
+		for ($i=0; $i < 15 ; $i++) { 
 			if (isset($data[$i]->item)) {
 				${"item_{$i}"}=$data[$i]->item;	
 			} else {
@@ -338,7 +366,7 @@ class TableController extends Controller {
 		// dd($data[0]->name);
 
 		//Record temp_print
-		try {
+		// try {
 			$table = new temp_print;
 
 			$table->name = $data[0]->name;
@@ -353,6 +381,7 @@ class TableController extends Controller {
 
 			$table->module = $data[0]->module;
             $table->leader = $data[0]->leader;
+            $table->comment = $data[0]->comment;
 
 			$table->item_0 = $item_0;
 			$table->item_t_0 = $item_t_0;
@@ -444,13 +473,58 @@ class TableController extends Controller {
 			$table->uom_9 = $uom_9;
 			$table->hu_9 = $hu_9;
 
+			$table->item_10 = $item_10;
+			$table->item_t_10 = $item_t_10;
+			$table->size_10 = $size_10;
+			$table->size_t_10 = $size_t_10;
+			$table->color_10 = $color_10;
+			$table->color_t_10 = $color_t_10;
+			$table->uom_10 = $uom_10;
+			$table->hu_10 = $hu_10;
+
+			$table->item_11 = $item_11;
+			$table->item_t_11 = $item_t_11;
+			$table->size_11 = $size_11;
+			$table->size_t_11 = $size_t_11;
+			$table->color_11 = $color_11;
+			$table->color_t_11 = $color_t_11;
+			$table->uom_11 = $uom_11;
+			$table->hu_11 = $hu_11;
+
+			$table->item_12 = $item_12;
+			$table->item_t_12 = $item_t_12;
+			$table->size_12 = $size_12;
+			$table->size_t_12 = $size_t_12;
+			$table->color_12 = $color_12;
+			$table->color_t_12 = $color_t_12;
+			$table->uom_12 = $uom_12;
+			$table->hu_12 = $hu_12;
+
+			$table->item_13 = $item_13;
+			$table->item_t_13 = $item_t_13;
+			$table->size_13 = $size_13;
+			$table->size_t_13 = $size_t_13;
+			$table->color_13 = $color_13;
+			$table->color_t_13 = $color_t_13;
+			$table->uom_13 = $uom_13;
+			$table->hu_13 = $hu_13;
+
+			$table->item_14 = $item_14;
+			$table->item_t_14 = $item_t_14;
+			$table->size_14 = $size_14;
+			$table->size_t_14 = $size_t_14;
+			$table->color_14 = $color_14;
+			$table->color_t_14 = $color_t_14;
+			$table->uom_14 = $uom_14;
+			$table->hu_14 = $hu_14;
+
 			$table->save();
 			
-		}
-		catch (\Illuminate\Database\QueryException $e) {
-			$msg = "Problem to save in temp_print";
-			return view('Request.error',compact('msg'));
-		}
+		// }
+		// catch (\Illuminate\Database\QueryException $e) {
+		// 	$msg = "Problem to save in temp_print";
+		// 	return view('Request.error',compact('msg'));
+		// }
 
 		try {
 			$header = RequestHeader::findOrFail($id);
@@ -513,7 +587,7 @@ class TableController extends Controller {
 				$so = "";
 			}
 
-			for ($i=0; $i < 10 ; $i++) { 
+			for ($i=0; $i < 15 ; $i++) { 
 				if (isset($data[$i]->item)) {
 					${"item_{$i}"}=$data[$i]->item;	
 				} else {
@@ -663,6 +737,51 @@ class TableController extends Controller {
 				$table->uom_9 = $uom_9;
 				$table->hu_9 = $hu_9;
 
+				$table->item_10 = $item_10;
+				$table->item_t_10 = $item_t_10;
+				$table->size_10 = $size_10;
+				$table->size_t_10 = $size_t_10;
+				$table->color_10 = $color_10;
+				$table->color_t_10 = $color_t_10;
+				$table->uom_10 = $uom_10;
+				$table->hu_10 = $hu_10;
+
+				$table->item_11 = $item_11;
+				$table->item_t_11 = $item_t_11;
+				$table->size_11 = $size_11;
+				$table->size_t_11 = $size_t_11;
+				$table->color_11 = $color_11;
+				$table->color_t_11 = $color_t_11;
+				$table->uom_11 = $uom_11;
+				$table->hu_11 = $hu_11;
+
+				$table->item_12 = $item_12;
+				$table->item_t_12 = $item_t_12;
+				$table->size_12 = $size_12;
+				$table->size_t_12 = $size_t_12;
+				$table->color_12 = $color_12;
+				$table->color_t_12 = $color_t_12;
+				$table->uom_12 = $uom_12;
+				$table->hu_12 = $hu_12;
+
+				$table->item_13 = $item_13;
+				$table->item_t_13 = $item_t_13;
+				$table->size_13 = $size_13;
+				$table->size_t_13 = $size_t_13;
+				$table->color_13 = $color_13;
+				$table->color_t_13 = $color_t_13;
+				$table->uom_13 = $uom_13;
+				$table->hu_13 = $hu_13;
+
+				$table->item_14 = $item_14;
+				$table->item_t_14 = $item_t_14;
+				$table->size_14 = $size_14;
+				$table->size_t_14 = $size_t_14;
+				$table->color_14 = $color_14;
+				$table->color_t_14 = $color_t_14;
+				$table->uom_14 = $uom_14;
+				$table->hu_14 = $hu_14;
+
 				$table->save();
 				
 			}
@@ -741,7 +860,7 @@ class TableController extends Controller {
 		$data = RequestHeader::findOrFail($id);		
 		return view('Table.edit_header', compact('data'));
 	}
-	
+
 	public function update_header($id, Request $request) 
 	{
 		//

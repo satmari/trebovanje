@@ -12,7 +12,7 @@
 
 				<div class="panel-body">
 					<p>Po/Komesa: </p>
-					{!! Form::text('po', null, ['id' => 'po', 'class' => 'form-control', 'autofocus' => 'autofocus']) !!}
+					{!! Form::number('po', null, ['id' => 'po', 'class' => 'form-control', 'autofocus' => 'autofocus']) !!}
 				</div>
 				<div class="panel-body">
 					<p>Size/Velicina: </p>

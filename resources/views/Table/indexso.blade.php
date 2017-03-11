@@ -6,10 +6,11 @@
 		<div class="text-center">
 			<div class="panel panel-default">
 				<div class="panel-heading">Request header table</div>
+								
+
 				<div class="input-group"> <span class="input-group-addon">Filter</span>
 				    <input id="filter" type="text" class="form-control" placeholder="Type here...">
                 </div>
-                
                 <table class="table table-striped table-bordered" id="sort" 
                 data-show-export="true"
                 data-export-types="['excel']"
@@ -55,7 +56,7 @@
 				           
 				           <th></th>
 				           <th></th>
-				           <td></td>
+				           <th></th>
 
 				        </tr>
 				    </thead>

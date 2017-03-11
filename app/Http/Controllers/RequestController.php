@@ -132,6 +132,7 @@ class RequestController extends Controller {
 		$components = DB::connection('sqlsrv3')->select(DB::raw("
 			SELECT 
 		      c.[Item No_] as item
+		      /*c.[Quantity per] as qp*/
 		      /*,c.[Variant Code] */
 		      ,c.[PfsVertical Component] as color
 		      ,c.[PfsHorizontal Component] as size 
@@ -149,7 +150,7 @@ class RequestController extends Controller {
 			  FROM [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Component] as c
 			  JOIN [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Line] as l ON c.[Prod_ Order No_] = l.[Prod_ Order No_] AND c.[Prod_ Order Line No_] = l.[Line No_]
 			  INNER JOIN [Gordon_LIVE].[dbo].[GORDON\$Barcode] as b ON c.[Item No_] = b.[No_] AND c.[Variant Code] = b.[Variant Code] AND b.[Barcode No_] like 'NOT%'
-			  WHERE l.[Status] = '0'  AND c.[Prod_ Order No_] like '".$so."' AND c.[Area Code] != 'PREPARATION'
+			  WHERE l.[Status] = '0'  AND c.[Prod_ Order No_] like '".$so."' AND c.[Area Code] != 'PREPARATION' AND c.[Quantity per] > 0
 			  "));
 
 		// dd($components[]);

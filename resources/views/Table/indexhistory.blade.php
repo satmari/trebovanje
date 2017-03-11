@@ -12,10 +12,11 @@
                 </div>
 
                 <table class="table table-striped table-bordered" id="sort" 
-                data-show-export="true"
-                data-export-types="['excel']"
+                data-pagination="true"
                 >
 				<!--
+				data-show-export="true"
+                data-export-types="['excel']"
 	            data-show-export="true"
                 data-export-types="['excel']"
                 data-show-toggle="true"

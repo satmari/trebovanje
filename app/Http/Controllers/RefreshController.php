@@ -72,7 +72,7 @@ class RefreshController extends Controller {
 
 			if (isset($so[1]->so)) {
 				// dd("More than one SO for can be set for ".$request[$i]->po. " and size ".$request[$i]->size);
-				$msg = 'More than one SO can be applied for '.$request[$i]->po.' and size '.$request[$i]->size.' ,please check and correct in Navision!';
+				$msg = 'More than one SO can be applied for '.$request[$i]->po.' and size '.$request[$i]->size.' ,please check and correct SO in Navision!';
 				return view('Request.error',compact('msg'));
 			}
 
