@@ -60,6 +60,7 @@ class TableController extends Controller {
 				l.hu,
 				h.comment,
 				l.created_at
+				
 			  FROM [trebovanje].[dbo].[request_line] as l
 			  JOIN [trebovanje].[dbo].[request_header] as h ON l.request_header_id = h.id
 			  WHERE l.deleted = 0 AND h.created_at >= DATEADD(day,-7,GETDATE()) AND h.module = '".$module."'
@@ -91,6 +92,7 @@ class TableController extends Controller {
 				l.hu,
 				h.comment,
 				l.created_at
+
 			  FROM [trebovanje].[dbo].[request_line] as l
 			  JOIN [trebovanje].[dbo].[request_header] as h ON l.request_header_id = h.id
 			  WHERE l.deleted = 0
@@ -115,7 +117,9 @@ class TableController extends Controller {
 			h.po,
 			h.so,
 			h.comment,
-			h.first_time
+			h.first_time,
+			h.created_at
+
 		  FROM [trebovanje].[dbo].[request_header] as h
 		  WHERE h.deleted = 0
 		  ORDER BY h.created_at desc
@@ -138,13 +142,15 @@ class TableController extends Controller {
 			h.po,
 			h.so,
 			h.comment,
-			h.first_time
+			h.first_time,
+			h.created_at
+
 		  FROM [trebovanje].[dbo].[request_header] as h
 		  WHERE h.deleted = 0 AND h.created_at BETWEEN CAST(GETDATE() AS DATE) AND DATEADD(DAY, 1, CAST(GETDATE() AS DATE))
 		  ORDER BY h.created_at desc
 		  "));
 
-		return view('Table.indexso', compact('data'));
+		return view('Table.indexsotoday', compact('data'));
 	}
 
 	public function toprint() {
@@ -161,7 +167,9 @@ class TableController extends Controller {
 			h.po,
 			h.so,
 			h.comment,
-			h.first_time
+			h.first_time,
+			h.created_at
+
 		  FROM [trebovanje].[dbo].[request_header] as h
 		  WHERE h.status = 'TO PRINT' AND h.deleted = 0
 		  ORDER BY h.created_at desc
@@ -185,7 +193,9 @@ class TableController extends Controller {
 			h.po,
 			h.so,
 			h.comment,
-			h.first_time
+			h.first_time,
+			h.created_at
+
 		  FROM [trebovanje].[dbo].[request_header] as h
 		  WHERE h.status = 'TO CREATE' AND h.deleted = 0
 		  ORDER BY h.created_at desc
@@ -205,7 +215,8 @@ class TableController extends Controller {
 			h.module,
 			h.leader,
 			h.status,
-			h.updated_at
+			h.updated_at,
+			h.created_at
 			
 		  FROM [trebovanje].[dbo].[request_header] as h
 		  WHERE h.deleted = 0
@@ -646,6 +657,7 @@ class TableController extends Controller {
 
 				$table->module = $data[0]->module;
 	            $table->leader = $data[0]->leader;
+	            $table->comment = $data[0]->comment;
 
 				$table->item_0 = $item_0;
 				$table->item_t_0 = $item_t_0;
@@ -790,6 +802,7 @@ class TableController extends Controller {
 				return view('Request.error',compact('msg'));
 			}
 
+			
 			try {
 				$header = RequestHeader::findOrFail($main[$d]->id);
 				$header->status = "PRINTED";
@@ -799,6 +812,7 @@ class TableController extends Controller {
 					$msg = "Problem to print header";
 					return view('Table.error',compact('msg'));
 			}
+
 
 		}
 		

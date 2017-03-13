@@ -39,10 +39,10 @@ class RequestController extends Controller {
 		$user = User::find(Auth::id());
 
 		if ($user->is('admin')) { 
-		    return Redirect::to('/tableso');
+		    return Redirect::to('/tablesotoday');
 		}
 		if ($user->is('magacin')) { 
-		    return Redirect::to('/tableso');
+		    return Redirect::to('/tablesotoday');
 		}
 		if ($user->is('modul')) { 
 			return view('Request.index');   

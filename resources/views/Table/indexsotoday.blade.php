@@ -5,11 +5,8 @@
 	<div class="row vertical-center-row">
 		<div class="text-center">
 			<div class="panel panel-default">
-				<div class="panel-heading">Request header table (to print)</div>
-
-				<div>
-					<a href="{{ url('/printall') }}" class="btn btn-info btn center">Print all</a>
-				</div>
+				<div class="panel-heading">Request header table (TODAY)</div>
+								
 
 				<div class="input-group"> <span class="input-group-addon">Filter</span>
 				    <input id="filter" type="text" class="form-control" placeholder="Type here...">
@@ -55,8 +52,10 @@
 				           <th><span style="color: blueviolet;">Status</span></th>
 				           <th data-sortable="true"><span style="color: blueviolet;">Po</span></th>
 				           <th><span style="color: blueviolet;">First</span></th>
+				           <th><span style="color: blueviolet;">Comment</span></th>
 				           <th data-sortable="true"><span style="color: blueviolet;">So</span></th>
 				           
+				           <th></th>
 				           <th></th>
 				           <th></th>
 
@@ -78,6 +77,7 @@
 				        	<td><b>{{ $d->status }}</b></td>
 				        	<td>{{ $d->po }}</td>
 				        	<td>{{ $d->first_time }}</td>
+				        	<td>{{ $d->comment }}</td>
 				        	<td>
 				        		@if ($d->so == null)
 				        			{{-- <a href="{{ url('/') }}" class="btn btn-success btn-xs center-block" disabled>Refresh</a> --}}
@@ -87,10 +87,14 @@
 				        		@endif
 				        	</td>
 				        	<td>
-				        	@if ($d->status == "TO PRINT")
+				        	@if ($d->status == "TO PRINT") 
 				        		<a href="{{ url('/print/'.$d->id) }}" class="btn btn-info btn-xs center-block">Print</a>
-				        	@else
-				        		<a href="{{ url('/print/'.$d->id) }}" class="btn btn-info btn-xs center-block">Print</a>
+				        	@else 
+				        		@if (($d->status == "PRINTED") AND ($d->so != ""))
+				        			<a href="{{ url('/print/'.$d->id) }}" class="btn btn-info btn-xs center-block">Print</a>
+				        		@else
+				        			<a href="{{ url('/print/'.$d->id) }}" class="btn btn-info btn-xs center-block" disabled>Print</a>
+				        		@endif
 				        	@endif
 				        	</td>
 				        	<td>
@@ -100,6 +104,10 @@
 				        		<a href="{{ url('/delete_header/'.$d->id) }}" class="btn btn-danger btn-xs center-block" >Cancel all</a>
 				        	@endif
 				        	</td>
+				        	<td>
+				        		<a href="{{ url('/edit_header/'.$d->id) }}" class="btn btn-default btn-xs center-block" >Edit</a>
+				        	</td>
+
 
 						</tr>
 				    

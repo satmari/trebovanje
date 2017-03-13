@@ -43,16 +43,17 @@
 				    <thead>
 				        <tr>
 				           {{-- <th>id</th> --}}
-				           <th><span style="color: blueviolet;">Name</span></th>
+				           {{-- <th><span style="color: blueviolet;">Name</span></th> --}}
+				           <th data-sortable="true"><span style="color: blueviolet;">Module</span></th>
+				           <th data-sortable="true"><span style="color: blueviolet;">Created</span></th>
 				           <th><span style="color: blueviolet;">Style</span></th>
 				           <th><span style="color: blueviolet;">Color</span></th>
 				           <th><span style="color: blueviolet;">Size</span></th>
-				           <th><span style="color: blueviolet;">Moule</span></th>
 				           <th><span style="color: blueviolet;">Leader</span></th>
 				           <th><span style="color: blueviolet;">Status</span></th>
-				           <th><span style="color: blueviolet;">Po</span></th>
+				           <th data-sortable="true"><span style="color: blueviolet;">Po</span></th>
 				           <th><span style="color: blueviolet;">First</span></th>
-				           <th><span style="color: blueviolet;">So</span></th>
+				           <th data-sortable="true"><span style="color: blueviolet;">So</span></th>
 				           
 				           <th></th>
 				           <th></th>
@@ -65,11 +66,12 @@
 				    	
 				        <tr>
 				        	{{-- <td>{{ $d->id }}</td> --}}
-				        	<td>{{ $d->name }}</td>
+				        	{{-- <td>{{ $d->name }}</td> --}}
+				        	<td>{{ $d->module }}</td>
+				        	<td>{{ substr($d->created_at, 0, 19) }}</td>
 				        	<td>{{ $d->stylefg }}</td>
 				        	<td>{{ $d->colorfg }}</td>
 				        	<td>{{ $d->sizefg }}</td>
-				        	<td>{{ $d->module }}</td>
 				        	<td>{{ $d->leader }}</td>
 				        	<td><b>{{ $d->status }}</b></td>
 				        	<td>{{ $d->po }}</td>
