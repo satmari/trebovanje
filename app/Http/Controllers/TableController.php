@@ -555,9 +555,11 @@ class TableController extends Controller {
 
 		$main = DB::connection('sqlsrv')->select(DB::raw("SELECT
 				id,
-				so
+				so,
+				module
 				FROM [trebovanje].[dbo].[request_header]
 			  	WHERE deleted = '0' AND status = 'TO PRINT'
+			  	ORDER BY module asc
 			  "));
 
 		
@@ -589,6 +591,7 @@ class TableController extends Controller {
 			  FROM [trebovanje].[dbo].[request_line] as l
 			  JOIN [trebovanje].[dbo].[request_header] as h ON l.request_header_id = h.id
 			  WHERE l.deleted = '0' AND h.status = 'TO PRINT' AND h.id = '".$main[$d]->id."'
+			  ORDER BY h.module asc
 			  "));
 
 			

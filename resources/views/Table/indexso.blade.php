@@ -5,7 +5,7 @@
 	<div class="row vertical-center-row">
 		<div class="text-center">
 			<div class="panel panel-default">
-				<div class="panel-heading">Request header table</div>
+				<div class="panel-heading">Request header table (LOG)</div>
 								
 
 				<div class="input-group"> <span class="input-group-addon">Filter</span>
@@ -107,8 +107,6 @@
 				        	<td>
 				        		<a href="{{ url('/edit_header/'.$d->id) }}" class="btn btn-default btn-xs center-block" >Edit</a>
 				        	</td>
-
-
 						</tr>
 				    
 				    @endforeach

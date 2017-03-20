@@ -361,7 +361,7 @@ class RequestController extends Controller {
 
 	public function requeststoretreb(Request $request)
 	{
-		// $this->validate($request, ['']);
+		$this->validate($request, ['comment'=>'max:50']);
 		$input = $request->all(); 
 		// dd($input);
 
@@ -406,6 +406,7 @@ class RequestController extends Controller {
 
 		if (isset($input['comment'])) {
 			$comment = $input['comment'];
+
 		} else {
 			$comment = '';
 		}

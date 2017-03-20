@@ -35,7 +35,7 @@ class CreateRequestHeadersTable extends Migration {
             $table->smallInteger('deleted')->default(0);
             // $table->smallInteger('printed')->default(1);
 
-            $table->string('comment')->nullable();
+            $table->string('comment', 50)->nullable();
 
             // $table->string('coloumn1')->nullable();
             // $table->string('coloumn2')->nullable();

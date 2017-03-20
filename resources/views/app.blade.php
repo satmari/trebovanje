@@ -56,7 +56,7 @@
 					@endif
 
 					@if(Auth::check() && Auth::user()->level() == 1)
-						<li><a href="{{ url('/tableso') }}">Table requests</a></li>
+						<li><a href="{{ url('/tableso') }}">Table requests (log)</a></li>
 						<li><a href="{{ url('/tablesotoday') }}">Table requests (today)</a></li>
 						<li><a href="{{ url('/table') }}">Table requests and lines</a></li>
 						<li><a href="{{ url('/tabletoprint') }}">To Print</a></li>
@@ -89,7 +89,9 @@
 							
 						</ul>
 					</li>
+
 					@endif
+
 
 
 				</ul>
