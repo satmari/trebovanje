@@ -56,13 +56,26 @@
 					@endif
 
 					@if(Auth::check() && Auth::user()->level() == 1)
-						<li><a href="{{ url('/tableso') }}">Table requests (log)</a></li>
-						<li><a href="{{ url('/tablesotoday') }}">Table requests (today)</a></li>
-						<li><a href="{{ url('/table') }}">Table requests and lines</a></li>
+						<li><a href="{{ url('/tablesotoday') }}">Requests (today)</a></li>
+						<li><a href="{{ url('/tableso') }}">Requests (15 days)</a></li>
+						<li><a href="{{ url('/table') }}">Request lines (15 days)</a></li>
 						<li><a href="{{ url('/tabletoprint') }}">To Print</a></li>
 						<li><a href="{{ url('/tabletocreate') }}">To Create</a></li>
 						<li><a href="{{ url('/last_used') }}">Last used SO</a></li>
-						
+						<li><a href="{{ url('/printer') }}">Choose printer</a></li>
+					
+					<li>
+						 <button class="btn btn-default dropdown-toggle" style="margin: 6px 5px !important;" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+								    Tables
+							    <span class="caret"></span>
+						  </button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						    
+							<li><a href="{{ url('/tablesoall') }}">Requests (all)</a></li>
+							<li><a href="{{ url('/tableall') }}">Request lines (all)</a></li>
+							
+						</ul>
+					</li>	
 					<li>
 						 <button class="btn btn-default dropdown-toggle" style="margin: 6px 5px !important;" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								    Functions

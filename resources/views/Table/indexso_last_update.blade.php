@@ -42,7 +42,6 @@
 				           <th><span style="color: blueviolet;">So</span></th>
 				           <th><span style="color: blueviolet;">Po</span></th>
 				           <th><span style="color: blueviolet;">Moule</span></th>
-				           <th><span style="color: blueviolet;">Leader</span></th>
 				           <th><span style="color: blueviolet;">WMS Status</span></th>
 				           <th>Last Updated</th>
 				          
@@ -56,9 +55,8 @@
 				        	<td><b>{{ $d->so }}</b></td>
 				        	<td>{{ $d->po }}</td>
 				        	<td>{{ $d->module }}</td>
-				        	<td>{{ $d->leader }}</td>
 				        	<td>{{ $d->sowmsstatus }}</td>
-				        	<td>{{ $d->updated_at }}</td>
+				        	<td>{{ $d->updated }}</td>
 						</tr>
 				    
 				    @endforeach

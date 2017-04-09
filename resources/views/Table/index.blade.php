@@ -51,6 +51,7 @@
 				           <th><span style="color: blueviolet;">Leader</span></th>
 				           <th><span style="color: blueviolet;">Status</span></th>
 				           <th><span style="color: blueviolet;">Po</span></th>
+				           <th><span style="color: blueviolet;">Flash</span></th>
 				           <th><span style="color: blueviolet;">First</span></th>
 				           <th><span style="color: blueviolet;">So</span></th>
 				           {{-- <th><span style="color: blueviolet;">Comment</span></th> --}}
@@ -79,6 +80,7 @@
 				        	<td>{{ $d->leader }}</td>
 				        	<td><b>{{ $d->status }}</b></td>
 				        	<td>{{ $d->po }}</td>
+				        	<td>{{ $d->flash }}</td>
 				        	<td>{{ $d->first_time }}</td>
 				        	<td>
 				        		@if ($d->so == null)

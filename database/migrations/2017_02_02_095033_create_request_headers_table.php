@@ -37,11 +37,10 @@ class CreateRequestHeadersTable extends Migration {
 
             $table->string('comment', 50)->nullable();
 
-            // $table->string('coloumn1')->nullable();
-            // $table->string('coloumn2')->nullable();
-            // $table->string('coloumn3')->nullable();
-
 			$table->timestamps();
+
+			$table->string('flash')->nullable(); // added latter
+			
 		});
 	}
 

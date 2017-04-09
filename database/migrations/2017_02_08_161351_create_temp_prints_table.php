@@ -20,7 +20,9 @@ class CreateTempPrintsTable extends Migration {
 
 			$table->string('so')->nullable();
 			$table->string('po');
+			$table->string('flash')->nullable();
 			$table->string('first_time')->nullable();
+			$table->string('printer')->nullable();
 
 			$table->string('stylefg');
 			$table->string('colorfg');

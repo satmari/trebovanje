@@ -212,9 +212,9 @@ class RequestController extends Controller {
 			
 			// var_dump($item_t[0]->item_t);
 			// var_dump($size_t[0]->size_t);
-			// var_dump($color_t[0]->color_t);
+			// var_dump($color_t[0]->color_t); 
 			
-			if (($item_t_new == 'Care Label') OR ($item_t_new == 'Barkod') OR ($item_t_new == 'Fabric')) {
+			if (($item_t_new == 'Care Label') OR ($item_t_new == 'Barkod') OR ($item_t_new == 'Fabric') OR ($components[$i]->item == 'AF0129')) {
 			  continue;
 			}
 
@@ -285,8 +285,8 @@ class RequestController extends Controller {
 			  /*  ,c.*  ,l.*  */
 			  
 			  FROM [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Component] as c
-			  JOIN [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Line] as l ON c.[Prod_ Order No_] = l.[Prod_ Order No_] AND c.[Prod_ Order Line No_] = l.[Line No_]
-			  INNER JOIN [Gordon_LIVE].[dbo].[GORDON\$Barcode] as b ON c.[Item No_] = b.[No_] AND c.[Variant Code] = b.[Variant Code] AND b.[Barcode No_] like 'NOT%'
+			  LEFT JOIN [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Line] as l ON c.[Prod_ Order No_] = l.[Prod_ Order No_] AND c.[Prod_ Order Line No_] = l.[Line No_]
+			  LEFT JOIN [Gordon_LIVE].[dbo].[GORDON\$Barcode] as b ON c.[Item No_] = b.[No_] AND c.[Variant Code] = b.[Variant Code] AND b.[Barcode No_] like 'NOT%'
 			  WHERE l.[Status] = '3' AND c.[Prod_ Order No_] like '%".$po."' AND l.[PfsHorizontal Component] = '".$size."' AND c.[Area Code] != 'PREPARATION'
 			  "));
 
@@ -305,6 +305,8 @@ class RequestController extends Controller {
 
 		$newarray = [];
 
+		// dd($components);
+
 		for ($i=0; $i < count($components); $i++) { 
 
 			// dd($components[$i]->item);
@@ -319,7 +321,7 @@ class RequestController extends Controller {
 			// dd($size_t[0]->size_t);
 			// dd($color_t[0]->color_t);
 
-			if (($item_t[0]->item_t == 'Care Label') OR ($item_t[0]->item_t == 'Barkod') OR ($item_t[0]->item_t == 'Fabric')) {
+			if (($item_t[0]->item_t == 'Care Label') OR ($item_t[0]->item_t == 'Barkod') OR ($item_t[0]->item_t == 'Fabric') OR ($components[$i]->item == 'AF0129')) {
 			  continue;
 			}
 
@@ -410,6 +412,22 @@ class RequestController extends Controller {
 		} else {
 			$comment = '';
 		}
+
+		// Flash details
+		$find_flash = DB::connection('sqlsrv3')->select(DB::raw("
+			SELECT 
+			[Cutting Prod_ Line] as flash
+			FROM [Gordon_LIVE].[dbo].[GORDON\$Production Order] 
+			WHERE Status = '3' AND [No_] like '%".$po."'
+			  "));
+		// dd($find_flash[0]->flash);
+
+		if (isset($find_flash[0]->flash)) {
+			$flash = $find_flash[0]->flash;
+		} else {
+			$flash = "";
+		}
+		
 		
 		//Record Header
 		try {
@@ -431,6 +449,9 @@ class RequestController extends Controller {
 			$table->deleted = 0;
 
 			$table->comment = $comment;
+
+			$table->flash = $flash;
+
 			$table->save();
 			
 		}

@@ -51,6 +51,7 @@ class TableController extends Controller {
 				h.leader,
 				h.status,
 				h.po,
+				h.flash,
 				h.so,
 				h.first_time,
 				l.id as lineid,
@@ -83,6 +84,7 @@ class TableController extends Controller {
 				h.leader,
 				h.status,
 				h.po,
+				h.flash,
 				h.so,
 				h.first_time,
 				l.id as lineid,
@@ -95,12 +97,46 @@ class TableController extends Controller {
 
 			  FROM [trebovanje].[dbo].[request_line] as l
 			  JOIN [trebovanje].[dbo].[request_header] as h ON l.request_header_id = h.id
-			  WHERE l.deleted = 0
+			  WHERE l.deleted = 0 AND h.created_at >= DATEADD(day,-15,GETDATE()) 
 			  ORDER BY h.created_at desc
 			  "));
 
 			return view('Table.index', compact('data'));
 		// }
+	}
+
+	public function request_lines($id) {
+
+		$data = DB::connection('sqlsrv')->select(DB::raw("SELECT
+				h.id,
+				h.name,
+				h.style as stylefg,
+				h.color as colorfg,
+				h.size as sizefg,
+				h.module,
+				h.leader,
+				h.status,
+				h.po,
+				h.flash,
+				h.so,
+				h.first_time,
+				l.id as lineid,
+				l.item,
+				l.color,
+				l.size,
+				l.hu,
+				h.comment,
+				l.created_at
+
+			  FROM [trebovanje].[dbo].[request_line] as l
+			  JOIN [trebovanje].[dbo].[request_header] as h ON l.request_header_id = h.id
+			  WHERE l.deleted = 0 AND h.id = '".$id."' 
+			  ORDER BY h.created_at desc
+			  "));
+
+		return view('Table.index', compact('data'));
+
+
 	}
 
 	public function indexso() {
@@ -115,13 +151,72 @@ class TableController extends Controller {
 			h.leader,
 			h.status,
 			h.po,
+			h.flash,
 			h.so,
 			h.comment,
 			h.first_time,
 			h.created_at
 
 		  FROM [trebovanje].[dbo].[request_header] as h
-		  WHERE h.deleted = 0
+		  WHERE h.deleted = 0 AND h.created_at >= DATEADD(day,-15,GETDATE()) 
+		  ORDER BY h.created_at desc
+		  "));
+
+		return view('Table.indexso', compact('data'));
+	}
+
+	public function indexall() {
+		//
+		$data = DB::connection('sqlsrv')->select(DB::raw("SELECT
+				h.id,
+				h.name,
+				h.style as stylefg,
+				h.color as colorfg,
+				h.size as sizefg,
+				h.module,
+				h.leader,
+				h.status,
+				h.po,
+				h.flash,
+				h.so,
+				h.first_time,
+				l.id as lineid,
+				l.item,
+				l.color,
+				l.size,
+				l.hu,
+				h.comment,
+				l.created_at
+
+			  FROM [trebovanje].[dbo].[request_line] as l
+			  JOIN [trebovanje].[dbo].[request_header] as h ON l.request_header_id = h.id
+			  WHERE l.deleted = 0 
+			  ORDER BY h.created_at desc
+			  "));
+
+			return view('Table.index', compact('data'));
+	}
+
+	public function indexsoall() {
+		//
+		$data = DB::connection('sqlsrv')->select(DB::raw("SELECT
+			h.id,
+			h.name,
+			h.style as stylefg,
+			h.color as colorfg,
+			h.size as sizefg,
+			h.module,
+			h.leader,
+			h.status,
+			h.po,
+			h.flash,
+			h.so,
+			h.comment,
+			h.first_time,
+			h.created_at
+
+		  FROM [trebovanje].[dbo].[request_header] as h
+		  WHERE h.deleted = 0 
 		  ORDER BY h.created_at desc
 		  "));
 
@@ -140,6 +235,7 @@ class TableController extends Controller {
 			h.leader,
 			h.status,
 			h.po,
+			h.flash,
 			h.so,
 			h.comment,
 			h.first_time,
@@ -165,6 +261,7 @@ class TableController extends Controller {
 			h.leader,
 			h.status,
 			h.po,
+			h.flash,
 			h.so,
 			h.comment,
 			h.first_time,
@@ -191,6 +288,7 @@ class TableController extends Controller {
 			h.leader,
 			h.status,
 			h.po,
+			h.flash,
 			h.so,
 			h.comment,
 			h.first_time,
@@ -271,10 +369,12 @@ class TableController extends Controller {
 
 		}
 
+		/*
 		$data = DB::connection('sqlsrv')->select(DB::raw("SELECT	
-			/*h.id, */
+			
 			DISTINCT h.so,
 			h.po,
+			h.flash,
 			h.module,
 			h.leader,
 			h.status,
@@ -285,8 +385,29 @@ class TableController extends Controller {
 		  WHERE h.deleted = 0 AND sowmsstatus = 'Open'
 		  ORDER BY h.updated_at asc
 		  "));
+		*/
+		
+		$data = DB::connection('sqlsrv')->select(DB::raw("SELECT	
+		h.so,
+		h.po,
+		h.flash,
+		h.module,
+		h.status,
+		MAX (h.updated_at) updated,
+		h.sowmsstatus
+		FROM [trebovanje].[dbo].[request_header] as h
+		WHERE h.deleted = 0 AND h.sowmsstatus = 'Open' 
+		GROUP BY 
+		h.so,
+		h.po,
+		h.flash,
+		h.module,
+		h.status,
+		h.sowmsstatus
+		ORDER BY updated asc
+		"));
 
-
+		// dd($data);
 		// return view('Table.index', compact('data'));
 		return view('Table.indexso_last_update', compact('data'));
 	}
@@ -294,6 +415,15 @@ class TableController extends Controller {
 
 	// PRINTING
 	public function printrequest($id, Request $request) {
+
+		$printer_name = Session::get('printer_name');
+		
+		// dd($printer_name);
+		if ($printer_name != NULL) {
+			// $printer = $printer_name;
+		} else {
+			return view('printer');
+		}
 
 		// dd($id);
 		$data = DB::connection('sqlsrv')->select(DB::raw("SELECT
@@ -305,6 +435,7 @@ class TableController extends Controller {
 			h.leader,
 			h.status,
 			h.po,
+			h.flash,
 			h.so,
 			h.first_time,
 			l.item,
@@ -323,6 +454,12 @@ class TableController extends Controller {
 
 		// dd($data);
 		// dd($data[0]->name);
+		if (isset($data[0]->name)) {
+
+		} else {
+			$message = "Greska, za jedan on zahteva iz modula nema linija, vrovatno je linija obrisana rucno.";
+			echo "<script type='text/javascript'>alert('$message');</script>";
+		}
 
 
 		if (isset($data[0]->so)) {
@@ -384,7 +521,9 @@ class TableController extends Controller {
 
 			$table->so = $so;
 			$table->po = $data[0]->po;
+			$table->flash = $data[0]->flash;
 			$table->first_time = $data[0]->first_time;
+			$table->printer = $printer_name;
 
 			$table->stylefg = $data[0]->stylefg;
 			$table->colorfg = $data[0]->colorfg;
@@ -553,6 +692,15 @@ class TableController extends Controller {
 
 	public function printall (Request $request) {
 
+		$printer_name = Session::get('printer_name');
+		
+		// dd($printer_name);
+		if ($printer_name != NULL) {
+			// $printer = $printer_name;
+		} else {
+			return view('printer');
+		}
+
 		$main = DB::connection('sqlsrv')->select(DB::raw("SELECT
 				id,
 				so,
@@ -576,6 +724,7 @@ class TableController extends Controller {
 				h.leader,
 				h.status,
 				h.po,
+				h.flash,
 				h.so,
 				h.first_time,
 				l.item,
@@ -594,6 +743,14 @@ class TableController extends Controller {
 			  ORDER BY h.module asc
 			  "));
 
+			// dd($data);
+			// dd($data[0]->name);
+			if (isset($data[0]->name)) {
+
+			} else {
+				$message = "Greska, za jedan on zahteva iz modula nema linija, vrovatno je linija obrisana rucno.";
+				echo "<script type='text/javascript'>alert('$message');</script>";
+			}
 			
 			if (isset($data[0]->so)) {
 				$so = $data[0]->so;
@@ -652,7 +809,9 @@ class TableController extends Controller {
 
 				$table->so = $so;
 				$table->po = $data[0]->po;
+				$table->flash = $data[0]->flash;
 				$table->first_time = $data[0]->first_time;
+				$table->printer = $printer_name;
 
 				$table->stylefg = $data[0]->stylefg;
 				$table->colorfg = $data[0]->colorfg;
@@ -872,14 +1031,14 @@ class TableController extends Controller {
 		return Redirect::to('/table');
 	}
 
-	public function edit_header($id)
-	{
+	public function edit_header($id) {
+
 		$data = RequestHeader::findOrFail($id);		
 		return view('Table.edit_header', compact('data'));
 	}
 
-	public function update_header($id, Request $request) 
-	{
+	public function update_header($id, Request $request) {
+
 		//
 		$this->validate($request, ['first'=>'required']);
 		$input = $request->all(); 

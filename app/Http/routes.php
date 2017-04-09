@@ -41,6 +41,11 @@ Route::get('/tablesotoday', 'TableController@indexsotoday');
 Route::get('/tabletoprint', 'TableController@toprint');
 Route::get('/tabletocreate', 'TableController@tocreate');
 Route::get('/last_used', 'TableController@last_used');
+Route::get('/request_lines/{id}', 'TableController@request_lines');
+
+
+Route::get('/tableall', 'TableController@indexall');
+Route::get('/tablesoall', 'TableController@indexsoall');
 
 Route::get('/print/{id}', 'TableController@printrequest');
 Route::get('/printall', 'TableController@printall');
@@ -69,6 +74,10 @@ Route::post('/update_size/{id}', 'TransTableController@update_size');
 Route::post('/update_color/{id}', 'TransTableController@update_color');
 
 Route::get('/refresh', 'RefreshController@index');
+
+// Printer
+Route::get('/printer', 'HomeController@printer');
+Route::post('/printer_set', 'HomeController@printer_set');
 
 
 Route::any('getpodata', function() {
