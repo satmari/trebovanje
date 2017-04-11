@@ -83,7 +83,8 @@
 						  </button>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 						    
-							<li><a href="{{ url('/refresh') }} " type="button">Refresh</a></li>
+							<li><a href="{{ url('/so_refresh') }} " type="button">So Refresh</a></li>
+							<li><a href="{{ url('/hu_refresh') }} " type="button">Hu Refresh</a></li>
 							
 						</ul>
 					</li>

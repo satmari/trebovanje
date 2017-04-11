@@ -28,7 +28,7 @@ use Validator;
 
 class RefreshController extends Controller {
 
-	public function index()
+	public function so_refresh()
 	{
 		//
 
@@ -91,6 +91,61 @@ class RefreshController extends Controller {
 					return view('Request.error',compact('msg'));
 				}
 			}
+		}
+
+		return Redirect::to('/tableso');
+
+		}
+			catch (\Illuminate\Database\QueryException $e) {
+			return Redirect::to('/refresh');
+			
+		}
+	}
+
+	public function hu_refresh()
+	{
+		//
+
+		try {	
+			
+		$request = DB::connection('sqlsrv')->select(DB::raw("SELECT id, item, size, color FROM request_line WHERE hu = '' AND deleted = 0 "));
+		// dd($request[0]->po);
+
+		for ($i=0; $i < count($request); $i++) { 
+
+			// $request[$i]->item;
+
+			try {			
+			$hu_search = DB::connection('sqlsrv3')->select(DB::raw("
+				SELECT TOP 1 [HU No_] as hu
+				FROM [Gordon_LIVE].[dbo].[GORDON\$Handling Unit]
+				WHERE  [Item No_] = '".$request[$i]->item."' AND [PfsVertical Component] = '".$request[$i]->color."' AND [PfsHorizontal Component] = '".$request[$i]->size."'
+				"));
+			}
+			catch (\Illuminate\Database\QueryException $e) {
+				$msg = "Problem to connect to Nav, try again.";
+				return view('Request.error',compact('msg'));
+			}			
+
+			
+
+			if (isset($hu_search[0]->hu)) {
+
+				try {
+					$table = RequestHeader::findOrFail($request[$i]->id);
+					
+					$table->hu = $hu_search[0]->hu;
+					$table->save();
+					
+				}
+				catch (\Illuminate\Database\QueryException $e) {
+					$msg = "Problem to save in RequestHeader";
+					return view('Request.error',compact('msg'));
+				}
+			} else {
+
+			}
+
 		}
 
 		return Redirect::to('/tableso');

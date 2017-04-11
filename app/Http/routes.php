@@ -73,7 +73,8 @@ Route::post('/update_item/{id}', 'TransTableController@update_item');
 Route::post('/update_size/{id}', 'TransTableController@update_size');
 Route::post('/update_color/{id}', 'TransTableController@update_color');
 
-Route::get('/refresh', 'RefreshController@index');
+Route::get('/so_refresh', 'RefreshController@so_refresh');
+Route::get('/hu_refresh', 'RefreshController@hu_refresh');
 
 // Printer
 Route::get('/printer', 'HomeController@printer');

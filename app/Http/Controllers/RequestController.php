@@ -179,19 +179,19 @@ class RequestController extends Controller {
 
 			// Item Missing
 			if (!isset($item_t[0]->item)) {
-				$msg = 'Item '.$components[$i]->item.' not exist in translation table!';
+				$msg = 'Item '.$components[$i]->item.' not exist in translation table! Call Marijana Masic.';
 				return view('Request.error',compact('msg'));
 			}
 			if (!isset($size_t[0]->size)) {
-				$msg = 'Size '.$components[$i]->size.' not exist in translation table!';
+				$msg = 'Size '.$components[$i]->size.' not exist in translation table! Call Marijana Masic.';
 				return view('Request.error',compact('msg'));
 			}
 			if (!isset($color_t[0]->color)) {
-				$msg = 'Color '.$components[$i]->color.' not exist in translation table!';
+				$msg = 'Color '.$components[$i]->color.' not exist in translation table! Call Marijana Masic.';
 				return view('Request.error',compact('msg'));
 			}
 
-			// Translation is missing 
+			// Translation Missing 
 			if (!isset($item_t[0]->item_t) OR (is_null($item_t[0]->item_t))) {
 				$item_t_new = '';
 			} else {
@@ -321,26 +321,54 @@ class RequestController extends Controller {
 			// dd($size_t[0]->size_t);
 			// dd($color_t[0]->color_t);
 
+			// Item Missing
+			if (!isset($item_t[0]->item)) {
+				$msg = 'Item '.$components[$i]->item.' not exist in translation table! Call Marijana Masic.';
+				return view('Request.error',compact('msg'));
+			}
+			if (!isset($size_t[0]->size)) {
+				$msg = 'Size '.$components[$i]->size.' not exist in translation table! Call Marijana Masic.';
+				return view('Request.error',compact('msg'));
+			}
+			if (!isset($color_t[0]->color)) {
+				$msg = 'Color '.$components[$i]->color.' not exist in translation table! Call Marijana Masic.';
+				return view('Request.error',compact('msg'));
+			}
+
+			// Translation Missing 
+			if (!isset($item_t[0]->item_t) OR (is_null($item_t[0]->item_t))) {
+				$item_t_new = '';
+			} else {
+				$item_t_new = $item_t[0]->item_t;
+			}
+
+			if (!isset($size_t[0]->size_t) OR (is_null($size_t[0]->size_t))) {
+				$size_t_new = '';
+			} else {
+				$size_t_new = $size_t[0]->size_t;
+			}
+
+			if (!isset($color_t[0]->color_t) OR (is_null($color_t[0]->color_t))) {
+				$color_t_new = '';
+			} else {
+				$color_t_new = $color_t[0]->color_t;
+			}
+			
+
 			if (($item_t[0]->item_t == 'Care Label') OR ($item_t[0]->item_t == 'Barkod') OR ($item_t[0]->item_t == 'Fabric') OR ($components[$i]->item == 'AF0129')) {
 			  continue;
 			}
 
-			if ((is_null($size_t[0]->size_t)) OR ($size_t[0]->size_t == '')) {
-				$size_t_new = $size_t[0]->size_t;
-			} else {
-				$size_t_new = $size_t[0]->size_t;
-			}
+			// if ((is_null($size_t[0]->size_t)) OR ($size_t[0]->size_t == '')) {
+			// 	$size_t_new = $size_t[0]->size_t;
+			// } else {
+			// 	$size_t_new = $size_t[0]->size_t;
+			// }
 
-			if ((is_null($color_t[0]->color_t)) OR ($color_t[0]->color_t == '')) {
-				$color_t_new = $color_t[0]->color_t;
-			} else {
-				$color_t_new = $color_t[0]->color_t;
-			}
-
-			// if (($item_t[0]->item_t == 'Kuma') OR ($item_t[0]->item_t == 'Elan')) {
+			// if ((is_null($color_t[0]->color_t)) OR ($color_t[0]->color_t == '')) {
 			// 	$color_t_new = $color_t[0]->color_t;
 			// } else {
-			// 	$color_t_new = '';
+			// 	$color_t_new = $color_t[0]->color_t;
 			// }
 
 			array_push($newarray, array(
