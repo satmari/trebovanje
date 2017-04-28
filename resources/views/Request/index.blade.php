@@ -41,9 +41,6 @@
 						<td>Informacije:</td>
 					</tr>
 					<tr>
-						<td><span style="color:red"><b>Trebovanje app je jos u test fazi! </b></span></td>
-					</tr>
-					<tr>
 						<td><span style="color:red"><b>Sve probleme obavezno prijaviti IT sektoru.</b></span></td>
 					</tr>
 					<tr>

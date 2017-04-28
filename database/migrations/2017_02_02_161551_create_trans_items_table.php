@@ -19,6 +19,9 @@ class CreateTransItemsTable extends Migration {
 			$table->string('item',8)->unique();
 			$table->string('item_t',50)->nullable();
 
+			$table->integer('std_qty')->nullable(); // added latter
+    		$table->string('std_uom')->nullable(); // added latter
+
 			$table->timestamps();
 		});
 	}

@@ -30,7 +30,9 @@ Route::post('/requestcheck', 'RequestController@createtreb');
 Route::get('/requestselect', 'RequestController@createtreb');
 Route::get('/requestcreatetreb', 'RequestController@createtreb');
 Route::get('/existingso/{so}', 'RequestController@existingso');
+Route::get('/existingso1/{so}', 'RequestController@existingso1'); // test
 Route::post('/requeststoretreb', 'RequestController@requeststoretreb');
+Route::post('/requeststoretreb1', 'RequestController@requeststoretreb1'); //test
 Route::get('/newso', 'RequestController@newso');
 Route::post('/createnewso', 'RequestController@createnewso');
 

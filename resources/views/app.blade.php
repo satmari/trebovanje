@@ -233,6 +233,36 @@ $(function() {
     	$(".check").prop('checked', $(this).prop('checked'));
 	});
 
+	$(".checkbox").click(function () {
+		// $(this).css( "background-color", "red" );
+
+		// $(".check").prop('checked', $(this).prop('checked'));
+		if ($(this).is(':checked'))
+	    {
+	    	// $(this).closest('tr').css("background-color", "red" );
+	    	// $(".checkbox").parent().css( "background-color", "red" );
+	        // $("#input").removeAttr("disabled"); 
+	        // $("#to-disable-input").attr("disabled","disabled");
+	    }
+
+	    // $(this).closest('tr td').css("background-color", "red" );
+	    $(this).next('.test').prop('disabled', true);
+
+
+	});
+
+	// var chk = $('input[type="checkbox"]');
+ //    chk.each(function(){
+ //        var v = $(this).attr('checked') == 'checked'?1:0;
+ //        $(this).after('<input type="hidden" name="'+$(this).attr('rel')+'" value="'+v+'" />');
+ //    });
+
+	// chk.change(function(){ 
+ //        var v = $(this).is(':checked')?1:0;
+ //        $(this).next('input[type="hidden"]').val(v);
+ //    });
+
+
 	/*checkbox*/
     $('.button-checkbox').each(function () {
 

@@ -20,6 +20,16 @@
 					<p>Item T:</p>
 						{!! Form::input('string', 'trans', $data->item_t, ['class' => 'form-control']) !!}
 					</div>
+
+					<div class="panel-body">
+					<p>Item Std Qty:</p>
+						{!! Form::input('integer', 'std_qty', $data->std_qty, ['class' => 'form-control']) !!}
+					</div>
+
+					<div class="panel-body">
+					<p>Item Std UoM:</p>
+						{!! Form::input('string', 'std_uom', $data->std_uom, ['class' => 'form-control']) !!}
+					</div>
 						
 					<div class="panel-body">
 						{!! Form::submit('Save', ['class' => 'btn btn-success center-block']) !!}

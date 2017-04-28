@@ -7,7 +7,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">Create new Request for: {{$po}}<span class="pull-right">Majstorica: <b>{{$leader}}</b></span></div>
 				
-				{!! Form::open(['method'=>'POST', 'url'=>'/requeststoretreb']) !!}
+				{!! Form::open(['method'=>'POST', 'url'=>'/requeststoretreb1']) !!}
 				<meta name="csrf-token" content="{{ csrf_token() }}" />
 
 				{!! Form::hidden('leader', $leader, ['class' => 'form-control']) !!}

@@ -42,6 +42,8 @@
 				           {{-- <th>id</th> --}}
 				           <th><span style="color: blueviolet;">Item</span></th>
 				           <th><span style="color: blueviolet;">Item T</span></th>
+				           <th><span style="color: blueviolet;">Standard Qty</span></th>
+				           <th><span style="color: blueviolet;">Standard UoM</span></th>
 				           
 				           <!-- <th>Created</th> -->
 				           <th></th>
@@ -56,6 +58,8 @@
 				        	{{-- <td>{{ $d->id }}</td> --}}
 				        	<td>{{ $d->item }}</td>
 				        	<td>{{ $d->item_t }}</td>
+				        	<td>{{ $d->std_qty }}</td>
+				        	<td>{{ $d->std_uom }}</td>
 				        	
 				        	<td>
 				        		<a href="{{ url('/edit_trans_item/'.$d->id) }}" class="btn btn-danger btn-xs center-block">Edit</a>

@@ -95,9 +95,9 @@
 				        	</td>
 				        	<td>
 				        	@if ($d->status == "PRINTED")
-				        		<a href="{{ url('/delete_header/'.$d->id) }}" class="btn btn-danger btn-xs center-block" disabled>Cancel all</a>
+				        		<a href="{{ url('/delete_header/'.$d->id) }}" class="btn btn-danger btn-xs center-block" disabled>Cancel header</a>
 				        	@else
-				        		<a href="{{ url('/delete_header/'.$d->id) }}" class="btn btn-danger btn-xs center-block" >Cancel all</a>
+				        		<a href="{{ url('/delete_header/'.$d->id) }}" class="btn btn-danger btn-xs center-block" >Cancel header</a>
 				        	@endif
 				        	</td>
 

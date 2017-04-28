@@ -36,6 +36,8 @@ class ImportController extends Controller {
 						$bulk = new trans_item;
 						$bulk->item = $row['item'];
 						$bulk->item_t = $row['leaders_translation'];
+						$bulk->std_qty = $row['standard_qty'];
+						$bulk->std_uom = $row['uom'];
 
 						// $bulk->created_at = mktime(12, 12, 12, 01, 01, 2017);
 						// $bulk->updated_at = mktime(12, 12, 12, 01, 01, 2017);

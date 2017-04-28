@@ -93,11 +93,11 @@ class RefreshController extends Controller {
 			}
 		}
 
-		return Redirect::to('/tableso');
-
+		return Redirect::to('/');
+		
 		}
 			catch (\Illuminate\Database\QueryException $e) {
-			return Redirect::to('/refresh');
+			return Redirect::to('/so_refresh');
 			
 		}
 	}
@@ -108,51 +108,52 @@ class RefreshController extends Controller {
 
 		try {	
 			
-		$request = DB::connection('sqlsrv')->select(DB::raw("SELECT id, item, size, color FROM request_line WHERE hu = '' AND deleted = 0 "));
-		// dd($request[0]->po);
+		$request = DB::connection('sqlsrv')->select(DB::raw("SELECT id, request_header_id, item, size, color FROM request_line WHERE hu = '' AND deleted = 0 "));
+		// dd($request[0]->id);
+		// dd(count($request));
 
 		for ($i=0; $i < count($request); $i++) { 
 
 			// $request[$i]->item;
 
-			try {			
+			// try {			
 			$hu_search = DB::connection('sqlsrv3')->select(DB::raw("
 				SELECT TOP 1 [HU No_] as hu
 				FROM [Gordon_LIVE].[dbo].[GORDON\$Handling Unit]
 				WHERE  [Item No_] = '".$request[$i]->item."' AND [PfsVertical Component] = '".$request[$i]->color."' AND [PfsHorizontal Component] = '".$request[$i]->size."'
 				"));
-			}
-			catch (\Illuminate\Database\QueryException $e) {
-				$msg = "Problem to connect to Nav, try again.";
-				return view('Request.error',compact('msg'));
-			}			
+			// }
+			// catch (\Illuminate\Database\QueryException $e) {
+			// 	$msg = "Problem to connect to Nav, try again.";
+			// 	return view('Request.error',compact('msg'));
+			// }			
 
-			
+			// dd($hu_search);
+			// dd(isset($hu_search[0]->hu));
 
 			if (isset($hu_search[0]->hu)) {
 
-				try {
-					$table = RequestHeader::findOrFail($request[$i]->id);
+				// try {
+					$table = RequestLine::findOrFail($request[$i]->id);
 					
 					$table->hu = $hu_search[0]->hu;
 					$table->save();
 					
-				}
-				catch (\Illuminate\Database\QueryException $e) {
-					$msg = "Problem to save in RequestHeader";
-					return view('Request.error',compact('msg'));
-				}
+				// }
+				// catch (\Illuminate\Database\QueryException $e) {
+				// 	$msg = "Problem to save in RequestHeader";
+				// 	return view('Request.error',compact('msg'));
+				// }
 			} else {
 
 			}
-
 		}
 
-		return Redirect::to('/tableso');
+		return Redirect::to('/');
 
 		}
 			catch (\Illuminate\Database\QueryException $e) {
-			return Redirect::to('/refresh');
+			return Redirect::to('/hu_refresh');
 			
 		}
 	}

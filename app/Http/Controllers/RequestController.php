@@ -52,7 +52,7 @@ class RequestController extends Controller {
 	}
 
 	public function createtreb(Request $request)
-	{	
+	{
 		$this->validate($request, ['pin'=>'required|min:4|max:5']);
 		$forminput = $request->all(); 
 
@@ -148,9 +148,10 @@ class RequestController extends Controller {
 			  /*  ,c.*  ,l.*  */
 			  
 			  FROM [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Component] as c
-			  JOIN [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Line] as l ON c.[Prod_ Order No_] = l.[Prod_ Order No_] AND c.[Prod_ Order Line No_] = l.[Line No_]
-			  INNER JOIN [Gordon_LIVE].[dbo].[GORDON\$Barcode] as b ON c.[Item No_] = b.[No_] AND c.[Variant Code] = b.[Variant Code] AND b.[Barcode No_] like 'NOT%'
-			  WHERE l.[Status] = '0'  AND c.[Prod_ Order No_] like '".$so."' AND c.[Area Code] != 'PREPARATION' AND c.[Quantity per] > 0
+			  LEFT JOIN [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Line] as l ON c.[Prod_ Order No_] = l.[Prod_ Order No_] AND c.[Prod_ Order Line No_] = l.[Line No_]
+			  LEFT JOIN [Gordon_LIVE].[dbo].[GORDON\$Barcode] as b ON c.[Item No_] = b.[No_] AND c.[Variant Code] = b.[Variant Code] AND b.[Barcode No_] like 'NOT%'
+			  WHERE c.[Area Code] != 'PREPARATION' AND c.[Quantity per] > 0 AND c.[Prod_ Order No_] like '".$so."' 
+			  ORDER BY item asc
 			  "));
 
 		// dd($components[]);
@@ -169,9 +170,9 @@ class RequestController extends Controller {
 			// dd($components[$i]->size);
 			// dd($components[$i]->color);
 			
-			$item_t = DB::connection('sqlsrv')->select(DB::raw("SELECT item, item_t FROM trans_items WHERE item = '".$components[$i]->item."'"));
-			$size_t = DB::connection('sqlsrv')->select(DB::raw("SELECT size, size_t FROM trans_sizes WHERE size = '".$components[$i]->size."'"));
-			$color_t = DB::connection('sqlsrv')->select(DB::raw("SELECT color, color_t FROM trans_colors WHERE color = '".$components[$i]->color."'"));
+			$item_t = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM trans_items WHERE item = '".$components[$i]->item."'"));
+			$size_t = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM trans_sizes WHERE size = '".$components[$i]->size."'"));
+			$color_t = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM trans_colors WHERE color = '".$components[$i]->color."'"));
 
 			// dd($item_t[0]->item_t);
 			// dd($size_t[0]->size_t);
@@ -188,6 +189,15 @@ class RequestController extends Controller {
 			}
 			if (!isset($color_t[0]->color)) {
 				$msg = 'Color '.$components[$i]->color.' not exist in translation table! Call Marijana Masic.';
+				return view('Request.error',compact('msg'));
+			}
+
+			// Test period
+			if (is_null($item_t[0]->std_qty)) {
+				$item_t[0]->std_qty = 0;
+			}
+			if (is_null($item_t[0]->std_qty)) {
+				$msg = 'Standard quantity for item '.$components[$i]->item.' is not set in translation table! Call Marijana Masic.';
 				return view('Request.error',compact('msg'));
 			}
 
@@ -218,6 +228,8 @@ class RequestController extends Controller {
 			  continue;
 			}
 
+			// dd($item_t[0]->std_qty);
+
 			array_push($newarray, array(
 		        "item" => $components[$i]->item, 
 		        "item_t" => $item_t_new,
@@ -226,7 +238,9 @@ class RequestController extends Controller {
 		        "color" => $components[$i]->color,
 		        "color_t" => $color_t_new,
 		        "uom" => $components[$i]->uom,
-		        "hu" => $components[$i]->hu
+		        "hu" => $components[$i]->hu,
+		        "std_qty" => (int)($item_t[0]->std_qty),
+		        "std_uom" => $item_t[0]->std_uom
 		    ));
 
 		}
@@ -234,6 +248,145 @@ class RequestController extends Controller {
 		// dd($newarray);
 
 		return view('Request.createtrebcon', compact('leader','so','po','itemfg','colorfg','sizefg','newarray'));
+	}
+
+	public function existingso1($so, Request $request)
+	{
+		// dd($so);
+		if (Auth::check())
+		{
+		    $userId = Auth::user()->id;
+		    $module = Auth::user()->name;
+		} else {
+			$msg = 'Modul is not autenticated';
+			return view('Request.error',compact('msg'));
+		}
+
+		$leader = Session::get('leader');
+		if (!isset($leader)) {
+			$msg = 'LineLeader is not autenticated';
+			return view('Request.error',compact('msg'));
+		}
+
+		$components = DB::connection('sqlsrv3')->select(DB::raw("
+			SELECT 
+		      c.[Item No_] as item
+		      /*c.[Quantity per] as qp*/
+		      /*,c.[Variant Code] */
+		      ,c.[PfsVertical Component] as color
+		      ,c.[PfsHorizontal Component] as size 
+		      /*,c.[Area Code]*/
+		      ,l.[Item No_] as itemfg
+		      ,l.[PfsHorizontal Component] as sizefg
+			  ,l.[PfsVertical Component] as colorfg
+			  /*,RIGHT(c.[Shortcut Dimension 2 Code],5) as po*/
+			  ,c.[Shortcut Dimension 2 Code] as po
+			  ,c.[Unit of Measure Code] as uom
+			  ,b.[Barcode No_] as hu
+
+			  /*  ,c.*  ,l.*  */
+			  
+			  FROM [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Component] as c
+			  LEFT JOIN [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Line] as l ON c.[Prod_ Order No_] = l.[Prod_ Order No_] AND c.[Prod_ Order Line No_] = l.[Line No_]
+			  LEFT JOIN [Gordon_LIVE].[dbo].[GORDON\$Barcode] as b ON c.[Item No_] = b.[No_] AND c.[Variant Code] = b.[Variant Code] AND b.[Barcode No_] like 'NOT%'
+			  WHERE c.[Area Code] != 'PREPARATION' AND c.[Quantity per] > 0 AND c.[Prod_ Order No_] like '".$so."' 
+			  ORDER BY item asc
+			  "));
+
+		// dd($components[]);
+		// var_dump($components);
+
+		$po = $components[0]->po;
+		$itemfg = $components[0]->itemfg;
+		$colorfg = $components[0]->colorfg;
+		$sizefg = $components[0]->sizefg;
+		
+		$newarray = [];
+
+		for ($i=0; $i < count($components); $i++) { 
+
+			// dd($components[$i]->item);
+			// dd($components[$i]->size);
+			// dd($components[$i]->color);
+			
+			$item_t = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM trans_items WHERE item = '".$components[$i]->item."'"));
+			$size_t = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM trans_sizes WHERE size = '".$components[$i]->size."'"));
+			$color_t = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM trans_colors WHERE color = '".$components[$i]->color."'"));
+
+			// dd($item_t[0]->item_t);
+			// dd($size_t[0]->size_t);
+			// dd($color_t[0]->color_t);
+
+			// Item Missing
+			if (!isset($item_t[0]->item)) {
+				$msg = 'Item '.$components[$i]->item.' not exist in translation table! Call Marijana Masic.';
+				return view('Request.error',compact('msg'));
+			}
+			if (!isset($size_t[0]->size)) {
+				$msg = 'Size '.$components[$i]->size.' not exist in translation table! Call Marijana Masic.';
+				return view('Request.error',compact('msg'));
+			}
+			if (!isset($color_t[0]->color)) {
+				$msg = 'Color '.$components[$i]->color.' not exist in translation table! Call Marijana Masic.';
+				return view('Request.error',compact('msg'));
+			}
+
+			// Test period
+			if (is_null($item_t[0]->std_qty)) {
+				$item_t[0]->std_qty = 0;
+			}
+			if (is_null($item_t[0]->std_qty)) {
+				$msg = 'Standard quantity for item '.$components[$i]->item.' is not set in translation table! Call Marijana Masic.';
+				return view('Request.error',compact('msg'));
+			}
+
+			// Translation Missing 
+			if (!isset($item_t[0]->item_t) OR (is_null($item_t[0]->item_t))) {
+				$item_t_new = '';
+			} else {
+				$item_t_new = $item_t[0]->item_t;
+			}
+
+			if (!isset($size_t[0]->size_t) OR (is_null($size_t[0]->size_t))) {
+				$size_t_new = '';
+			} else {
+				$size_t_new = $size_t[0]->size_t;
+			}
+
+			if (!isset($color_t[0]->color_t) OR (is_null($color_t[0]->color_t))) {
+				$color_t_new = '';
+			} else {
+				$color_t_new = $color_t[0]->color_t;
+			}	
+			
+			// var_dump($item_t[0]->item_t);
+			// var_dump($size_t[0]->size_t);
+			// var_dump($color_t[0]->color_t); 
+			
+			if (($item_t_new == 'Care Label') OR ($item_t_new == 'Barkod') OR ($item_t_new == 'Fabric') OR ($components[$i]->item == 'AF0129')) {
+			  continue;
+			}
+
+			// dd($item_t[0]->std_qty);
+
+			array_push($newarray, array(
+		        "item" => $components[$i]->item, 
+		        "item_t" => $item_t_new,
+		        "size" => $components[$i]->size,
+		        "size_t" => $size_t_new,
+		        "color" => $components[$i]->color,
+		        "color_t" => $color_t_new,
+		        "uom" => $components[$i]->uom,
+		        "hu" => $components[$i]->hu,
+		        "std_qty" => (int)($item_t[0]->std_qty),
+		        "std_uom" => $item_t[0]->std_uom
+		    ));
+
+		}
+
+		// dd($newarray);
+
+		return view('Request.createtrebcon1', compact('leader','so','po','itemfg','colorfg','sizefg','newarray'));
 	}
 
 	public function newso(Request $request)
@@ -287,7 +440,8 @@ class RequestController extends Controller {
 			  FROM [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Component] as c
 			  LEFT JOIN [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Line] as l ON c.[Prod_ Order No_] = l.[Prod_ Order No_] AND c.[Prod_ Order Line No_] = l.[Line No_]
 			  LEFT JOIN [Gordon_LIVE].[dbo].[GORDON\$Barcode] as b ON c.[Item No_] = b.[No_] AND c.[Variant Code] = b.[Variant Code] AND b.[Barcode No_] like 'NOT%'
-			  WHERE l.[Status] = '3' AND c.[Prod_ Order No_] like '%".$po."' AND l.[PfsHorizontal Component] = '".$size."' AND c.[Area Code] != 'PREPARATION'
+			  WHERE c.[Area Code] != 'PREPARATION' AND c.[Quantity per] > 0 AND c.[Prod_ Order No_] like '%".$po."' AND l.[PfsHorizontal Component] = '".$size."' 
+			  ORDER BY item asc
 			  "));
 
 		if ($components) {
@@ -313,9 +467,9 @@ class RequestController extends Controller {
 			// dd($components[$i]->size);
 			// dd($components[$i]->color);
 			
-			$item_t = DB::connection('sqlsrv')->select(DB::raw("SELECT item,item_t FROM trans_items WHERE item = '".$components[$i]->item."'"));
-			$size_t = DB::connection('sqlsrv')->select(DB::raw("SELECT size,size_t FROM trans_sizes WHERE size = '".$components[$i]->size."'"));
-			$color_t = DB::connection('sqlsrv')->select(DB::raw("SELECT color,color_t FROM trans_colors WHERE color = '".$components[$i]->color."'"));
+			$item_t = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM trans_items WHERE item = '".$components[$i]->item."'"));
+			$size_t = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM trans_sizes WHERE size = '".$components[$i]->size."'"));
+			$color_t = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM trans_colors WHERE color = '".$components[$i]->color."'"));
 
 			// dd($item_t[0]->item_t);
 			// dd($size_t[0]->size_t);
@@ -332,6 +486,16 @@ class RequestController extends Controller {
 			}
 			if (!isset($color_t[0]->color)) {
 				$msg = 'Color '.$components[$i]->color.' not exist in translation table! Call Marijana Masic.';
+				return view('Request.error',compact('msg'));
+			}
+
+			// dd($item_t[0]->std_qty);
+			// Test period
+			if (is_null($item_t[0]->std_qty)) {
+				$item_t[0]->std_qty = 0;
+			}
+			if (is_null($item_t[0]->std_qty)) {
+				$msg = 'Standard quantity for item '.$components[$i]->item.' is not set in translation table! Call Marijana Masic.';
 				return view('Request.error',compact('msg'));
 			}
 
@@ -371,6 +535,9 @@ class RequestController extends Controller {
 			// 	$color_t_new = $color_t[0]->color_t;
 			// }
 
+			// var_dump($item_t[0]->std_qty);
+			// dd(integer($item_t[0]->std_qty));
+
 			array_push($newarray, array(
 		        "item" => $components[$i]->item, 
 		        "item_t" => $item_t[0]->item_t, 
@@ -379,7 +546,10 @@ class RequestController extends Controller {
 		        "color" => $components[$i]->color,
 		        "color_t" => $color_t_new,
 		        "uom" => $components[$i]->uom,
-		        "hu" => $components[$i]->hu
+		        "hu" => $components[$i]->hu,
+		        "std_qty" => (int)($item_t[0]->std_qty),
+		        "std_uom" => $item_t[0]->std_uom
+
 		    ));
 
 		}
@@ -393,6 +563,36 @@ class RequestController extends Controller {
 	{
 		$this->validate($request, ['comment'=>'max:50']);
 		$input = $request->all(); 
+		// dd($input);
+
+		$hidden = $input['hidden'];
+		$items = $input['items'];
+		$not_std_qty = $input['not_std_qty'];
+		// dd(count($items));
+
+		$array = array();
+		$not_std_qty_array = array();
+
+		for ($i=0; $i < count($items); $i++) {
+
+			for ($e=0; $e < count($hidden); $e++) { 
+					
+				if ($items[$i] == $hidden[$e]){
+					// dd($items[$i]);
+					// dd($not_std_qty[$e]);
+					// $stack = array($items[$i] => $not_std_qty[$e]);
+					// array_push($stack_array, $items[$i] => $not_std_qty[$e]);
+
+					// $array = array((int)$i => (int)$not_std_qty[$e]);
+
+					$array = array($not_std_qty[$e]);
+					array_push($not_std_qty_array, $array);
+				}
+			}
+		}
+
+		// dd($items);
+		// dd($not_std_qty_array);
 		// dd($input);
 
 		if (Auth::check())
@@ -420,10 +620,16 @@ class RequestController extends Controller {
 		$itemfg = $input['itemfg'];
 		$colorfg = $input['colorfg'];
 		$sizefg = $input['sizefg'];
+		// $std_uom = $input['std_uom'];
 
-		// dd($input['items']);
 		$items = $input['items'];
 		// dd($items);
+
+		// $std_qty = $input['std_qty']; // Pogresno  -------------------------------------------------------------------
+		// dd($input['not_std_qty'][0]);
+		
+		// $std_qty = $input['std_qty'];
+		// dd($std_qty);
 
 		if ($so == '') {
 			$status = 'TO CREATE';
@@ -491,10 +697,51 @@ class RequestController extends Controller {
 		// dd($table->id);
 	
 		// Record Line
-		foreach ($items as $line) {
+		// foreach ($items as $line) {
+
+		// dd($items);
+		// dd($input['not_std_qty'][1]);
+
+		// dd(count($items)); 					//3
+		// dd(count($input['not_std_qty'])); 	//8
+
+		// $array = array_diff($input['not_std_qty'], [0]);
+		// dd($array);
+
+		for ($i=0; $i < count($items); $i++) { 
+
 			
-			list($item, $item_t, $color, $color_t, $size, $size_t, $uom, $hu) = explode('#', $line);
-			// dd($line);
+						
+			list($item, $item_t, $color, $color_t, $size, $size_t, $uom, $hu, $std_qty, $std_uom) = explode('#', $items[$i]);
+			// dd($items);
+
+			// Staro ------------
+			// if isset()
+			// $not_std_qty = $not_std_qty[$i];
+			// $std_qty;
+			// dd((int)($input['not_std_qty'][$i+1]));
+
+
+			// if (($input['not_std_qty'][$i+1]) == 0) {
+			// 	$qty_final = $std_qty;
+
+			// 	// dd("NUla na ".$input['not_std_qty'][$i]);
+			// } else {
+			// 	$qty_final = $input['not_std_qty'][$i+1];
+			// }
+			//-----------
+
+			if ($not_std_qty_array[$i][0] == "" ) {
+				$qty_final = (int)$std_qty;
+			} else {
+				$qty_final = (int)$not_std_qty_array[$i][0];
+			}
+
+			// dd($qty_final);
+			// dd($not_std_qty_array);
+			// dd($not_std_qty_array[$i][0]);
+			
+			// $qty_final = $std_qty;
 
 			try {
 				$table2 = new RequestLine;
@@ -513,8 +760,226 @@ class RequestController extends Controller {
 				$table2->hu = $hu;
 				$table2->uom = $uom;
 
+				$table2->std_qty = $qty_final;
+				$table2->std_uom = $std_uom;
+
 				$table2->deleted = 0;
 				$table2->save();
+				
+			}
+			catch (\Illuminate\Database\QueryException $e) {
+				$msg = "Problem to save in RequestLine";
+				return view('Request.error',compact('msg'));
+			}
+		}
+
+		return Redirect::to('/');
+	}
+
+	public function requeststoretreb1(Request $request)
+	{
+		$this->validate($request, ['comment'=>'max:50']);
+		$input = $request->all();
+
+		$hidden = $input['hidden'];
+		$items = $input['items'];
+		$not_std_qty = $input['not_std_qty'];
+		// dd(count($items));
+
+		$array = array();
+		$not_std_qty_array = array();
+
+		for ($i=0; $i < count($items); $i++) {
+
+			for ($e=0; $e < count($hidden); $e++) { 
+					
+				if ($items[$i] == $hidden[$e]){
+					// dd($items[$i]);
+					// dd($not_std_qty[$e]);
+					// $stack = array($items[$i] => $not_std_qty[$e]);
+					// array_push($stack_array, $items[$i] => $not_std_qty[$e]);
+
+					// $array = array((int)$i => (int)$not_std_qty[$e]);
+
+					$array = array($not_std_qty[$e]);
+					array_push($not_std_qty_array, $array);
+				}
+			}
+		}
+
+		// dd($items);
+		// dd($not_std_qty_array);
+		// dd($input);
+
+		if (Auth::check())
+		{
+		    $userId = Auth::user()->id;
+		    $module = Auth::user()->name;
+		} else {
+			$msg = 'Modul is not autenticated';
+			return view('Request.error',compact('msg'));
+		}
+
+		$leader = Session::get('leader');
+		if (!isset($leader)) {
+			$msg = 'LineLeader is not autenticated';
+			return view('Request.error',compact('msg'));
+		}
+
+		if (!isset($input['items'])) {
+			$msg = 'Izaberite odredjeni materijal!';
+			return view('Request.error',compact('msg'));
+		}
+
+		$so = $input['so']; 
+		$po = $input['po'];
+		$itemfg = $input['itemfg'];
+		$colorfg = $input['colorfg'];
+		$sizefg = $input['sizefg'];
+		// $std_uom = $input['std_uom'];
+
+		$items = $input['items'];
+		// dd($items);
+
+		// $std_qty = $input['std_qty']; // Pogresno  -------------------------------------------------------------------
+		// dd($input['not_std_qty'][0]);
+		
+		// $std_qty = $input['std_qty'];
+		// dd($std_qty);
+
+		if ($so == '') {
+			$status = 'TO CREATE';
+			$first_time = 'YES';
+		} else {
+			$status = 'TO PRINT';	
+			$first_time = 'NO';
+		}
+		
+
+		if (isset($input['comment'])) {
+			$comment = $input['comment'];
+
+		} else {
+			$comment = '';
+		}
+
+		// Flash details
+		$find_flash = DB::connection('sqlsrv3')->select(DB::raw("
+			SELECT 
+			[Cutting Prod_ Line] as flash
+			FROM [Gordon_LIVE].[dbo].[GORDON\$Production Order] 
+			WHERE Status = '3' AND [No_] like '%".$po."'
+			  "));
+		// dd($find_flash[0]->flash);
+
+		if (isset($find_flash[0]->flash)) {
+			$flash = $find_flash[0]->flash;
+		} else {
+			$flash = "";
+		}
+		
+		
+		//Record Header
+		try {
+			$table = new RequestHeader;
+
+			$table->name = $module." ".date("Y-m-d H:i:s");
+			$table->so = $input['so'];
+			$table->po = $input['po'];
+			
+			$table->style = $itemfg;
+			$table->color = $colorfg;
+			$table->size = $sizefg;
+			
+			$table->module = $module;
+			$table->leader = $leader;
+
+			$table->status = $status;
+			$table->first_time = $first_time;
+			$table->deleted = 0;
+
+			$table->comment = $comment;
+
+			$table->flash = $flash;
+
+			// $table->save();
+			
+		}
+		catch (\Illuminate\Database\QueryException $e) {
+			$msg = "Problem to save in RequestHeader";
+			return view('Request.error',compact('msg'));
+		}
+		
+		// dd($table->id);
+	
+		// Record Line
+		// foreach ($items as $line) {
+
+		// dd($items);
+		// dd($input['not_std_qty'][1]);
+
+		// dd(count($items)); 					//3
+		// dd(count($input['not_std_qty'])); 	//8
+
+		// $array = array_diff($input['not_std_qty'], [0]);
+		// dd($array);
+
+		for ($i=0; $i < count($items); $i++) { 
+
+			
+						
+			list($item, $item_t, $color, $color_t, $size, $size_t, $uom, $hu, $std_qty, $std_uom) = explode('#', $items[$i]);
+			// dd($items);
+
+			// Staro ------------
+			// if isset()
+			// $not_std_qty = $not_std_qty[$i];
+			// $std_qty;
+			// dd((int)($input['not_std_qty'][$i+1]));
+
+
+			// if (($input['not_std_qty'][$i+1]) == 0) {
+			// 	$qty_final = $std_qty;
+
+			// 	// dd("NUla na ".$input['not_std_qty'][$i]);
+			// } else {
+			// 	$qty_final = $input['not_std_qty'][$i+1];
+			// }
+			//-----------
+
+			if ($not_std_qty_array[$i][0] == "" ) {
+				$qty_final = (int)$std_qty;
+			} else {
+				$qty_final = (int)$not_std_qty_array[$i][0];
+			}
+
+			// dd($qty_final);
+			// dd($not_std_qty_array);
+			// dd($not_std_qty_array[$i][0]);
+			$qty_final = $std_qty;
+
+			try {
+				$table2 = new RequestLine;
+
+				$table2->request_header_id = $table->id;
+
+				$table2->item = $item;
+				$table2->item_t = $item_t;
+				
+				$table2->size = $size;
+				$table2->size_t = $size_t;
+				
+				$table2->color = $color;
+				$table2->color_t = $color_t;
+
+				$table2->hu = $hu;
+				$table2->uom = $uom;
+
+				$table2->std_qty = $qty_final;
+				$table2->std_uom = $std_uom;
+
+				$table2->deleted = 0;
+				// $table2->save();
 				
 			}
 			catch (\Illuminate\Database\QueryException $e) {

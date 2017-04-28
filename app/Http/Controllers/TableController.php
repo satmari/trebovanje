@@ -58,6 +58,8 @@ class TableController extends Controller {
 				l.item,
 				l.color,
 				l.size,
+				l.std_qty,
+				l.std_uom,
 				l.hu,
 				h.comment,
 				l.created_at
@@ -91,6 +93,8 @@ class TableController extends Controller {
 				l.item,
 				l.color,
 				l.size,
+				l.std_qty,
+				l.std_uom,
 				l.hu,
 				h.comment,
 				l.created_at
@@ -124,6 +128,8 @@ class TableController extends Controller {
 				l.item,
 				l.color,
 				l.size,
+				l.std_qty,
+				l.std_uom,
 				l.hu,
 				h.comment,
 				l.created_at
@@ -184,13 +190,15 @@ class TableController extends Controller {
 				l.item,
 				l.color,
 				l.size,
+				l.std_qty,
+				l.std_uom,
 				l.hu,
 				h.comment,
 				l.created_at
 
 			  FROM [trebovanje].[dbo].[request_line] as l
 			  JOIN [trebovanje].[dbo].[request_header] as h ON l.request_header_id = h.id
-			  WHERE l.deleted = 0 
+			  WHERE l.deleted = 0
 			  ORDER BY h.created_at desc
 			  "));
 
@@ -268,7 +276,7 @@ class TableController extends Controller {
 			h.created_at
 
 		  FROM [trebovanje].[dbo].[request_header] as h
-		  WHERE h.status = 'TO PRINT' AND h.deleted = 0
+		  WHERE h.deleted = 0 AND h.status = 'TO PRINT'
 		  ORDER BY h.created_at desc
 		  "));
 
@@ -295,7 +303,7 @@ class TableController extends Controller {
 			h.created_at
 
 		  FROM [trebovanje].[dbo].[request_header] as h
-		  WHERE h.status = 'TO CREATE' AND h.deleted = 0
+		  WHERE h.deleted = 0 AND h.status = 'TO CREATE'
 		  ORDER BY h.created_at desc
 		  "));
 
@@ -444,6 +452,8 @@ class TableController extends Controller {
 			l.color_t,
 			l.size,
 			l.size_t,
+			l.std_qty,
+			l.std_uom,
 			l.hu,
 			l.uom,
 			h.comment,
@@ -509,12 +519,22 @@ class TableController extends Controller {
 			} else {
 				${"hu_{$i}"}="";
 			}
+			if (isset($data[$i]->std_qty)) {
+				${"std_qty_{$i}"}=$data[$i]->std_qty;
+			} else {
+				${"std_qty_{$i}"}="";
+			}
+			if (isset($data[$i]->std_uom)) {
+				${"std_uom_{$i}"}=$data[$i]->std_uom;
+			} else {
+				${"std_uom_{$i}"}="";
+			}
 			
 		}
 		// dd($data[0]->name);
 
 		//Record temp_print
-		// try {
+		try {
 			$table = new temp_print;
 
 			$table->name = $data[0]->name;
@@ -541,6 +561,8 @@ class TableController extends Controller {
 			$table->color_t_0 = $color_t_0;
 			$table->uom_0 = $uom_0;
 			$table->hu_0 = $hu_0;
+			$table->std_qty_0 = $std_qty_0;
+			$table->std_uom_0 = $std_uom_0;
 
 			$table->item_1 = $item_1;
 			$table->item_t_1 = $item_t_1;
@@ -550,6 +572,8 @@ class TableController extends Controller {
 			$table->color_t_1 = $color_t_1;
 			$table->uom_1 = $uom_1;
 			$table->hu_1 = $hu_1;
+			$table->std_qty_1 = $std_qty_1;
+			$table->std_uom_1 = $std_uom_1;
 
 			$table->item_2 = $item_2;
 			$table->item_t_2 = $item_t_2;
@@ -559,6 +583,8 @@ class TableController extends Controller {
 			$table->color_t_2 = $color_t_2;
 			$table->uom_2 = $uom_2;
 			$table->hu_2 = $hu_2;
+			$table->std_qty_2 = $std_qty_2;
+			$table->std_uom_2 = $std_uom_2;
 
 			$table->item_3 = $item_3;
 			$table->item_t_3 = $item_t_3;
@@ -568,6 +594,8 @@ class TableController extends Controller {
 			$table->color_t_3 = $color_t_3;
 			$table->uom_3 = $uom_3;
 			$table->hu_3 = $hu_3;
+			$table->std_qty_3 = $std_qty_3;
+			$table->std_uom_3 = $std_uom_3;
 
 			$table->item_4 = $item_4;
 			$table->item_t_4 = $item_t_4;
@@ -577,6 +605,8 @@ class TableController extends Controller {
 			$table->color_t_4 = $color_t_4;
 			$table->uom_4 = $uom_4;
 			$table->hu_4 = $hu_4;
+			$table->std_qty_4 = $std_qty_4;
+			$table->std_uom_4 = $std_uom_4;
 
 			$table->item_5 = $item_5;
 			$table->item_t_5 = $item_t_5;
@@ -586,6 +616,8 @@ class TableController extends Controller {
 			$table->color_t_5 = $color_t_5;
 			$table->uom_5 = $uom_5;
 			$table->hu_5 = $hu_5;
+			$table->std_qty_5 = $std_qty_5;
+			$table->std_uom_5 = $std_uom_5;
 
 			$table->item_6 = $item_6;
 			$table->item_t_6 = $item_t_6;
@@ -595,6 +627,8 @@ class TableController extends Controller {
 			$table->color_t_6 = $color_t_6;
 			$table->uom_6 = $uom_6;
 			$table->hu_6 = $hu_6;
+			$table->std_qty_6 = $std_qty_6;
+			$table->std_uom_6 = $std_uom_6;
 
 			$table->item_7 = $item_7;
 			$table->item_t_7 = $item_t_7;
@@ -604,6 +638,8 @@ class TableController extends Controller {
 			$table->color_t_7 = $color_t_7;
 			$table->uom_7 = $uom_7;
 			$table->hu_7 = $hu_7;
+			$table->std_qty_7 = $std_qty_7;
+			$table->std_uom_7 = $std_uom_7;
 
 			$table->item_8 = $item_8;
 			$table->item_t_8 = $item_t_8;
@@ -613,6 +649,8 @@ class TableController extends Controller {
 			$table->color_t_8 = $color_t_8;
 			$table->uom_8 = $uom_8;
 			$table->hu_8 = $hu_8;
+			$table->std_qty_8 = $std_qty_8;
+			$table->std_uom_8 = $std_uom_8;
 
 			$table->item_9 = $item_9;
 			$table->item_t_9 = $item_t_9;
@@ -622,6 +660,8 @@ class TableController extends Controller {
 			$table->color_t_9 = $color_t_9;
 			$table->uom_9 = $uom_9;
 			$table->hu_9 = $hu_9;
+			$table->std_qty_9 = $std_qty_9;
+			$table->std_uom_9 = $std_uom_9;
 
 			$table->item_10 = $item_10;
 			$table->item_t_10 = $item_t_10;
@@ -631,6 +671,8 @@ class TableController extends Controller {
 			$table->color_t_10 = $color_t_10;
 			$table->uom_10 = $uom_10;
 			$table->hu_10 = $hu_10;
+			$table->std_qty_10 = $std_qty_10;
+			$table->std_uom_10 = $std_uom_10;
 
 			$table->item_11 = $item_11;
 			$table->item_t_11 = $item_t_11;
@@ -640,6 +682,8 @@ class TableController extends Controller {
 			$table->color_t_11 = $color_t_11;
 			$table->uom_11 = $uom_11;
 			$table->hu_11 = $hu_11;
+			$table->std_qty_11 = $std_qty_11;
+			$table->std_uom_11 = $std_uom_11;
 
 			$table->item_12 = $item_12;
 			$table->item_t_12 = $item_t_12;
@@ -649,6 +693,8 @@ class TableController extends Controller {
 			$table->color_t_12 = $color_t_12;
 			$table->uom_12 = $uom_12;
 			$table->hu_12 = $hu_12;
+			$table->std_qty_12 = $std_qty_12;
+			$table->std_uom_12 = $std_uom_12;
 
 			$table->item_13 = $item_13;
 			$table->item_t_13 = $item_t_13;
@@ -658,6 +704,8 @@ class TableController extends Controller {
 			$table->color_t_13 = $color_t_13;
 			$table->uom_13 = $uom_13;
 			$table->hu_13 = $hu_13;
+			$table->std_qty_13 = $std_qty_13;
+			$table->std_uom_13 = $std_uom_13;
 
 			$table->item_14 = $item_14;
 			$table->item_t_14 = $item_t_14;
@@ -667,14 +715,16 @@ class TableController extends Controller {
 			$table->color_t_14 = $color_t_14;
 			$table->uom_14 = $uom_14;
 			$table->hu_14 = $hu_14;
+			$table->std_qty_14 = $std_qty_14;
+			$table->std_uom_14 = $std_uom_14;
 
 			$table->save();
 			
-		// }
-		// catch (\Illuminate\Database\QueryException $e) {
-		// 	$msg = "Problem to save in temp_print";
-		// 	return view('Request.error',compact('msg'));
-		// }
+		}
+		catch (\Illuminate\Database\QueryException $e) {
+			$msg = "Problem to save in temp_print";
+			return view('Request.error',compact('msg'));
+		}
 
 		try {
 			$header = RequestHeader::findOrFail($id);
@@ -735,11 +785,13 @@ class TableController extends Controller {
 				l.size_t,
 				l.hu,
 				l.uom,
+				l.std_qty,
+				l.std_uom,
 				h.comment,
 				l.created_at
 			  FROM [trebovanje].[dbo].[request_line] as l
 			  JOIN [trebovanje].[dbo].[request_header] as h ON l.request_header_id = h.id
-			  WHERE l.deleted = '0' AND h.status = 'TO PRINT' AND h.id = '".$main[$d]->id."'
+			  WHERE l.deleted = 0 AND h.status = 'TO PRINT' AND h.id = '".$main[$d]->id."'
 			  ORDER BY h.module asc
 			  "));
 
@@ -799,6 +851,16 @@ class TableController extends Controller {
 				} else {
 					${"hu_{$i}"}="";
 				}
+				if (isset($data[$i]->std_qty)) {
+					${"std_qty_{$i}"}=$data[$i]->std_qty;
+				} else {
+					${"std_qty_{$i}"}="";
+				}
+				if (isset($data[$i]->std_uom)) {
+					${"std_uom_{$i}"}=$data[$i]->std_uom;
+				} else {
+					${"std_uom_{$i}"}="";
+				}
 			}
 
 			//Record temp_print
@@ -818,8 +880,8 @@ class TableController extends Controller {
 				$table->sizefg = $data[0]->sizefg;
 
 				$table->module = $data[0]->module;
-	            $table->leader = $data[0]->leader;
-	            $table->comment = $data[0]->comment;
+		        $table->leader = $data[0]->leader;
+		        $table->comment = $data[0]->comment;
 
 				$table->item_0 = $item_0;
 				$table->item_t_0 = $item_t_0;
@@ -829,6 +891,8 @@ class TableController extends Controller {
 				$table->color_t_0 = $color_t_0;
 				$table->uom_0 = $uom_0;
 				$table->hu_0 = $hu_0;
+				$table->std_qty_0 = $std_qty_0;
+				$table->std_uom_0 = $std_uom_0;
 
 				$table->item_1 = $item_1;
 				$table->item_t_1 = $item_t_1;
@@ -838,6 +902,8 @@ class TableController extends Controller {
 				$table->color_t_1 = $color_t_1;
 				$table->uom_1 = $uom_1;
 				$table->hu_1 = $hu_1;
+				$table->std_qty_1 = $std_qty_1;
+				$table->std_uom_1 = $std_uom_1;
 
 				$table->item_2 = $item_2;
 				$table->item_t_2 = $item_t_2;
@@ -847,6 +913,8 @@ class TableController extends Controller {
 				$table->color_t_2 = $color_t_2;
 				$table->uom_2 = $uom_2;
 				$table->hu_2 = $hu_2;
+				$table->std_qty_2 = $std_qty_2;
+				$table->std_uom_2 = $std_uom_2;
 
 				$table->item_3 = $item_3;
 				$table->item_t_3 = $item_t_3;
@@ -856,6 +924,8 @@ class TableController extends Controller {
 				$table->color_t_3 = $color_t_3;
 				$table->uom_3 = $uom_3;
 				$table->hu_3 = $hu_3;
+				$table->std_qty_3 = $std_qty_3;
+				$table->std_uom_3 = $std_uom_3;
 
 				$table->item_4 = $item_4;
 				$table->item_t_4 = $item_t_4;
@@ -865,6 +935,8 @@ class TableController extends Controller {
 				$table->color_t_4 = $color_t_4;
 				$table->uom_4 = $uom_4;
 				$table->hu_4 = $hu_4;
+				$table->std_qty_4 = $std_qty_4;
+				$table->std_uom_4 = $std_uom_4;
 
 				$table->item_5 = $item_5;
 				$table->item_t_5 = $item_t_5;
@@ -874,6 +946,8 @@ class TableController extends Controller {
 				$table->color_t_5 = $color_t_5;
 				$table->uom_5 = $uom_5;
 				$table->hu_5 = $hu_5;
+				$table->std_qty_5 = $std_qty_5;
+				$table->std_uom_5 = $std_uom_5;
 
 				$table->item_6 = $item_6;
 				$table->item_t_6 = $item_t_6;
@@ -883,6 +957,8 @@ class TableController extends Controller {
 				$table->color_t_6 = $color_t_6;
 				$table->uom_6 = $uom_6;
 				$table->hu_6 = $hu_6;
+				$table->std_qty_6 = $std_qty_6;
+				$table->std_uom_6 = $std_uom_6;
 
 				$table->item_7 = $item_7;
 				$table->item_t_7 = $item_t_7;
@@ -892,6 +968,8 @@ class TableController extends Controller {
 				$table->color_t_7 = $color_t_7;
 				$table->uom_7 = $uom_7;
 				$table->hu_7 = $hu_7;
+				$table->std_qty_7 = $std_qty_7;
+				$table->std_uom_7 = $std_uom_7;
 
 				$table->item_8 = $item_8;
 				$table->item_t_8 = $item_t_8;
@@ -901,6 +979,8 @@ class TableController extends Controller {
 				$table->color_t_8 = $color_t_8;
 				$table->uom_8 = $uom_8;
 				$table->hu_8 = $hu_8;
+				$table->std_qty_8 = $std_qty_8;
+				$table->std_uom_8 = $std_uom_8;
 
 				$table->item_9 = $item_9;
 				$table->item_t_9 = $item_t_9;
@@ -910,6 +990,8 @@ class TableController extends Controller {
 				$table->color_t_9 = $color_t_9;
 				$table->uom_9 = $uom_9;
 				$table->hu_9 = $hu_9;
+				$table->std_qty_9 = $std_qty_9;
+				$table->std_uom_9 = $std_uom_9;
 
 				$table->item_10 = $item_10;
 				$table->item_t_10 = $item_t_10;
@@ -919,6 +1001,8 @@ class TableController extends Controller {
 				$table->color_t_10 = $color_t_10;
 				$table->uom_10 = $uom_10;
 				$table->hu_10 = $hu_10;
+				$table->std_qty_10 = $std_qty_10;
+				$table->std_uom_10 = $std_uom_10;
 
 				$table->item_11 = $item_11;
 				$table->item_t_11 = $item_t_11;
@@ -928,6 +1012,8 @@ class TableController extends Controller {
 				$table->color_t_11 = $color_t_11;
 				$table->uom_11 = $uom_11;
 				$table->hu_11 = $hu_11;
+				$table->std_qty_11 = $std_qty_11;
+				$table->std_uom_11 = $std_uom_11;
 
 				$table->item_12 = $item_12;
 				$table->item_t_12 = $item_t_12;
@@ -937,6 +1023,8 @@ class TableController extends Controller {
 				$table->color_t_12 = $color_t_12;
 				$table->uom_12 = $uom_12;
 				$table->hu_12 = $hu_12;
+				$table->std_qty_12 = $std_qty_12;
+				$table->std_uom_12 = $std_uom_12;
 
 				$table->item_13 = $item_13;
 				$table->item_t_13 = $item_t_13;
@@ -946,6 +1034,8 @@ class TableController extends Controller {
 				$table->color_t_13 = $color_t_13;
 				$table->uom_13 = $uom_13;
 				$table->hu_13 = $hu_13;
+				$table->std_qty_13 = $std_qty_13;
+				$table->std_uom_13 = $std_uom_13;
 
 				$table->item_14 = $item_14;
 				$table->item_t_14 = $item_t_14;
@@ -955,6 +1045,8 @@ class TableController extends Controller {
 				$table->color_t_14 = $color_t_14;
 				$table->uom_14 = $uom_14;
 				$table->hu_14 = $hu_14;
+				$table->std_qty_14 = $std_qty_14;
+				$table->std_uom_14 = $std_uom_14;
 
 				$table->save();
 				
@@ -1012,7 +1104,7 @@ class TableController extends Controller {
 			}
 		}
 
-		return Redirect::to('/tableso');
+		return Redirect::to('/');
 	}
 
 	public function delete_line($id) {
@@ -1028,7 +1120,27 @@ class TableController extends Controller {
 			$msg = "Problem to delete line";
 			return view('Table.error',compact('msg'));
 		}
-		return Redirect::to('/table');
+
+		$header_line_id = $line->request_header_id;
+		$lines = DB::connection('sqlsrv')->select(DB::raw("SELECT id FROM request_line WHERE request_header_id = '".$header_line_id."' AND deleted = 0"));
+
+		if (!isset($lines[0]->id)) {
+
+			try {
+
+			$header = RequestHeader::findOrFail($header_line_id);
+			$header->status = "DELETED";
+			$header->deleted = 1;
+			$header->save();
+			
+			}
+				catch (\Illuminate\Database\QueryException $e) {
+					$msg = "Problem to delete header";
+					return view('Table.error',compact('msg'));
+			}
+		}
+
+		return Redirect::to('/');
 	}
 
 	public function edit_header($id) {

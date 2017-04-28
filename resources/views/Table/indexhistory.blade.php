@@ -60,6 +60,8 @@
 				           <th><span style="color: darkorange;">Item</span></th>
 				           <th><span style="color: darkorange;">Color</span></th>
 				           <th><span style="color: darkorange;">Size</span></th>
+				           <th><span style="color: darkorange;">Qty</span></th>
+				           <th><span style="color: darkorange;">UoM</span></th>
 				           <th><span style="color: darkorange;">Hu</span></th>
 				          
 				        </tr>
@@ -92,6 +94,8 @@
 				        	<td>{{ $d->item }}</td>
 				        	<td>{{ $d->color }}</td>
 				        	<td>{{ $d->size }}</td>
+				        	<td>{{ $d->std_qty }}</td>
+				        	<td>{{ $d->std_uom }}</td>
 				        	<td>{{ $d->hu }}</td>
 				        	
 						</tr>
