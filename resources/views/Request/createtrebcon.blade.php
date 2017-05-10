@@ -5,8 +5,17 @@
 	<div class="row vertical-center-row">
 		<div class="text-center col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
-				<div class="panel-heading">Create new Request for: {{$po}}<span class="pull-right">Majstorica: <b>{{$leader}}</b></span></div>
+				<div class="panel-heading">Create new Request for: <b>{{$po}}</b> and <b>{{$itemfg}}-{{$colorfg}}-{{$sizefg}}</b> <span class="pull-right">Majstorica: <b>{{$leader}}</b></span></div>
 				
+				@if(isset($warning))
+
+					<div class="alert alert-danger alert-dismissable fade in">
+					    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					    <strong>{{$warning}}</strong>
+				    </div>
+
+				@endif
+
 				{!! Form::open(['method'=>'POST', 'url'=>'/requeststoretreb']) !!}
 				<meta name="csrf-token" content="{{ csrf_token() }}" />
 

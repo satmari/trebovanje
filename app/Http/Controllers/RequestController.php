@@ -129,6 +129,18 @@ class RequestController extends Controller {
 			return view('Request.error',compact('msg'));
 		}
 
+		// Check if user alredy have request for that day and so
+		$today_request = DB::connection('sqlsrv')->select(DB::raw("SELECT id
+		  FROM [trebovanje].[dbo].[request_header]
+		  WHERE deleted = 0 AND so = '".$so."' AND module = '".$module."' AND created_at BETWEEN CAST(GETDATE() AS DATE) AND DATEADD(DAY, 1, CAST(GETDATE() AS DATE))"));
+
+		if (isset($today_request[0]->id)) {
+			$warning = "PAZNJA: DANAS JE MODUL ".$module." VEC TREBOVAO OVU KOMESU + VELICINU!";
+		}
+
+
+
+		// Restrive info from Navision
 		$components = DB::connection('sqlsrv3')->select(DB::raw("
 			SELECT 
 		      c.[Item No_] as item
@@ -247,7 +259,7 @@ class RequestController extends Controller {
 
 		// dd($newarray);
 
-		return view('Request.createtrebcon', compact('leader','so','po','itemfg','colorfg','sizefg','newarray'));
+		return view('Request.createtrebcon', compact('leader','so','po','itemfg','colorfg','sizefg','newarray','warning'));
 	}
 
 	public function existingso1($so, Request $request)
@@ -388,8 +400,8 @@ class RequestController extends Controller {
 
 		return view('Request.createtrebcon1', compact('leader','so','po','itemfg','colorfg','sizefg','newarray'));
 	}
-
-	public function newso(Request $request)
+	
+	public function newso()
 	{
 		$leader = Session::get('leader');
 		return view('Request.createnewso', compact('leader'));
