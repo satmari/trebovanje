@@ -29,16 +29,18 @@ class CreateRequestHeadersTable extends Migration {
             $table->string('leader', 40);
 
             $table->string('status', 20);
+            $table->string('sowmsstatus', 10)->nullable();
+            
+            $table->string('first_time', 10);
             $table->smallInteger('deleted')->default(0);
             // $table->smallInteger('printed')->default(1);
 
-            $table->string('comment')->nullable();
-
-            // $table->string('coloumn1')->nullable();
-            // $table->string('coloumn2')->nullable();
-            // $table->string('coloumn3')->nullable();
+            $table->string('comment', 50)->nullable();
 
 			$table->timestamps();
+
+			$table->string('flash')->nullable(); // added latter
+			
 		});
 	}
 

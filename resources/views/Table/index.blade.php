@@ -14,10 +14,10 @@
                 <table class="table table-striped table-bordered" id="sort" 
                 data-show-export="true"
                 data-export-types="['excel']"
-                data-show-toggle="true"
-                data-show-columns="true" 
                 >
                 <!--
+                data-show-toggle="true"
+                data-show-columns="true" 
                 data-show-export="true"
                 data-export-types="['excel']"
                 data-search="true"
@@ -42,19 +42,24 @@
 				    <thead>
 				        <tr>
 				           {{-- <th>id</th> --}}
-				           <th><span style="color: blueviolet;">Name</span></th>
+				           {{-- <th><span style="color: blueviolet;">Name</span></th> --}}
+				           <th data-sortable="true"><span style="color: blueviolet;">Module</span></th>
+				           <th data-sortable="true"><span style="color: blueviolet;">Created</span></th>
 				           <th><span style="color: blueviolet;">Style</span></th>
 				           <th><span style="color: blueviolet;">Color</span></th>
 				           <th><span style="color: blueviolet;">Size</span></th>
-				           <th><span style="color: blueviolet;">Moule</span></th>
 				           <th><span style="color: blueviolet;">Leader</span></th>
 				           <th><span style="color: blueviolet;">Status</span></th>
 				           <th><span style="color: blueviolet;">Po</span></th>
+				           <th><span style="color: blueviolet;">Flash</span></th>
+				           <th><span style="color: blueviolet;">First</span></th>
 				           <th><span style="color: blueviolet;">So</span></th>
 				           {{-- <th><span style="color: blueviolet;">Comment</span></th> --}}
 				           <th><span style="color: darkorange;">Item</span></th>
 				           <th><span style="color: darkorange;">Color</span></th>
 				           <th><span style="color: darkorange;">Size</span></th>
+				           <th><span style="color: darkorange;">Qty</span></th>
+				           <th><span style="color: darkorange;">UoM</span></th>
 				           <th><span style="color: darkorange;">Hu</span></th>
 				           
 				           <!-- <th>Created</th> -->
@@ -68,14 +73,17 @@
 				    	
 				        <tr>
 				        	{{-- <td>{{ $d->id }}</td> --}}
-				        	<td>{{ $d->name }}</td>
+				        	{{-- <td>{{ $d->name }}</td> --}}
+				        	<td>{{ $d->module }}</td>
+				        	<td>{{ substr($d->created_at, 0, 19) }}</td>
 				        	<td>{{ $d->stylefg }}</td>
 				        	<td>{{ $d->colorfg }}</td>
 				        	<td>{{ $d->sizefg }}</td>
-				        	<td>{{ $d->module }}</td>
 				        	<td>{{ $d->leader }}</td>
 				        	<td><b>{{ $d->status }}</b></td>
 				        	<td>{{ $d->po }}</td>
+				        	<td>{{ $d->flash }}</td>
+				        	<td>{{ $d->first_time }}</td>
 				        	<td>
 				        		@if ($d->so == null)
 				        			{{-- <a href="{{ url('/') }}" class="btn btn-success btn-xs center-block" disabled>Refresh</a> --}}
@@ -88,13 +96,15 @@
 				        	<td>{{ $d->item }}</td>
 				        	<td>{{ $d->color }}</td>
 				        	<td>{{ $d->size }}</td>
+				        	<td>{{ $d->std_qty }}</td>
+				        	<td>{{ $d->std_uom }}</td>
 				        	<td>{{ $d->hu }}</td>
 				        	{{--<td>{{ $d->created_at }}</td>--}}
 				        	<td>
 				        	@if ($d->status == "PRINTED")
-				        		<a href="{{ url('/delete_line/'.$d->lineid) }}" class="btn btn-danger btn-xs center-block" disabled>Cancel</a>
+				        		<a href="{{ url('/delete_line/'.$d->lineid) }}" class="btn btn-danger btn-xs center-block" disabled>Cancel line</a>
 				        	@else
-				        		<a href="{{ url('/delete_line/'.$d->lineid) }}" class="btn btn-danger btn-xs center-block" >Cancel</a>
+				        		<a href="{{ url('/delete_line/'.$d->lineid) }}" class="btn btn-danger btn-xs center-block" >Cancel line</a>
 				        	@endif
 				        	</td>
 

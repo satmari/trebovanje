@@ -51,6 +51,7 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{	
+		// $user = User::find(Auth::id());
 		// if (Auth::check())
 		// {
 		//     // $userId = Auth::user()->id;
@@ -71,5 +72,26 @@ class HomeController extends Controller {
 		return Redirect::to('/');
 		// return view('/');
 	}
+
+	public function printer()
+	{	
+		
+		// return Redirect::to('/');
+		return view('printer');
+	}
+
+	public function printer_set(Request $request)
+	{	
+		$this->validate($request, ['printer_name'=>'required']);
+
+		$p = $request->all();
+		$printer_name = $p['printer_name'];
+
+		Session::set('printer_name', $printer_name );
+
+		return redirect('/');
+	}
+
+
 
 }

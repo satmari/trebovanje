@@ -30,6 +30,9 @@ class CreateRequestLinesTable extends Migration {
 			$table->string('hu',30);
 			$table->string('uom',8);
 
+			$table->integer('std_qty')->nullable(); // added latter
+    		$table->string('std_uom',10)->nullable(); // added latter
+
 			$table->smallInteger('deleted')->default(0);
 
 			$table->timestamps();

@@ -30,20 +30,31 @@ Route::post('/requestcheck', 'RequestController@createtreb');
 Route::get('/requestselect', 'RequestController@createtreb');
 Route::get('/requestcreatetreb', 'RequestController@createtreb');
 Route::get('/existingso/{so}', 'RequestController@existingso');
+Route::get('/existingso1/{so}', 'RequestController@existingso1'); // test
 Route::post('/requeststoretreb', 'RequestController@requeststoretreb');
+Route::post('/requeststoretreb1', 'RequestController@requeststoretreb1'); //test
 Route::get('/newso', 'RequestController@newso');
 Route::post('/createnewso', 'RequestController@createnewso');
 
 // Table
 Route::get('/table', 'TableController@index');
 Route::get('/tableso', 'TableController@indexso');
+Route::get('/tablesotoday', 'TableController@indexsotoday');
 Route::get('/tabletoprint', 'TableController@toprint');
 Route::get('/tabletocreate', 'TableController@tocreate');
+Route::get('/last_used', 'TableController@last_used');
+Route::get('/request_lines/{id}', 'TableController@request_lines');
+
+
+Route::get('/tableall', 'TableController@indexall');
+Route::get('/tablesoall', 'TableController@indexsoall');
 
 Route::get('/print/{id}', 'TableController@printrequest');
-
+Route::get('/printall', 'TableController@printall');
 Route::get('/delete_header/{id}', 'TableController@delete_header');
 Route::get('/delete_line/{id}', 'TableController@delete_line');
+Route::get('/edit_header/{id}', 'TableController@edit_header');
+Route::post('/update_header/{id}', 'TableController@update_header');
 
 // Import
 Route::get('/import', 'ImportController@index');
@@ -64,7 +75,12 @@ Route::post('/update_item/{id}', 'TransTableController@update_item');
 Route::post('/update_size/{id}', 'TransTableController@update_size');
 Route::post('/update_color/{id}', 'TransTableController@update_color');
 
-Route::get('/refresh', 'RefreshController@index');
+Route::get('/so_refresh', 'RefreshController@so_refresh');
+Route::get('/hu_refresh', 'RefreshController@hu_refresh');
+
+// Printer
+Route::get('/printer', 'HomeController@printer');
+Route::post('/printer_set', 'HomeController@printer_set');
 
 
 Route::any('getpodata', function() {

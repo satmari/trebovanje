@@ -56,12 +56,38 @@
 					@endif
 
 					@if(Auth::check() && Auth::user()->level() == 1)
-						<li><a href="{{ url('/tableso') }}">Table (requests)</a></li>
-						<li><a href="{{ url('/table') }}">Table (requests+lines)</a></li>
+						<li><a href="{{ url('/tablesotoday') }}">Requests (today)</a></li>
+						<li><a href="{{ url('/tableso') }}">Requests (15 days)</a></li>
+						<li><a href="{{ url('/table') }}">Request lines (15 days)</a></li>
 						<li><a href="{{ url('/tabletoprint') }}">To Print</a></li>
 						<li><a href="{{ url('/tabletocreate') }}">To Create</a></li>
-						<li><a href="{{ url('/refresh') }}">Refresh</a></li>
+						<li><a href="{{ url('/last_used') }}">Last used SO</a></li>
+						<li><a href="{{ url('/printer') }}">Choose printer</a></li>
 					
+					<li>
+						 <button class="btn btn-default dropdown-toggle" style="margin: 6px 5px !important;" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+								    Tables
+							    <span class="caret"></span>
+						  </button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						    
+							<li><a href="{{ url('/tablesoall') }}">Requests (all)</a></li>
+							<li><a href="{{ url('/tableall') }}">Request lines (all)</a></li>
+							
+						</ul>
+					</li>	
+					<li>
+						 <button class="btn btn-default dropdown-toggle" style="margin: 6px 5px !important;" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+								    Functions
+							    <span class="caret"></span>
+						  </button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						    
+							<li><a href="{{ url('/so_refresh') }} " type="button">So Refresh</a></li>
+							<li><a href="{{ url('/hu_refresh') }} " type="button">Hu Refresh</a></li>
+							
+						</ul>
+					</li>
 					<li>
 						 <button class="btn btn-default dropdown-toggle" style="margin: 6px 5px !important;" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								    Translations
@@ -77,7 +103,9 @@
 							
 						</ul>
 					</li>
+
 					@endif
+
 
 
 				</ul>
@@ -185,58 +213,57 @@ $(function() {
 		}
 	});
 
-	// $('td').click(function() {
-	//    	var myCol = $(this).index();
- 	//    	var $tr = $(this).closest('tr');
- 	//    	var myRow = $tr.index();
+	// Select all
+	/*$("#checkAll").click(function () {
+    	
+    	// window.alert("test");
+    	// $(".check").prop('checked', $(this).prop('checked'));
+    	// $(".check").attr('style','width: 50%');
+    	$(".check").removeAttr('calss');
+    	$(".check").attr('class','btn btn-primary check checked active btn-active');
+    	// $(".check").attr('','');
+    	$(".check").data('state',"on");
 
- 	//    	console.log("col: "+myCol+" tr: "+$tr+" row:"+ myRow);
-	// });
+    	$(".state-icon").removeAttr('calss');
+    	$(".state-icon").attr('class','state-icon glyphicon glyphicon-check');
 
-	//baner
-	// var target = $('#target');
-	// var change = function(str) {
-	// var tmp = $('<h2>' + str + '</h2>');
-	// tmp.css({
-	//   display: "inline-block",
-	//   position: "absolute"
-	// })
-	// .appendTo('body')
-	// .hide();
-	// var targetWidth = tmp.outerWidth();
-	// tmp.remove();
-	// target.animate({
-	// opacity: 0
-	// }, 200, function() {
-	// target.animate({
-	//   width: targetWidth
-	// }, 200, function() {
-	//   target.empty()
-	//     .html(str)
-	//     .css({
-	//       display: "initial"
-	//     })
-	//     .animate({
-	//       opacity: 1
-	//     }, 200);
-	// });
-	// });
-	// }
-	// var samples = [
-	// "some sample some sample some sample ",
-	// "some sample some sample some sample sample some sample ",
-	// "some sample some sample some sample sample some sample sample some sample ",
-	// "another example",
-	// "just"
-	// ];
-	// var i = 0;
-	// setInterval(function() {
-	// change(samples[++i % samples.length]);
-	// }, 2000);
-	// //
+	});*/
+	
+	$("#checkAll").click(function () {
+    	$(".check").prop('checked', $(this).prop('checked'));
+	});
+
+	$(".checkbox").click(function () {
+		// $(this).css( "background-color", "red" );
+
+		// $(".check").prop('checked', $(this).prop('checked'));
+		if ($(this).is(':checked'))
+	    {
+	    	// $(this).closest('tr').css("background-color", "red" );
+	    	// $(".checkbox").parent().css( "background-color", "red" );
+	        // $("#input").removeAttr("disabled"); 
+	        // $("#to-disable-input").attr("disabled","disabled");
+	    }
+
+	    // $(this).closest('tr td').css("background-color", "red" );
+	    $(this).next('.test').prop('disabled', true);
+
+
+	});
+
+	// var chk = $('input[type="checkbox"]');
+ //    chk.each(function(){
+ //        var v = $(this).attr('checked') == 'checked'?1:0;
+ //        $(this).after('<input type="hidden" name="'+$(this).attr('rel')+'" value="'+v+'" />');
+ //    });
+
+	// chk.change(function(){ 
+ //        var v = $(this).is(':checked')?1:0;
+ //        $(this).next('input[type="hidden"]').val(v);
+ //    });
+
 
 	/*checkbox*/
-
     $('.button-checkbox').each(function () {
 
         // Settings
