@@ -43,7 +43,10 @@
 				           <th><span style="color: blueviolet;">Po</span></th>
 				           <th><span style="color: blueviolet;">Moule</span></th>
 				           <th><span style="color: blueviolet;">WMS Status</span></th>
-				           <th>Last Updated</th>
+				           <th><span style="color: blueviolet;">PO Status</span></th>
+				           <th>Request created</th>
+				           <th>SO Due date</th>
+				           <th></th>
 				          
 				        </tr>
 				    </thead>
@@ -56,7 +59,11 @@
 				        	<td>{{ $d->po }}</td>
 				        	<td>{{ $d->module }}</td>
 				        	<td>{{ $d->sowmsstatus }}</td>
-				        	<td>{{ $d->updated }}</td>
+				        	<td>{{ $d->postatus }}</td>
+				        	<td>{{ substr($d->created, 0, 10)}}</td>
+				        	<td>{{ substr($d->lastmodified, 0, 10)}}</td>
+				        	<td><a href="{{ url('/wmsclose/'.$d->so) }}" class="btn btn-info btn-xs center-block">Close SO in Navision</a></td>
+				        	
 						</tr>
 				    
 				    @endforeach

@@ -16,6 +16,8 @@ class AddToRequestHeader extends Migration {
 		Schema::table('request_header', function($table)
 		{
     		// $table->string('flash')->nullable(); // added latter
+    		// $table->string('postatus')->nullable(); // added latter
+    		// $table->dateTime('lastmodified')->nullable(); // added latter
     		
 		});
 	}

@@ -326,7 +326,7 @@ class TableController extends Controller {
 			
 		  FROM [trebovanje].[dbo].[request_header] as h
 		  WHERE h.deleted = 0
-		  ORDER BY h.updated_at asc
+		  ORDER BY h.created_at asc
 		  "));
 
 		// dd($data);
@@ -342,30 +342,59 @@ class TableController extends Controller {
 				   /*l.[PfsHorizontal Component] as size,*/
 				   /*l.[PfsVertical Component] as color,*/
 				   /*p.[Description],*/
-				   p.[WMS Status] as sowmsstatus
+				   p.[WMS Status] as sowmsstatus,
+				   (SELECT Status FROM [Gordon_LIVE].[dbo].[GORDON\$Production Order] WHERE [No_] = l.[Shortcut Dimension 2 Code]) as postatus,
+				   p.[Last Date Modified] as lastmodified,
+				   p.[Creation Date] as creationdate,
+				   p.[Due Date] as duedate
 				   
 					FROM [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Line] as l
 					JOIN [Gordon_LIVE].[dbo].[GORDON\$Production Order] as p ON p.[No_] = l.[Prod_ Order No_]
+
 					WHERE p.[No_] = '".$data[$i]->so."'
 				"));
 				// var_dump($so[0]->so);
 				// dd($so[0]->sowmsstatus);
+				// dd($so[0]->lastmodified);
 
 				if (isset($so[0])) {
-					if 	($so[0]->sowmsstatus == '0') {
+
+					if ($so[0]->sowmsstatus == '0') {
 						$sowmsstatus = "Open";
 					} elseif ($so[0]->sowmsstatus == '1') {
 						$sowmsstatus = "Close";
 					}
+
+					if 	($so[0]->postatus == '3') {
+						$postatus = "Released";
+					} elseif ($so[0]->postatus == '4') {
+						$postatus = "Finished";
+					}
+
+					
+
+					if ($so[0]->duedate == '1753-01-01 00:00:00.000') {
+						$duedate = NULL;
+
+					} else {
+						$duedate = $so[0]->duedate;
+					}
+					
+
+
 				} else {
 					$sowmsstatus = NULL;	
+					$postatus = NULL;
+					$duedate = NULL;
 				}
 
+
 				$table = RequestHeader::findOrFail($data[$i]->id);
-		
 				try {		
 					
 					$table->sowmsstatus = $sowmsstatus;
+					$table->postatus = $postatus;
+					$table->lastmodified = $duedate;
 					$table->save();
 				}
 				catch (\Illuminate\Database\QueryException $e) {
@@ -377,23 +406,6 @@ class TableController extends Controller {
 
 		}
 
-		/*
-		$data = DB::connection('sqlsrv')->select(DB::raw("SELECT	
-			
-			DISTINCT h.so,
-			h.po,
-			h.flash,
-			h.module,
-			h.leader,
-			h.status,
-			h.updated_at,
-			h.sowmsstatus
-			
-		  FROM [trebovanje].[dbo].[request_header] as h
-		  WHERE h.deleted = 0 AND sowmsstatus = 'Open'
-		  ORDER BY h.updated_at asc
-		  "));
-		*/
 		
 		$data = DB::connection('sqlsrv')->select(DB::raw("SELECT	
 		h.so,
@@ -401,8 +413,10 @@ class TableController extends Controller {
 		h.flash,
 		h.module,
 		h.status,
-		MAX (h.updated_at) updated,
-		h.sowmsstatus
+		MAX (h.created_at) created,
+		MAX (h.lastmodified) lastmodified,
+		h.sowmsstatus,
+		h.postatus
 		FROM [trebovanje].[dbo].[request_header] as h
 		WHERE h.deleted = 0 AND h.sowmsstatus = 'Open' 
 		GROUP BY 
@@ -411,13 +425,28 @@ class TableController extends Controller {
 		h.flash,
 		h.module,
 		h.status,
-		h.sowmsstatus
-		ORDER BY updated asc
+		
+		h.lastmodified,
+		h.sowmsstatus,
+		h.postatus
+		ORDER BY h.lastmodified asc
 		"));
 
 		// dd($data);
 		// return view('Table.index', compact('data'));
 		return view('Table.indexso_last_update', compact('data'));
+	}
+
+	// Close Simulate
+	public function wmsclose($id, Request $request) {
+
+		// dd($id);
+		$so = DB::connection('sqlsrv3')->select(DB::raw("UPDATE [Gordon_LIVE].[dbo].[GORDON\$Production Order]
+				SET [WMS Status] = '1'
+				WHERE [No_] = '".$id."'"));
+
+		return Redirect::to('/last_used');
+
 	}
 
 

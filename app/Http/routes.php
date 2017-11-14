@@ -44,6 +44,7 @@ Route::get('/tabletoprint', 'TableController@toprint');
 Route::get('/tabletocreate', 'TableController@tocreate');
 Route::get('/last_used', 'TableController@last_used');
 Route::get('/request_lines/{id}', 'TableController@request_lines');
+Route::get('/wmsclose/{id}', 'TableController@wmsclose');
 
 
 Route::get('/tableall', 'TableController@indexall');
