@@ -51,6 +51,10 @@
 										
 										{{ $line['size_t'] }}
 										-
+										<small><i>
+										[{{ $line['item'] }} {{ $line['color'] }}-{{ $line['size'] }}]
+										</i></small>
+										-
 										{{ $line['std_qty'] }}
 										[{{ $line['std_uom'] }}]
 										

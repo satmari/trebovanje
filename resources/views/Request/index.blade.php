@@ -44,7 +44,7 @@
 						<td><span style="color:red"><b>Sve probleme obavezno prijaviti IT sektoru.</b></span></td>
 					</tr>
 					<tr>
-						<td><span style="color:green"><b>Zatvarajte tab-ove</b></span></td>
+						<td><span style="color:green"><b>Zatvarajte tabove u browseru!</b></span></td>
 					</tr>
 					<tr>
 						<td><span style="color:darkorchid">Da li imate predlog za pozadinsku sliku aplikacije?</span></td>

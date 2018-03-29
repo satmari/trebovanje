@@ -38,9 +38,11 @@
 					<span class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="http://172.27.161.171/preparation"><b>Preparation App</b></a>
-				<a class="navbar-brand" href="">|</a>
+				<a class="navbar-brand" href="#">|</a>
 				<a class="navbar-brand" href="http://172.27.161.171/trebovanje"><b>Trebovanje App</b></a>
-				<a class="navbar-brand" href="">|</a>
+				<a class="navbar-brand" href="#">|</a>
+				<a class="navbar-brand" href="http://172.27.161.171/downtime"><b>Downtime App</b></a>
+				<a class="navbar-brand" href="#">|</a>
 				@if(Auth::check() && Auth::user()->level() == 4)
 				<a class="navbar-brand" href="http://172.27.161.172/pdm"><span style="color:red;"><b>PDM</b></span></a></li>
 				<a class="navbar-brand" href="">|</a>
@@ -52,7 +54,7 @@
 					
 					@if(Auth::check() && Auth::user()->level() == 4)
 						{{-- <li><a href="{{ url('/') }}">Make request</a></li> --}}
-						<li><a href="{{ url('/table') }}">Trebovanje requests history</a></li>
+						<li><a href="{{ url('/table') }}">Trebovanje history</a></li>
 					@endif
 
 					@if(Auth::check() && Auth::user()->level() == 1)
