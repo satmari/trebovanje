@@ -88,7 +88,7 @@ Route::any('getpodata', function() {
 	$term = Input::get('term');
 
 	// $data = DB::connection('sqlsrv')->table('pos')->distinct()->select('po')->where('po','LIKE', $term.'%')->where('closed_po','=','Open')->groupBy('po')->take(10)->get();
-	$data = DB::connection('sqlsrv')->select(DB::raw("SELECT TOP 10 (RIGHT([No_],5)) as po FROM [Gordon_LIVE].[dbo].[GORDON\$Production Order] WHERE [Status] = '3' AND [No_] like '%".$term."%'"));
+	$data = DB::connection('sqlsrv')->select(DB::raw("SELECT TOP 10 (RIGHT([No_],6)) as po FROM [Gordon_LIVE].[dbo].[GORDON\$Production Order] WHERE [Status] = '3' AND [No_] like '%".$term."%'"));
 	// var_dump($data);
 	foreach ($data as $v) {
 		$retun_array[] = array('value' => $v->po);

@@ -51,7 +51,7 @@ class RefreshController extends Controller {
 			   p.[No_] as so,
 			   l.[Item No_] as item,
 			   /*l.[Shortcut Dimension 2 Code],*/
-			   (RIGHT(l.[Shortcut Dimension 2 Code],5)) as po,
+			   (RIGHT(l.[Shortcut Dimension 2 Code],6)) as po,
 			   l.[PfsHorizontal Component] as size,
 			   l.[PfsVertical Component] as color
 			   /*p.[Description],*/

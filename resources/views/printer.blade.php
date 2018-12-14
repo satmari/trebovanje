@@ -14,7 +14,7 @@
 						{!! Form::open(['method'=>'POST', 'url'=>'/printer_set']) !!}
 		
 							<div class="panel-body">
-								{!! Form::select('printer_name', array(''=>'','Cutting A4'=>'Cutting A4','Magacin A4'=>'Magacin A4'), null, array('class' => 'form-control')); !!} 
+								{!! Form::select('printer_name', array(''=>'','Cutting A4'=>'Cutting A4','Magacin A4'=>'Magacin A4','Workstudy A4'=>'Workstudy A4'), null, array('class' => 'form-control')); !!} 
 							</div>
 							<br>
 

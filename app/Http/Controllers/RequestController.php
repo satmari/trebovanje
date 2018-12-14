@@ -95,7 +95,7 @@ class RequestController extends Controller {
 			   p.[No_] as so,
 			   l.[Item No_] as item,
 			   /*l.[Shortcut Dimension 2 Code],*/
-			   (RIGHT(l.[Shortcut Dimension 2 Code],5)) as po,
+			   (RIGHT(l.[Shortcut Dimension 2 Code],6)) as po,
 			   l.[PfsHorizontal Component] as size,
 			   l.[PfsVertical Component] as color
 			   /*p.[Description],*/
@@ -153,7 +153,7 @@ class RequestController extends Controller {
 		      ,l.[Item No_] as itemfg
 		      ,l.[PfsHorizontal Component] as sizefg
 			  ,l.[PfsVertical Component] as colorfg
-			  /*,RIGHT(c.[Shortcut Dimension 2 Code],5) as po*/
+			  /*,RIGHT(c.[Shortcut Dimension 2 Code],6) as po*/
 			  ,c.[Shortcut Dimension 2 Code] as po
 			  ,c.[Unit of Measure Code] as uom
 			  ,b.[Barcode No_] as hu
@@ -448,7 +448,7 @@ class RequestController extends Controller {
 		      ,l.[Item No_] as itemfg
 		      ,l.[PfsHorizontal Component] as sizefg
 			  ,l.[PfsVertical Component] as colorfg
-			  /*,RIGHT(c.[Shortcut Dimension 2 Code],5) as po*/
+			  /*,RIGHT(c.[Shortcut Dimension 2 Code],6) as po*/
 			  ,c.[Shortcut Dimension 2 Code] as po
 			  ,c.[Unit of Measure Code] as uom
 			  ,b.[Barcode No_] as hu
@@ -473,7 +473,7 @@ class RequestController extends Controller {
 			$colorfg = $components[0]->colorfg;
 			$sizefg = $components[0]->sizefg;
 		} else {
-			$msg = 'There is no open PO with that size!!! ';
+			$msg = 'There is no open Komesa with that size!!! ';
 			return view('Request.error',compact('msg'));
 		}
 		
@@ -765,7 +765,7 @@ class RequestController extends Controller {
 			
 			// $qty_final = $std_qty;
 
-			try {
+			// try {
 				$table2 = new RequestLine;
 
 				$table2->request_header_id = $table->id;
@@ -788,11 +788,11 @@ class RequestController extends Controller {
 				$table2->deleted = 0;
 				$table2->save();
 				
-			}
-			catch (\Illuminate\Database\QueryException $e) {
-				$msg = "Problem to save in RequestLine";
-				return view('Request.error',compact('msg'));
-			}
+			// }
+			// catch (\Illuminate\Database\QueryException $e) {
+			// 	$msg = "Problem to save in RequestLine";
+			// 	return view('Request.error',compact('msg'));
+			// }
 		}
 
 		return Redirect::to('/');

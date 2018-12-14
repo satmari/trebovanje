@@ -40,6 +40,11 @@
 					<tr>
 						<td>Informacije:</td>
 					</tr>
+					{{-- 
+					<tr>
+						<td><span style="color:red"><b>Paznja: Komese su promenjene sa 5 na 6 cifara !!!</b></span></td>
+					</tr>
+					--}}
 					<tr>
 						<td><span style="color:red"><b>Sve probleme obavezno prijaviti IT sektoru.</b></span></td>
 					</tr>
