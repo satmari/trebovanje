@@ -59,7 +59,7 @@
 						<li><a href="{{ url('/table') }}">Trebovanje history</a></li>
 					@endif
 
-					@if(Auth::check() && Auth::user()->level() == 1)
+					@if(Auth::check() && Auth::user()->level() == 2)
 						<li><a href="{{ url('/tablesotoday') }}">Requests (today)</a></li>
 						<li><a href="{{ url('/tableso') }}">Requests (15 days)</a></li>
 						<li><a href="{{ url('/table') }}">Request lines (15 days)</a></li>

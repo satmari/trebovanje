@@ -195,15 +195,15 @@ class RequestController extends Controller {
 
 			// Item Missing
 			if (!isset($item_t[0]->item)) {
-				$msg = 'Item '.$components[$i]->item.' not exist in translation table! Call Marijana Masic.';
+				$msg = 'Item '.$components[$i]->item.' not exist in translation table! Call WH Planer.';
 				return view('Request.error',compact('msg'));
 			}
 			if (!isset($size_t[0]->size)) {
-				$msg = 'Size '.$components[$i]->size.' not exist in translation table! Call Marijana Masic.';
+				$msg = 'Size '.$components[$i]->size.' not exist in translation table! Call WH Planer.';
 				return view('Request.error',compact('msg'));
 			}
 			if (!isset($color_t[0]->color)) {
-				$msg = 'Color '.$components[$i]->color.' not exist in translation table! Call Marijana Masic.';
+				$msg = 'Color '.$components[$i]->color.' not exist in translation table! Call WH Planer.';
 				return view('Request.error',compact('msg'));
 			}
 
@@ -212,7 +212,7 @@ class RequestController extends Controller {
 				$item_t[0]->std_qty = 0;
 			}
 			if (is_null($item_t[0]->std_qty)) {
-				$msg = 'Standard quantity for item '.$components[$i]->item.' is not set in translation table! Call Marijana Masic.';
+				$msg = 'Standard quantity for item '.$components[$i]->item.' is not set in translation table! GORDON\.';
 				return view('Request.error',compact('msg'));
 			}
 
@@ -334,15 +334,15 @@ class RequestController extends Controller {
 
 	// 		// Item Missing
 	// 		if (!isset($item_t[0]->item)) {
-	// 			$msg = 'Item '.$components[$i]->item.' not exist in translation table! Call Marijana Masic.';
+	// 			$msg = 'Item '.$components[$i]->item.' not exist in translation table! Call WH Planer.';
 	// 			return view('Request.error',compact('msg'));
 	// 		}
 	// 		if (!isset($size_t[0]->size)) {
-	// 			$msg = 'Size '.$components[$i]->size.' not exist in translation table! Call Marijana Masic.';
+	// 			$msg = 'Size '.$components[$i]->size.' not exist in translation table! Call WH Planer.';
 	// 			return view('Request.error',compact('msg'));
 	// 		}
 	// 		if (!isset($color_t[0]->color)) {
-	// 			$msg = 'Color '.$components[$i]->color.' not exist in translation table! Call Marijana Masic.';
+	// 			$msg = 'Color '.$components[$i]->color.' not exist in translation table! Call WH Planer.';
 	// 			return view('Request.error',compact('msg'));
 	// 		}
 
@@ -351,7 +351,7 @@ class RequestController extends Controller {
 	// 			$item_t[0]->std_qty = 0;
 	// 		}
 	// 		if (is_null($item_t[0]->std_qty)) {
-	// 			$msg = 'Standard quantity for item '.$components[$i]->item.' is not set in translation table! Call Marijana Masic.';
+	// 			$msg = 'Standard quantity for item '.$components[$i]->item.' is not set in translation table! GORDON\.';
 	// 			return view('Request.error',compact('msg'));
 	// 		}
 
@@ -499,15 +499,15 @@ class RequestController extends Controller {
 
 			// Item Missing
 			if (!isset($item_t[0]->item)) {
-				$msg = 'Item '.$components[$i]->item.' not exist in translation table! Call Marijana Masic.';
+				$msg = 'Item '.$components[$i]->item.' not exist in translation table! Call WH Planer.';
 				return view('Request.error',compact('msg'));
 			}
 			if (!isset($size_t[0]->size)) {
-				$msg = 'Size '.$components[$i]->size.' not exist in translation table! Call Marijana Masic.';
+				$msg = 'Size '.$components[$i]->size.' not exist in translation table! Call WH Planer.';
 				return view('Request.error',compact('msg'));
 			}
 			if (!isset($color_t[0]->color)) {
-				$msg = 'Color '.$components[$i]->color.' not exist in translation table! Call Marijana Masic.';
+				$msg = 'Color '.$components[$i]->color.' not exist in translation table! Call WH Planer.';
 				return view('Request.error',compact('msg'));
 			}
 
@@ -517,7 +517,7 @@ class RequestController extends Controller {
 				$item_t[0]->std_qty = 0;
 			}
 			if (is_null($item_t[0]->std_qty)) {
-				$msg = 'Standard quantity for item '.$components[$i]->item.' is not set in translation table! Call Marijana Masic.';
+				$msg = 'Standard quantity for item '.$components[$i]->item.' is not set in translation table! GORDON\.';
 				return view('Request.error',compact('msg'));
 			}
 
