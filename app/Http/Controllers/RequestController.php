@@ -83,8 +83,26 @@ class RequestController extends Controller {
     	$leader = Session::get('leader');
 		// dd($leader);
 
-    	$module_line = substr($module, 0, 1);
-    	$module_name = substr($module, 1, 3);
+    	$crtica = substr($module, 1, 1);
+
+			if ($crtica == "-") {
+
+				$module_line = substr($module, 0, 1);
+	    		$module_name = substr($module, 2, 3);
+	    		
+	    		$module = $module_line." ".$module_name;
+
+	    		Session::set('module', $module);	
+
+			} else {
+
+				$module_line = substr($module, 0, 1);
+	    		$module_name = substr($module, 1, 3);
+	    		
+	    		$module = $module_line." ".$module_name;
+
+	    		Session::set('module', $module);	
+			}
 
     	// var_dump($module_line);
     	// var_dump($module_name);
@@ -162,7 +180,7 @@ class RequestController extends Controller {
 			  
 			  FROM [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Component] as c
 			  LEFT JOIN [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Line] as l ON c.[Prod_ Order No_] = l.[Prod_ Order No_] AND c.[Prod_ Order Line No_] = l.[Line No_]
-			  LEFT JOIN [Gordon_LIVE].[dbo].[GORDON\$Barcode] as b ON c.[Item No_] = b.[No_] AND c.[Variant Code] = b.[Variant Code] AND b.[Barcode No_] like 'NOT%'
+			  RIGHT JOIN [Gordon_LIVE].[dbo].[GORDON\$Barcode] as b ON c.[Item No_] = b.[No_] AND c.[Variant Code] = b.[Variant Code] AND b.[Barcode No_] like 'NOT%'
 			  WHERE c.[Area Code] != 'PREPARATION' AND c.[Quantity per] > 0 AND c.[Prod_ Order No_] like '".$so."' 
 			  ORDER BY item asc
 			  "));
@@ -457,7 +475,7 @@ class RequestController extends Controller {
 			  
 			  FROM [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Component] as c
 			  LEFT JOIN [Gordon_LIVE].[dbo].[GORDON\$Prod_ Order Line] as l ON c.[Prod_ Order No_] = l.[Prod_ Order No_] AND c.[Prod_ Order Line No_] = l.[Line No_]
-			  LEFT JOIN [Gordon_LIVE].[dbo].[GORDON\$Barcode] as b ON c.[Item No_] = b.[No_] AND c.[Variant Code] = b.[Variant Code] AND b.[Barcode No_] like 'NOT%'
+			  RIGHT JOIN [Gordon_LIVE].[dbo].[GORDON\$Barcode] as b ON c.[Item No_] = b.[No_] AND c.[Variant Code] = b.[Variant Code] AND b.[Barcode No_] like 'NOT%'
 			  WHERE c.[Area Code] != 'PREPARATION' AND c.[Quantity per] > 0 AND c.[Prod_ Order No_] like '%".$po."' AND c.[Shortcut Dimension 2 Code] like '%".$po."'
 			  AND l.[PfsHorizontal Component] = '".$size."' 
 			  ORDER BY item asc

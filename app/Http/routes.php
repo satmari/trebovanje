@@ -40,6 +40,7 @@ Route::post('/createnewso', 'RequestController@createnewso');
 Route::get('/table', 'TableController@index');
 Route::get('/tableso', 'TableController@indexso');
 Route::get('/tablesotoday', 'TableController@indexsotoday');
+Route::get('/tablesotodayk', 'TableController@indexsotodayk');
 Route::get('/tabletoprint', 'TableController@toprint');
 Route::get('/tabletocreate', 'TableController@tocreate');
 Route::get('/last_used', 'TableController@last_used');
@@ -52,6 +53,7 @@ Route::get('/tablesoall', 'TableController@indexsoall');
 
 Route::get('/print/{id}', 'TableController@printrequest');
 Route::get('/printall', 'TableController@printall');
+Route::get('/printallk', 'TableController@printallk');
 Route::get('/delete_header/{id}', 'TableController@delete_header');
 Route::get('/delete_line/{id}', 'TableController@delete_line');
 Route::get('/edit_header/{id}', 'TableController@edit_header');
@@ -62,6 +64,8 @@ Route::get('/import', 'ImportController@index');
 Route::post('/import1', 'ImportController@postImportItems');
 Route::post('/import2', 'ImportController@postImportColors');
 Route::post('/import3', 'ImportController@postImportSizes');
+Route::get('/postImportUpdatePass', 'ImportController@postImportUpdatePass');
+
 
 //Trans Table
 Route::get('/transitem', 'TransTableController@indexitem');

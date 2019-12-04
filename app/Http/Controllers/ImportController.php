@@ -104,6 +104,32 @@ class ImportController extends Controller {
 	    }
 		return redirect('/');
 	}
+
+	public function postImportUpdatePass() {
+	    
+	    
+	    
+	    $sql = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM users"));
+
+	    for ($i=0; $i < count($sql) ; $i++) { 
+	    	
+	    	// dd($sql[$i]->password);
+
+	    	$password = bcrypt($sql[$i]->name);
+	    	// dd($password);
+
+			$sql2 = DB::connection('sqlsrv')->select(DB::raw("
+					SET NOCOUNT ON;
+					UPDATE [trebovanje].[dbo].[users]
+					SET password = '".$password."'
+					WHERE name = '".$sql[$i]->name."';
+					SELECT TOP 1 [id] FROM [trebovanje].[dbo].[users];
+				"));	    	
+
+	    }
+
+		return redirect('/');
+	}
 	
 }
 

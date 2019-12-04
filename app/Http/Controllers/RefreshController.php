@@ -40,9 +40,26 @@ class RefreshController extends Controller {
 		for ($i=0; $i < count($request); $i++) { 
 
 			$module = $request[$i]->module;
+			$crtica = substr($module, 1, 1);
 
-			$module_line = substr($module, 0, 1);
-			$module_name = substr($module, 1, 3);
+			if ($crtica == "-") {
+
+				$module_line = substr($module, 0, 1);
+	    		$module_name = substr($module, 2, 3);
+	    		
+	    		$module = $module_line." ".$module_name;
+
+	    		Session::set('module', $module);	
+
+			} else {
+
+				$module_line = substr($module, 0, 1);
+	    		$module_name = substr($module, 1, 3);
+	    		
+	    		$module = $module_line." ".$module_name;
+
+	    		Session::set('module', $module);	
+			}
 
 			try {			
 			$so = DB::connection('sqlsrv3')->select(DB::raw("
