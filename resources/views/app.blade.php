@@ -57,6 +57,7 @@
 					@if(Auth::check() && Auth::user()->level() == 4)
 						{{-- <li><a href="{{ url('/') }}">Make request</a></li> --}}
 						<li><a href="{{ url('/table') }}">Trebovanje history</a></li>
+						{{-- <li><a href="{{ url('/tablesap') }}">Trebovanje history</a></li> --}}
 					@endif
 
 					@if(Auth::check() && Auth::user()->level() == 2)
@@ -68,7 +69,7 @@
 						<li><a href="{{ url('/tabletocreate') }}">To Create</a></li>
 						<li><a href="{{ url('/last_used') }}">Last used SO</a></li>
 						<li><a href="{{ url('/printer') }}">Choose printer</a></li>
-					
+						
 					<li>
 						 <button class="btn btn-default dropdown-toggle" style="margin: 6px 5px !important;" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								    Tables
@@ -105,6 +106,29 @@
 							<li><a href="{{ url('/transitem') }}">Item</a></li>
 							<li><a href="{{ url('/transsize') }}">Size</a></li>
 							<li><a href="{{ url('/transcolor') }}">Color</a></li>
+							
+						</ul>
+					</li>
+
+					<li>
+						 <button class="btn btn-default dropdown-toggle" style="margin: 6px 5px !important;" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+								    with SAP
+							    <span class="caret"></span>
+						  </button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+
+						    <li><a href="{{ url('/tablesotodaysap') }}">Requests (today)</a></li>
+							<li><a href="{{ url('/tablesotodayksap') }}">Requests (today Kikinda)</a></li>
+							<li><a href="{{ url('/tablesosap') }}">Requests (15 days)</a></li>
+							<li><a href="{{ url('/tablesap') }}">Request lines (15 days)</a></li>
+							<li><a href="{{ url('/tabletoprintsap') }}">To Print</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="{{ url('/tablesoallsap') }}">Requests (all)</a></li>
+							<li><a href="{{ url('/tableallsap') }}">Request lines (all)</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="{{ url('/printer') }}">Choose printer</a></li>
+							<li><a href="{{ url('/import') }}">Import file</a></li>
+							
 							
 						</ul>
 					</li>
@@ -160,6 +184,11 @@ $(function() {
 		minLength: 3,
 		autoFocus: true,
 		source: '{{ URL('getpodata')}}'
+	});
+	$('#po_sap').autocomplete({
+		minLength: 3,
+		autoFocus: true,
+		source: '{{ URL('getpodatasap')}}'
 	});
 	$('#module').autocomplete({
 		minLength: 1,

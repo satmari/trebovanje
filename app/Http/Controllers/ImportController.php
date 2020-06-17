@@ -10,6 +10,8 @@ use Request;
 use App\trans_color;
 use App\trans_item;
 use App\trans_size;
+
+use App\Sap_coois;
 use App\User;
 use DB;
 
@@ -104,10 +106,7 @@ class ImportController extends Controller {
 	    }
 		return redirect('/');
 	}
-
 	public function postImportUpdatePass() {
-	    
-	    
 	    
 	    $sql = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM users"));
 
@@ -130,7 +129,39 @@ class ImportController extends Controller {
 
 		return redirect('/');
 	}
-	
+	public function postSAP(Request $request) {
+	    $getSheetName = Excel::load(Request::file('file4'))->getSheetNames();
+	    
+	    foreach($getSheetName as $sheetName)
+	    {
+	       
+	        Excel::filter('chunk')->selectSheets($sheetName)->load(Request::file('file4'))->chunk(50, function ($reader)
+	            
+	            {
+	                $readerarray = $reader->toArray();
+	                //var_dump($readerarray);
+	                foreach($readerarray as $row)
+	                {
+	                	
+						$bulk = new Sap_coois;
+						$bulk->po = $row['po'];
+						$bulk->fg = $row['fg'];
+						$bulk->activity = $row['activity'];
+						$bulk->wc = $row['wc'];
+						$bulk->list = $row['list'];
+						$bulk->material = $row['material'];
+						$bulk->uom = $row['uom'];
+						$bulk->description = $row['description'];
+						$bulk->standard_qty = $row['standard_qty'];
+						$bulk->uom_desc = $row['uom_desc'];
+						
+						$bulk->save();
+						
+	                }
+	            });
+	    }
+		return redirect('/');
+	}
 }
 
 

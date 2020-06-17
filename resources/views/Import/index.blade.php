@@ -53,6 +53,21 @@
 
 			</div>
 
+			<div class="panel panel-default">
+				<div class="panel-heading">Import from SAP</div>
+
+				{!! Form::open(['files'=>True, 'method'=>'POST', 'action'=>['ImportController@postSAP']]) !!}
+					<div class="panel-body">
+						{!! Form::file('file4', ['class' => 'center-block']) !!}
+					</div>
+					<div class="panel-body">
+						{!! Form::submit('Import', ['class' => 'btn btn-warning center-block']) !!}
+					</div>
+					@include('errors.list')
+				{!! Form::close() !!}
+
+			</div>
+
 			@endif
 			
 

@@ -36,6 +36,15 @@ Route::post('/requeststoretreb', 'RequestController@requeststoretreb');
 Route::get('/newso', 'RequestController@newso');
 Route::post('/createnewso', 'RequestController@createnewso');
 
+// Request SAP
+Route::get('/requestsap', 'RequestSapController@index');
+// Route::get('/requestcheck', 'RequestSapController@check');
+Route::post('/requestsapcheck', 'RequestSapController@createtreb');
+Route::get('/newso_sap', 'RequestSapController@newso_sap');
+Route::post('/createnewso_sap', 'RequestSapController@createnewso_sap');
+Route::post('/requeststoretreb_sap', 'RequestSapController@requeststoretreb_sap');
+
+
 // Table
 Route::get('/table', 'TableController@index');
 Route::get('/tableso', 'TableController@indexso');
@@ -46,8 +55,6 @@ Route::get('/tabletocreate', 'TableController@tocreate');
 Route::get('/last_used', 'TableController@last_used');
 Route::get('/request_lines/{id}', 'TableController@request_lines');
 Route::get('/wmsclose/{id}', 'TableController@wmsclose');
-
-
 Route::get('/tableall', 'TableController@indexall');
 Route::get('/tablesoall', 'TableController@indexsoall');
 
@@ -59,11 +66,31 @@ Route::get('/delete_line/{id}', 'TableController@delete_line');
 Route::get('/edit_header/{id}', 'TableController@edit_header');
 Route::post('/update_header/{id}', 'TableController@update_header');
 
+// Table SAP
+Route::get('/tablesap', 'TableSapController@index');
+Route::get('/tablesosap', 'TableSapController@indexso');
+Route::get('/tablesotodaysap', 'TableSapController@indexsotoday');
+Route::get('/tablesotodayksap', 'TableSapController@indexsotodayk');
+Route::get('/tabletoprintsap', 'TableSapController@toprint');
+Route::get('/tableallsap', 'TableSapController@indexall');
+Route::get('/tablesoallsap', 'TableSapController@indexsoall');
+Route::get('/request_lines_sap/{id}', 'TableSapController@request_lines');
+
+Route::get('/print_sap/{id}', 'TableSapController@printrequest');
+Route::get('/printall_sap', 'TableSapController@printall');
+Route::get('/printallk_sap', 'TableSapController@printallk');
+Route::get('/delete_header_sap/{id}', 'TableSapController@delete_header');
+Route::get('/delete_line_sap/{id}', 'TableSapController@delete_line');
+Route::get('/edit_header_sap/{id}', 'TableSapController@edit_header');
+Route::post('/update_header_sap/{id}', 'TableSapController@update_header');
+
+
 // Import
 Route::get('/import', 'ImportController@index');
 Route::post('/import1', 'ImportController@postImportItems');
 Route::post('/import2', 'ImportController@postImportColors');
 Route::post('/import3', 'ImportController@postImportSizes');
+Route::post('/import4', 'ImportController@postSAP');
 Route::get('/postImportUpdatePass', 'ImportController@postImportUpdatePass');
 
 
@@ -101,3 +128,16 @@ return Response::json($retun_array);
 });
 
 
+
+Route::any('getpodatasap', function() {
+	$term = Input::get('term');
+
+	// $data = DB::connection('sqlsrv')->table('pos')->distinct()->select('po')->where('po','LIKE', $term.'%')->where('closed_po','=','Open')->groupBy('po')->take(10)->get();
+	//$data = DB::connection('sqlsrv')->select(DB::raw("SELECT TOP 10 (RIGHT([No_],6)) as po FROM [Gordon_LIVE].[dbo].[GORDON\$Production Order] WHERE [Status] = '3' AND [No_] like '%".$term."%'"));
+	$data = DB::connection('sqlsrv')->select(DB::raw("SELECT distinct po as po_sap FROM sap_coois WHERE po like '%".$term."%'"));
+	// var_dump($data);
+	foreach ($data as $v) {
+		$retun_array[] = array('value' => $v->po_sap);
+	}
+return Response::json($retun_array);
+});
