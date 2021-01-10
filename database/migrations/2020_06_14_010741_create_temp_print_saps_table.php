@@ -20,12 +20,15 @@ class CreateTempPrintSapsTable extends Migration {
 
 			$table->string('po');
 			$table->string('flash')->nullable();
+			$table->string('approval')->nullable();
 			$table->string('first_time')->nullable();
 			$table->string('printer')->nullable();
 
 			$table->string('stylefg');
 			
+			
 			$table->string('module')->nullable();
+			$table->string('module_pk');
             $table->string('leader')->nullable();
             $table->string('comment')->nullable();
 

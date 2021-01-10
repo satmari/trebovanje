@@ -14,14 +14,25 @@ class ChangeTransItemsTable extends Migration {
 	{
 		//
 		//
-		Schema::table('trans_items', function (Blueprint $table) {
-    		$table->string('item')->change();
-		});
+		// Schema::table('trans_items', function (Blueprint $table) {
+  //   		$table->string('item')->change();
+		// });
 
-		Schema::table('request_line', function (Blueprint $table) {
-    		$table->string('item')->change();
-		});
-		
+		// Schema::table('request_line', function (Blueprint $table) {
+  //   		$table->string('item')->change();
+		// });
+
+		// Schema::table('temp_print_saps', function (Blueprint $table) {
+  //   		$table->string('module_pk')->nullable();
+		// });
+
+		// Schema::table('request_header_sap', function (Blueprint $table) {
+  //   		$table->string('approval')->nullable();
+		// });
+
+		// Schema::table('temp_print_saps', function (Blueprint $table) {
+  //   		$table->string('approval')->nullable();
+		// });
 
 	}
 

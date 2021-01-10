@@ -21,6 +21,7 @@
 
 				{!! Form::hidden('leader', $leader, ['class' => 'form-control']) !!}
 				{!! Form::hidden('po', $po, ['class' => 'form-control']) !!}
+				{!! Form::hidden('po_sap', $po_sap, ['class' => 'form-control']) !!}
 				{!! Form::hidden('fg', $fg, ['class' => 'form-control']) !!}
 				{!! Form::hidden('activity', $activity, ['class' => 'form-control']) !!}
 				{!! Form::hidden('wc', $wc, ['class' => 'form-control']) !!}

@@ -19,6 +19,7 @@ class CreateRequestHeaderSapsTable extends Migration {
 
 			$table->string('so')->nullable();
 			$table->string('po');
+			$table->string('po_sap');
 
 			$table->string('style');
 			
@@ -42,6 +43,7 @@ class CreateRequestHeaderSapsTable extends Migration {
             $table->string('comment')->nullable();
 
 			$table->string('flash')->nullable(); // added latter
+			$table->string('approval')->nullable(); // added latter
 			$table->string('postatus')->nullable(); // added latter
 			$table->dateTime('lastmodified')->nullable(); // added latter
 

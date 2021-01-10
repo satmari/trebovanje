@@ -110,6 +110,8 @@ Route::post('/update_color/{id}', 'TransTableController@update_color');
 Route::get('/so_refresh', 'RefreshController@so_refresh');
 Route::get('/hu_refresh', 'RefreshController@hu_refresh');
 
+Route::get('/refresh_requests', 'RefreshController@refresh_requests');
+
 // Printer
 Route::get('/printer', 'HomeController@printer');
 Route::post('/printer_set', 'HomeController@printer_set');
@@ -119,7 +121,7 @@ Route::any('getpodata', function() {
 	$term = Input::get('term');
 
 	// $data = DB::connection('sqlsrv')->table('pos')->distinct()->select('po')->where('po','LIKE', $term.'%')->where('closed_po','=','Open')->groupBy('po')->take(10)->get();
-	$data = DB::connection('sqlsrv')->select(DB::raw("SELECT TOP 10 (RIGHT([No_],6)) as po FROM [Gordon_LIVE].[dbo].[GORDON\$Production Order] WHERE [Status] = '3' AND [No_] like '%".$term."%'"));
+	// $data = DB::connection('sqlsrv')->select(DB::raw("SELECT TOP 10 (RIGHT([No_],6)) as po FROM [Gordon_LIVE].[dbo].[GORDON\$Production Order] WHERE [Status] = '3' AND [No_] like '%".$term."%'"));
 	// var_dump($data);
 	foreach ($data as $v) {
 		$retun_array[] = array('value' => $v->po);
@@ -134,7 +136,9 @@ Route::any('getpodatasap', function() {
 
 	// $data = DB::connection('sqlsrv')->table('pos')->distinct()->select('po')->where('po','LIKE', $term.'%')->where('closed_po','=','Open')->groupBy('po')->take(10)->get();
 	//$data = DB::connection('sqlsrv')->select(DB::raw("SELECT TOP 10 (RIGHT([No_],6)) as po FROM [Gordon_LIVE].[dbo].[GORDON\$Production Order] WHERE [Status] = '3' AND [No_] like '%".$term."%'"));
-	$data = DB::connection('sqlsrv')->select(DB::raw("SELECT distinct po as po_sap FROM sap_coois WHERE po like '%".$term."%'"));
+	// $data = DB::connection('sqlsrv')->select(DB::raw("SELECT distinct po as po_sap FROM sap_coois WHERE po like '%".$term."%'"));
+	$data = DB::connection('sqlsrv')->select(DB::raw("SELECT DISTINCT (CASE WHEN po like '%-%' THEN substring(po, 1,6) ELSE substring (po, 4,6)	END) as po_sap
+		FROM [trebovanje].[dbo].[sap_coois] WHERE po like '%".$term."%'"));
 	// var_dump($data);
 	foreach ($data as $v) {
 		$retun_array[] = array('value' => $v->po_sap);

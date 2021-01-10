@@ -52,6 +52,7 @@ class TableSapController extends Controller {
 				h.status,
 				h.po,
 				h.flash,
+				h.approval,
 				h.wc,
 				--h.so,
 				h.first_time,
@@ -94,6 +95,7 @@ class TableSapController extends Controller {
 				h.status,
 				h.po,
 				h.flash,
+				h.approval,
 				h.wc,
 				--h.so,
 				h.first_time,
@@ -136,6 +138,7 @@ class TableSapController extends Controller {
 			h.status,
 			h.po,
 			h.flash,
+			h.approval,
 			h.wc,
 			--h.so,
 			h.comment,
@@ -164,6 +167,7 @@ class TableSapController extends Controller {
 			h.status,
 			h.po,
 			h.flash,
+			h.approval,
 			h.wc,
 			--h.so,
 			h.comment,
@@ -172,7 +176,7 @@ class TableSapController extends Controller {
 			h.updated_at
 
 		  FROM [trebovanje].[dbo].[request_header_sap] as h
-		  WHERE h.deleted = 0 AND h.created_at BETWEEN CAST(GETDATE() AS DATE) AND DATEADD(DAY, 1, CAST(GETDATE() AS DATE)) AND (SUBSTRING(h.module, 0, 3) != 'K-')
+		  WHERE (h.deleted = 0) AND (h.created_at BETWEEN CAST(GETDATE() AS DATE) AND DATEADD(DAY, 1, CAST(GETDATE() AS DATE))) AND (SUBSTRING(h.module, 0, 3) != 'K-') AND (h.module != 'WC01_K') AND (h.module != 'WC02M_K')
 		  ORDER BY h.created_at desc
 		  "));
 
@@ -192,6 +196,7 @@ class TableSapController extends Controller {
 			h.status,
 			h.po,
 			h.flash,
+			h.approval,
 			h.wc,
 			--h.so,
 			h.comment,
@@ -200,7 +205,7 @@ class TableSapController extends Controller {
 			h.updated_at
 
 		  FROM [trebovanje].[dbo].[request_header_sap] as h
-		  WHERE h.deleted = 0 AND h.created_at BETWEEN CAST(GETDATE() AS DATE) AND DATEADD(DAY, 1, CAST(GETDATE() AS DATE)) AND (SUBSTRING(h.module, 0, 3) = 'K-')
+		  WHERE (h.deleted = 0) AND (h.created_at BETWEEN CAST(GETDATE() AS DATE) AND DATEADD(DAY, 1, CAST(GETDATE() AS DATE))) AND ((SUBSTRING(h.module, 0, 3) = 'K-') OR (h.module = 'WC01_K') OR (h.module = 'WC02M_K'))
 		  ORDER BY h.created_at desc
 		  "));
 
@@ -220,6 +225,7 @@ class TableSapController extends Controller {
 			h.status,
 			h.po,
 			h.flash,
+			h.approval,
 			h.wc,
 			--h.so,
 			h.comment,
@@ -249,6 +255,7 @@ class TableSapController extends Controller {
 				h.status,
 				h.po,
 				h.flash,
+				h.approval,
 				h.wc,
 				--h.so,
 				h.first_time,
@@ -290,6 +297,7 @@ class TableSapController extends Controller {
 			h.status,
 			h.po,
 			h.flash,
+			h.approval,
 			h.wc,
 			--h.so,
 			h.comment,
@@ -318,6 +326,7 @@ class TableSapController extends Controller {
 				h.status,
 				h.po,
 				h.flash,
+				h.approval,
 				h.wc,
 				--h.so,
 				h.first_time,
@@ -371,6 +380,7 @@ class TableSapController extends Controller {
 				h.status,
 				h.po,
 				h.flash,
+				h.approval,
 				h.wc,
 				--h.so,
 				h.first_time,
@@ -451,6 +461,7 @@ class TableSapController extends Controller {
 			// $table->so = $so;
 			$table->po = $data[0]->po;
 			$table->flash = $data[0]->flash;
+			$table->approval = $data[0]->approval;
 			$table->first_time = $data[0]->first_time;
 			$table->printer = $printer_name;
 
@@ -459,6 +470,7 @@ class TableSapController extends Controller {
 			// $table->sizefg = $data[0]->sizefg;
 
 			$table->module = $data[0]->module;
+			$table->module_pk = $data[0]->module."-PK";
             $table->leader = $data[0]->leader;
             $table->comment = $data[0]->comment;
 
@@ -591,7 +603,7 @@ class TableSapController extends Controller {
 				--so,
 				module
 				FROM [trebovanje].[dbo].[request_header_sap]
-			  	WHERE deleted = '0' AND status = 'TO PRINT' AND (SUBSTRING(module, 0, 3) != 'K-')
+			  	WHERE deleted = '0' AND status = 'TO PRINT' AND (SUBSTRING(module, 0, 3) != 'K-') AND (module != 'WC01_K') AND (module != 'WC02M_K')
 			  	ORDER BY module asc
 			  "));
 
@@ -610,6 +622,7 @@ class TableSapController extends Controller {
 				h.status,
 				h.po,
 				h.flash,
+				h.approval,
 				h.wc,
 				--h.so,
 				h.first_time,
@@ -631,7 +644,7 @@ class TableSapController extends Controller {
 				
 			  FROM [trebovanje].[dbo].[request_line_sap] as l
 			  JOIN [trebovanje].[dbo].[request_header_sap] as h ON l.request_header_id = h.id
-			  WHERE l.deleted = 0 AND h.status = 'TO PRINT' AND h.id = '".$main[$d]->id."' AND (SUBSTRING(h.module, 0, 3) != 'K-')
+			  WHERE l.deleted = 0 AND h.status = 'TO PRINT' AND h.id = '".$main[$d]->id."' AND (SUBSTRING(h.module, 0, 3) != 'K-') AND (h.module != 'WC01_K') AND (h.module != 'WC02M_K')
 			  ORDER BY h.module asc
 			  "));
 
@@ -688,6 +701,7 @@ class TableSapController extends Controller {
 				// $table->so = $so;
 				$table->po = $data[0]->po;
 				$table->flash = $data[0]->flash;
+				$table->approval = $data[0]->approval;
 				$table->first_time = $data[0]->first_time;
 				$table->printer = $printer_name;
 
@@ -696,6 +710,7 @@ class TableSapController extends Controller {
 				// $table->sizefg = $data[0]->sizefg;
 
 				$table->module = $data[0]->module;
+				$table->module_pk = $data[0]->module."-PK";
 	            $table->leader = $data[0]->leader;
 	            $table->comment = $data[0]->comment;
 
@@ -832,7 +847,7 @@ class TableSapController extends Controller {
 				--so,
 				module
 				FROM [trebovanje].[dbo].[request_header_sap]
-			  	WHERE deleted = '0' AND status = 'TO PRINT' AND (SUBSTRING(module, 0, 3) = 'K-')
+			  	WHERE deleted = '0' AND status = 'TO PRINT' AND ((SUBSTRING(module, 0, 3) = 'K-') OR (module = 'WC01_K') OR (module = 'WC02M_K'))
 			  	ORDER BY module asc
 			  "));
 
@@ -851,6 +866,7 @@ class TableSapController extends Controller {
 				h.status,
 				h.po,
 				h.flash,
+				h.approval,
 				h.wc,
 				--h.so,
 				h.first_time,
@@ -872,7 +888,7 @@ class TableSapController extends Controller {
 				
 			  FROM [trebovanje].[dbo].[request_line_sap] as l
 			  JOIN [trebovanje].[dbo].[request_header_sap] as h ON l.request_header_id = h.id
-			  WHERE l.deleted = 0 AND h.status = 'TO PRINT' AND h.id = '".$main[$d]->id."' AND (SUBSTRING(h.module, 0, 3) = 'K-')
+			  WHERE l.deleted = 0 AND h.status = 'TO PRINT' AND h.id = '".$main[$d]->id."' AND ((SUBSTRING(h.module, 0, 3) = 'K-') OR (h.module = 'WC01_K') OR (h.module = 'WC02M_K'))
 			  ORDER BY h.module asc
 			  "));
 
@@ -929,6 +945,7 @@ class TableSapController extends Controller {
 				// $table->so = $so;
 				$table->po = $data[0]->po;
 				$table->flash = $data[0]->flash;
+				$table->approval = $data[0]->approval;
 				$table->first_time = $data[0]->first_time;
 				$table->printer = $printer_name;
 
@@ -937,6 +954,7 @@ class TableSapController extends Controller {
 				// $table->sizefg = $data[0]->sizefg;
 
 				$table->module = $data[0]->module;
+				$table->module_pk = $data[0]->module."-PK";
 	            $table->leader = $data[0]->leader;
 	            $table->comment = $data[0]->comment;
 

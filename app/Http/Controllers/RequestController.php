@@ -38,16 +38,26 @@ class RequestController extends Controller {
 		//
 		$user = User::find(Auth::id());
 
+		// if ($user->is('admin')) { 
+		//     return Redirect::to('/tablesotoday');
+		// }
+		// if ($user->is('magacin')) { 
+		//     return Redirect::to('/tablesotoday');
+		// }
+		// if ($user->is('modul')) { 
+		// 	return view('Request.index');   
+		// }
+		
 		if ($user->is('admin')) { 
-		    return Redirect::to('/tablesotoday');
+		    return Redirect::to('/tablesotodaysap');
 		}
 		if ($user->is('magacin')) { 
-		    return Redirect::to('/tablesotoday');
+		    return Redirect::to('/tablesotodaysap');
 		}
 		if ($user->is('modul')) { 
-			return view('Request.index');   
+			return view('RequestSap.index');   
 		}
-		
+
 		// return view('Request.index');
 		return Redirect::to('/');
 	}

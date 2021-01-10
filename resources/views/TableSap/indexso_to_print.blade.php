@@ -61,6 +61,7 @@
 				           <th data-sortable="true"><span style="color: blueviolet;">Po</span></th>
 				           <th><span style="color: blueviolet;">WC</span></th>
 				           <th><span style="color: blueviolet;">Flash</span></th>
+				           <th><span style="color: blueviolet;">App</span></th>
 				           <th><span style="color: blueviolet;">First</span></th>
 				           {{--<th data-sortable="true"><span style="color: blueviolet;">So</span></th>--}}
 				           
@@ -85,6 +86,7 @@
 				        	<td>{{ $d->po }}</td>
 				        	<td>{{ $d->wc }}</td>
 				        	<td>{{ $d->flash }}</td>
+				        	<td>{{ $d->approval }}</td>
 				        	<td>{{ $d->first_time }}</td>
 				        	
 				        	<td>

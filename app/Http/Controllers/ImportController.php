@@ -131,11 +131,13 @@ class ImportController extends Controller {
 	}
 	public function postSAP(Request $request) {
 	    $getSheetName = Excel::load(Request::file('file4'))->getSheetNames();
+
+	    DB::table('Sap_coois')->truncate();
 	    
 	    foreach($getSheetName as $sheetName)
 	    {
 	       
-	        Excel::filter('chunk')->selectSheets($sheetName)->load(Request::file('file4'))->chunk(50, function ($reader)
+	        Excel::filter('chunk')->selectSheets($sheetName)->load(Request::file('file4'))->chunk(15000, function ($reader)
 	            
 	            {
 	                $readerarray = $reader->toArray();

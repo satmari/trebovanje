@@ -8,7 +8,7 @@
 
 			@if(Auth::check() )
 
-			<div class="panel panel-default">
+			<!-- <div class="panel panel-default">
 				<div class="panel-heading">Import <b>Items</b> from Excel file</div>
 
 				{!! Form::open(['files'=>True, 'method'=>'POST', 'action'=>['ImportController@postImportItems']]) !!}
@@ -51,7 +51,7 @@
 					@include('errors.list')
 				{!! Form::close() !!}
 
-			</div>
+			</div> -->
 
 			<div class="panel panel-default">
 				<div class="panel-heading">Import from SAP</div>

@@ -56,21 +56,27 @@
 					
 					@if(Auth::check() && Auth::user()->level() == 4)
 						{{-- <li><a href="{{ url('/') }}">Make request</a></li> --}}
-						<li><a href="{{ url('/table') }}">Trebovanje history</a></li>
-						{{-- <li><a href="{{ url('/tablesap') }}">Trebovanje history</a></li> --}}
+						{{--<li><a href="{{ url('/table') }}">Trebovanje history</a></li>--}}
+						<li><a href="{{ url('/tablesap') }}">Trebovanje history</a></li> 
 					@endif
 
 					@if(Auth::check() && Auth::user()->level() == 2)
-						<li><a href="{{ url('/tablesotoday') }}">Requests (today)</a></li>
-						<li><a href="{{ url('/tablesotodayk') }}">Requests (today Kikinda)</a></li>
-						<li><a href="{{ url('/tableso') }}">Requests (15 days)</a></li>
-						<li><a href="{{ url('/table') }}">Request lines (15 days)</a></li>
-						<li><a href="{{ url('/tabletoprint') }}">To Print</a></li>
-						<li><a href="{{ url('/tabletocreate') }}">To Create</a></li>
-						<li><a href="{{ url('/last_used') }}">Last used SO</a></li>
-						<li><a href="{{ url('/printer') }}">Choose printer</a></li>
 						
-					<li>
+						<li><a href="{{ url('/tablesotodaysap') }}">Requests (today Sub)</a></li>
+							<li><a href="{{ url('/tablesotodayksap') }}">Requests (today Kik)</a></li>
+							<li><a href="{{ url('/tablesosap') }}">Requests (15 days)</a></li>
+							<li><a href="{{ url('/tablesap') }}">Request lines (15 days)</a></li>
+							<li><a href="{{ url('/tabletoprintsap') }}">To Print</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="{{ url('/tablesoallsap') }}">Requests (all)</a></li>
+							<li><a href="{{ url('/tableallsap') }}">Request lines (all)</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="{{ url('/printer') }}">Choose printer</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="{{ url('/refresh_requests') }}">Refresh requests</a></li>
+							<li><a href="{{ url('/import') }}">Import file</a></li>
+						
+					<!-- <li>
 						 <button class="btn btn-default dropdown-toggle" style="margin: 6px 5px !important;" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								    Tables
 							    <span class="caret"></span>
@@ -81,8 +87,8 @@
 							<li><a href="{{ url('/tableall') }}">Request lines (all)</a></li>
 							
 						</ul>
-					</li>	
-					<li>
+					</li>	 -->
+					<!-- <li>
 						 <button class="btn btn-default dropdown-toggle" style="margin: 6px 5px !important;" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								    Functions
 							    <span class="caret"></span>
@@ -93,8 +99,8 @@
 							<li><a href="{{ url('/hu_refresh') }} " type="button">Hu Refresh</a></li>
 							
 						</ul>
-					</li>
-					<li>
+					</li> -->
+					<!-- <li>
 						 <button class="btn btn-default dropdown-toggle" style="margin: 6px 5px !important;" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								    Translations
 							    <span class="caret"></span>
@@ -109,25 +115,27 @@
 							
 						</ul>
 					</li>
-
+ -->
 					<li>
 						 <button class="btn btn-default dropdown-toggle" style="margin: 6px 5px !important;" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-								    with SAP
+								    with NAV
 							    <span class="caret"></span>
 						  </button>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 
-						    <li><a href="{{ url('/tablesotodaysap') }}">Requests (today)</a></li>
-							<li><a href="{{ url('/tablesotodayksap') }}">Requests (today Kikinda)</a></li>
-							<li><a href="{{ url('/tablesosap') }}">Requests (15 days)</a></li>
-							<li><a href="{{ url('/tablesap') }}">Request lines (15 days)</a></li>
-							<li><a href="{{ url('/tabletoprintsap') }}">To Print</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="{{ url('/tablesoallsap') }}">Requests (all)</a></li>
-							<li><a href="{{ url('/tableallsap') }}">Request lines (all)</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="{{ url('/printer') }}">Choose printer</a></li>
-							<li><a href="{{ url('/import') }}">Import file</a></li>
+						    
+						<li><a href="{{ url('/tablesotoday') }}">Requests (today)</a></li>
+						<li><a href="{{ url('/tablesotodayk') }}">Requests (today Kikinda)</a></li>
+						<li><a href="{{ url('/tableso') }}">Requests (15 days)</a></li>
+						<li><a href="{{ url('/table') }}">Request lines (15 days)</a></li>
+						<li><a href="{{ url('/tabletoprint') }}">To Print</a></li>
+						<li><a href="{{ url('/tabletocreate') }}">To Create</a></li>
+						<li><a href="{{ url('/last_used') }}">Last used SO</a></li>
+						<li><a href="{{ url('/printer') }}">Choose printer</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="{{ url('/transitem') }}">Item</a></li>
+						<li><a href="{{ url('/transsize') }}">Size</a></li>
+						<li><a href="{{ url('/transcolor') }}">Color</a></li>
 							
 							
 						</ul>

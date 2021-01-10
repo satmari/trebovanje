@@ -16,6 +16,7 @@ use App\trans_size;
 use App\temp_print;
 use App\RequestHeader;
 use App\RequestLine;
+use App\RequestHeaderSap;
 use DB;
 
 use App\User;
@@ -175,4 +176,40 @@ class RefreshController extends Controller {
 		}
 	}
 
+	public function refresh_requests() {
+
+
+		$requests = DB::connection('sqlsrv')->select(DB::raw("SELECT id, po_sap, approval FROM request_header_sap WHERE status != 'DELETED' "));
+		// dd($requests[0]->approval);
+
+
+		for ($i=0; $i < count($requests); $i++) {
+
+			$inteos = DB::connection('sqlsrv2')->select(DB::raw("
+				SELECT POnum, Approval
+				FROM [BdkCLZG].[dbo].[CNF_PO]
+				WHERE POnum like '%".$requests[$i]->po_sap."%' --AND (POClosed is null OR POClosed = 0)
+				UNION
+				SELECT POnum, Approval
+				FROM [172.27.161.221\INTEOSKKA].[BdkCLZKKA].[dbo].[CNF_PO]
+				WHERE POnum like '%".$requests[$i]->po_sap."%' --AND (POClosed is null OR POClosed = 0)
+			"));
+
+			// dd($inteos);
+			// var_dump($inteos[0]->Approval);
+
+			if (isset($inteos[0]->Approval)) {	
+				try {
+					$table = RequestHeaderSap::findOrFail($requests[$i]->id);
+					$table->approval = $inteos[0]->Approval;
+					$table->save();
+				 }
+					catch (\Illuminate\Database\QueryException $e) {
+					dd("Problem to save in table");
+				}	
+			}
+		}
+
+	return Redirect::to('/');
+	}
 }

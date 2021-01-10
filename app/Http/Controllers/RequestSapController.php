@@ -126,7 +126,8 @@ class RequestSapController extends Controller {
 		
 		// dd($so);
 
-		return view('RequestSap.createtreb', compact('leader','so'));
+		// return view('RequestSap.createtreb', compact('leader','so'));
+		return view('RequestSap.createnewso', compact('leader'));
 	}
 	
 	public function newso_sap()
@@ -142,6 +143,16 @@ class RequestSapController extends Controller {
 		$input = $request->all(); 
 		// dd($input);
 
+		$po = $input['po'];
+		// dd($po);
+		if ($input['size'] == "") {
+			$msg = 'Odaberite velicinu. Size is missing. ';
+			return view('RequestSap.error',compact('msg'));
+		} else {
+
+			$size = $input['size'];
+		}
+		
 		if (Auth::check())
 		{
 		    $userId = Auth::user()->id;
@@ -157,41 +168,44 @@ class RequestSapController extends Controller {
 			return view('RequestSap.error',compact('msg'));
 		}
 
-		$po = $input['po'];
-		// dd($po);
 		$so = "";
-		// $size = $input['size'];
-
-	    // dd(substr($module,0,2));
+		// dd(substr($module,0,2));
 
 		if ($module == "WC01") {
 			// Preparation 
-			$components = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM sap_coois WHERE wc = 'WC01' AND po like '%".$po."'  "));
+			// $components = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM sap_coois WHERE wc = 'WC01' AND po like '%".$po."'  "));
+			$components = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM sap_coois WHERE wc = 'WC01' AND po like '%".$po."%' AND substring(fg,14,5) = '".$size."' "));
 
 		} elseif ($module == 'WC01_K') {
 			// Preparation Kikinda
-			$components = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM sap_coois WHERE wc = 'WC01_K' AND po like '%".$po."'  "));
+			$components = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM sap_coois WHERE wc = 'WC01_K' AND po like '%".$po."%' AND substring(fg,14,5) = '".$size."' "));
+
+		} elseif ($module == 'WC02M') {
+			// Preparation Kikinda
+			$components = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM sap_coois WHERE wc = 'WC02M' AND po like '%".$po."%' AND substring(fg,14,5) = '".$size."' "));
+
+		} elseif ($module == 'WC02M_K') {
+			// Preparation Kikinda
+			$components = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM sap_coois WHERE wc = 'WC02M_K' AND po like '%".$po."%' AND substring(fg,14,5) = '".$size."' "));
 
 		} elseif (substr($module, 0, 2) == 'S-') {
 			// Lines 
-			$components = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM sap_coois WHERE wc = 'WC03I' AND po like '%".$po."'  "));
+			$components = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM sap_coois WHERE (wc = 'WC03I' OR wc = 'WC03O') AND po like '%".$po."%' AND substring(fg,14,5) = '".$size."' "));
 
 		} elseif (substr($module, 0, 2) == 'K-') {
 			// Lines Kikinda
-			$components = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM sap_coois WHERE wc = 'WC03I_K' AND po like '%".$po."'  "));
+			$components = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM sap_coois WHERE (wc = 'WC03I_K' OR wc = 'WC03O_K') AND po like '%".$po."%' AND substring(fg,14,5) = '".$size."' "));
 
 		} else {
-			$components = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM sap_coois WHERE po like '%".$po."'  "));
+			$components = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM sap_coois WHERE po like '%".$po."%' AND substring(fg,14,5) = '".$size."' "));
 
 		}
-
 		// dd($components);
 			
 		if ($components) {
 			// dd($components);
 			// var_dump($material);
 			// dd($standard_qty);
-
 		} else {
 			$msg = 'There are no lines of components in coois_sap table !!!';
 			return view('RequestSap.error',compact('msg'));
@@ -201,7 +215,8 @@ class RequestSapController extends Controller {
 
 		for ($i=0; $i < count($components); $i++) { 
 
-			$po = $components[$i]->po;
+			$po = $input['po'];
+			$po_sap = $components[$i]->po;
 			$fg = $components[$i]->fg;
 			$activity = $components[$i]->activity;
 			$wc = $components[$i]->wc;
@@ -238,6 +253,10 @@ class RequestSapController extends Controller {
 				$uom_desc = $components[$i]->uom_desc;
 			}
 
+			// Exclude
+			if ($material == 'CUT_PIECE_001') {
+			  continue;
+			}
 
 			array_push($newarray, array(
 		        "material" => $material,
@@ -245,14 +264,11 @@ class RequestSapController extends Controller {
 		        "description" => $description,
 		        "standard_qty" => $standard_qty,
 		        "uom_desc" => $uom_desc
-
 		    ));
-
 		}
 
 		// dd($newarray);
-
-		return view('RequestSap.createtrebcon', compact('leader','po','fg','activity','wc','list','newarray'));
+		return view('RequestSap.createtrebcon', compact('leader','po','po_sap','fg','activity','wc','list','newarray'));
 	}
 
 	public function requeststoretreb_sap(Request $request)
@@ -315,21 +331,35 @@ class RequestSapController extends Controller {
 		// dd($input);
 
 		$po = $input['po'];
+		$po_sap = $input['po_sap'];
 		$itemfg = $input['fg'];
 		$activity = $input['activity'];
 		$wc = $input['wc'];
 		$list = $input['list'];
 		$leader= $input['leader'];
 		
-		$so = '';
-		// if ($so == '') {
-			// $status = 'TO CREATE';
-			$first_time = 'YES';
-		// } else {
-			$status = 'TO PRINT';	
-			// $first_time = 'NO';
-		// }
+		$exist =  DB::connection('sqlsrv')->select(DB::raw("SELECT id FROM request_header_sap WHERE po_sap = '".$po_sap."' AND module = '".$module."' "));
+		// dd($exist);
 
+		if(isset($exist[0]->id)) {
+			$first_time = 'NO';
+		} else {
+			$first_time = 'YES';
+		}
+		// dd($first_time);
+
+		$approval_int =  DB::connection('sqlsrv2')->select(DB::raw("SELECT [Approval] as approval FROM [BdkCLZG].[dbo].[CNF_PO] WHERE POnum like  '%".$po_sap."%' "));
+		// dd($approval_int);
+		if(isset($approval_int[0]->approval)) {
+			$approval = $approval_int[0]->approval;
+		} else {
+			$approval = NULL;
+		}
+		// dd($first_time);
+
+		$so = '';
+		$status = 'TO PRINT';	
+		
 		if (isset($input['comment'])) {
 			$comment = $input['comment'];
 
@@ -362,6 +392,7 @@ class RequestSapController extends Controller {
 			$table->name = $module." ".date("Y-m-d H:i:s");
 			// $table->so = $input['so'];
 			$table->po = $input['po'];
+			$table->po_sap = $input['po_sap'];
 			
 			$table->style = $itemfg;
 			// $table->color = $colorfg;
@@ -381,6 +412,7 @@ class RequestSapController extends Controller {
 			$table->comment = $comment;
 
 			$table->flash = $flash;
+			$table->approval = $approval;
 
 			$table->save();
 			
