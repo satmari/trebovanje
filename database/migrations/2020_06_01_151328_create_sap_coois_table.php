@@ -26,6 +26,7 @@ class CreateSapCooisTable extends Migration {
 			$table->string('description')->nullable();
 			$table->integer('standard_qty')->nullable();
 			$table->string('uom_desc')->nullable();
+			$table->string('tpa')->nullable(); //after
 
 
 			$table->timestamps();

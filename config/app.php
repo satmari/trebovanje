@@ -203,12 +203,11 @@ return [
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
 
-		'Excel'		=> 'Maatwebsite\Excel\Facades\Excel',
-		'Table'     => 'Gbrock\Table\Facades\Table',
-
 		'Form' 		=> 'Collective\Html\FormFacade',
       	'Html' 		=> 'Collective\Html\HtmlFacade',
-      	
+
+		'Excel'		=> 'Maatwebsite\Excel\Facades\Excel',
+		'Table'     => 'Gbrock\Table\Facades\Table',      	
 	],
 
 ];

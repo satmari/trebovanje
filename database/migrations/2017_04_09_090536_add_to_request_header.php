@@ -13,11 +13,13 @@ class AddToRequestHeader extends Migration {
 	public function up()
 	{
 		//
-		Schema::table('request_header', function($table)
+		Schema::table('request_header_sap', function($table)
 		{
     		// $table->string('flash')->nullable(); // added latter
     		// $table->string('postatus')->nullable(); // added latter
     		// $table->dateTime('lastmodified')->nullable(); // added latter
+
+    		// $table->string('skeda')->nullable(); // added latter
     		
 		});
 	}

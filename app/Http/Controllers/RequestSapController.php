@@ -207,7 +207,7 @@ class RequestSapController extends Controller {
 			// var_dump($material);
 			// dd($standard_qty);
 		} else {
-			$msg = 'There are no lines of components in coois_sap table !!!';
+			$msg = 'Can not find components in coois_sap table !!!';
 			return view('RequestSap.error',compact('msg'));
 		}
 		
@@ -221,6 +221,7 @@ class RequestSapController extends Controller {
 			$activity = $components[$i]->activity;
 			$wc = $components[$i]->wc;
 			$material = $components[$i]->material;
+			$tpa = $components[$i]->tpa;
 
 			
 			if (!isset($components[$i]->list) OR (is_null($components[$i]->list))) {
@@ -253,6 +254,12 @@ class RequestSapController extends Controller {
 				$uom_desc = $components[$i]->uom_desc;
 			}
 
+			if (!isset($components[$i]->tpa) OR (is_null($components[$i]->tpa))) {
+				$tpa = '';
+			} else {
+				$tpa = $components[$i]->tpa;
+			}
+
 			// Exclude
 			if ($material == 'CUT_PIECE_001') {
 			  continue;
@@ -263,7 +270,8 @@ class RequestSapController extends Controller {
 		        "uom" => $uom,
 		        "description" => $description,
 		        "standard_qty" => $standard_qty,
-		        "uom_desc" => $uom_desc
+		        "uom_desc" => $uom_desc,
+		        "tpa" => $tpa,
 		    ));
 		}
 
@@ -273,7 +281,7 @@ class RequestSapController extends Controller {
 
 	public function requeststoretreb_sap(Request $request)
 	{
-		$this->validate($request, ['comment'=>'max:50']);
+		$this->validate($request, ['comment'=>'max:200']);
 		$input = $request->all(); 
 		// dd($input);
 
@@ -348,6 +356,30 @@ class RequestSapController extends Controller {
 		}
 		// dd($first_time);
 
+		$check_skeda_posum = DB::connection('sqlsrv4')->select(DB::raw("SELECT skeda FROM [posummary].[dbo].[pro] WHERE pro = '".$po_sap."' "));
+		if (isset($check_skeda_posum[0])) {
+			$skeda = $check_skeda_posum[0]->skeda;
+		} else {
+			$skeda = '';
+		}
+		// dd($skeda);
+
+		  /*
+		  UPDATE t
+		  SET t.skeda = p.skeda
+		  FROM [trebovanje].[dbo].[request_header_sap] as t
+		  JOIN [posummary].[dbo].[pro] as p ON p.pro = po_sap
+		  */
+		 
+		$exist_skeda = DB::connection('sqlsrv')->select(DB::raw("SELECT id FROM request_header_sap WHERE skeda = '".$skeda."' AND module = '".$module."' "));
+		// dd($exist);
+
+		if (isset($exist_skeda[0]->id)) {
+			$first_time_skeda = 'NO';
+		} else {
+			$first_time_skeda = 'YES';
+		}
+
 		$approval_int =  DB::connection('sqlsrv2')->select(DB::raw("SELECT [Approval] as approval FROM [BdkCLZG].[dbo].[CNF_PO] WHERE POnum like  '%".$po_sap."%' "));
 		// dd($approval_int);
 		if(isset($approval_int[0]->approval)) {
@@ -406,13 +438,15 @@ class RequestSapController extends Controller {
 			$table->leader = $leader;
 
 			$table->status = $status;
-			$table->first_time = $first_time;
+			$table->first_time = $first_time_skeda;
 			$table->deleted = 0;
 
 			$table->comment = $comment;
 
 			$table->flash = $flash;
 			$table->approval = $approval;
+
+			$table->skeda = $skeda;
 
 			$table->save();
 			
@@ -427,7 +461,7 @@ class RequestSapController extends Controller {
 		for ($i=0; $i < count($items); $i++) { 
 
 			// dd($items[$i]);
-			list($material, $uom, $description, $standard_qty, $uom_desc) = explode('#', $items[$i]);
+			list($material, $uom, $description, $standard_qty, $uom_desc, $tpa) = explode('#', $items[$i]);
 	
 			if ($not_std_qty_array[$i][0] == "" ) {
 				$qty_final = (int)$standard_qty;
@@ -445,6 +479,7 @@ class RequestSapController extends Controller {
 				$table2->description = $description;
 				$table2->standard_qty = $qty_final;
 				$table2->uom_desc = $uom_desc;
+				$table2->tpa = $tpa;
 				
 				$table2->deleted = 0;
 				$table2->save();
@@ -454,11 +489,7 @@ class RequestSapController extends Controller {
 				$msg = "Problem to save in RequestLineSap";
 				return view('RequestSap.error',compact('msg'));
 			}
-			
 		}
-
 		return Redirect::to('/');
 	}	
-
-
 }

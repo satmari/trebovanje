@@ -41,8 +41,8 @@
   							<td style="width:80%">
   								<div class="checkbox">
 							    	<label style="width: 90%;" type="button" class="btn check btn-default"  data-color="primary">
-							      		<input type="checkbox" class="btn check" name="items[]" value="{{ $line['material'].'#'.$line['uom'].'#'.$line['description'].'#'.$line['standard_qty'].'#'.$line['uom_desc'] }}">  
-							      		<input name="hidden[]" type='hidden' value="{{ $line['material'].'#'.$line['uom'].'#'.$line['description'].'#'.$line['standard_qty'].'#'.$line['uom_desc'] }}"> 
+							      		<input type="checkbox" class="btn check" name="items[]" value="{{ $line['material'].'#'.$line['uom'].'#'.$line['description'].'#'.$line['standard_qty'].'#'.$line['uom_desc'].'#'.$line['tpa'] }}">  
+							      		<input name="hidden[]" type='hidden' value="{{ $line['material'].'#'.$line['uom'].'#'.$line['description'].'#'.$line['standard_qty'].'#'.$line['uom_desc'].'#'.$line['tpa'] }}"> 
 
 							      		{{ $line['description'] }}
 

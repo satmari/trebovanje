@@ -62,32 +62,34 @@
 
 					@if(Auth::check() && Auth::user()->level() == 2)
 						
-						<li><a href="{{ url('/tablesotodaysap') }}">Requests (today Sub)</a></li>
-							<li><a href="{{ url('/tablesotodayksap') }}">Requests (today Kik)</a></li>
+						<li><a href="{{ url('/tablesotodaysap') }}">Requests (Sub)</a></li>
+							<li><a href="{{ url('/tablesotodayksap') }}">Requests (Kik)</a></li>
+							<li><a href="{{ url('/tablesotodayssap') }}">Requests (Sen)</a></li>
 							<li><a href="{{ url('/tablesosap') }}">Requests (15 days)</a></li>
 							<li><a href="{{ url('/tablesap') }}">Request lines (15 days)</a></li>
 							<li><a href="{{ url('/tabletoprintsap') }}">To Print</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="{{ url('/tablesoallsap') }}">Requests (all)</a></li>
-							<li><a href="{{ url('/tableallsap') }}">Request lines (all)</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="{{ url('/printer') }}">Choose printer</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="{{ url('/refresh_requests') }}">Refresh requests</a></li>
-							<li><a href="{{ url('/import') }}">Import file</a></li>
-						
-					<!-- <li>
+							<!-- <li role="separator" class="divider"></li> -->
+							<!-- <li><a href="{{ url('/tablesoallsap') }}">Requests (all)</a></li>
+							<li><a href="{{ url('/tableallsap') }}">Request lines (all)</a></li> -->
+							<!-- <li role="separator" class="divider"></li> -->
+					<li>
 						 <button class="btn btn-default dropdown-toggle" style="margin: 6px 5px !important;" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-								    Tables
+								    History
 							    <span class="caret"></span>
 						  </button>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 						    
-							<li><a href="{{ url('/tablesoall') }}">Requests (all)</a></li>
-							<li><a href="{{ url('/tableall') }}">Request lines (all)</a></li>
+							<li><a href="{{ url('/tablesoallsap') }}">Requests (all)</a></li>
+							<li><a href="{{ url('/tableallsap') }}">Request lines (all)</a></li>
 							
 						</ul>
-					</li>	 -->
+					</li>
+
+					<li><a href="{{ url('/printer') }}">Choose printer</a></li>
+					<!-- <li role="separator" class="divider"></li> -->
+					<li><a href="{{ url('/refresh_requests') }}">Refresh requests</a></li>
+					<li><a href="{{ url('/import') }}">Import file</a></li>	
+					
 					<!-- <li>
 						 <button class="btn btn-default dropdown-toggle" style="margin: 6px 5px !important;" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								    Functions
@@ -116,7 +118,7 @@
 						</ul>
 					</li>
  -->
-					<li>
+					<!-- <li>
 						 <button class="btn btn-default dropdown-toggle" style="margin: 6px 5px !important;" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								    with NAV
 							    <span class="caret"></span>
@@ -139,7 +141,7 @@
 							
 							
 						</ul>
-					</li>
+					</li> -->
 
 					@endif
 

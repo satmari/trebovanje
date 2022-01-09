@@ -8,11 +8,15 @@
 				<div class="panel-heading">Request header table (to print)</div>
 
 				<div>
-					<a href="{{ url('/printall_sap') }}" class="btn btn-info btn center">Print all (Subotica)</a>
+					<a href="{{ url('/printall_sap') }}" class="btn btn-info btn center">Print all - SUBOTICA</a>
 					&nbsp
 					&nbsp
 					&nbsp	
-					<a href="{{ url('/printallk_sap') }}" class="btn btn-info btn center">Print all (Kikinda)</a>
+					<a href="{{ url('/printallk_sap') }}" class="btn btn-warning btn center">Print all - KIKINDA</a>
+					&nbsp
+					&nbsp
+					&nbsp	
+					<a href="{{ url('/printalls_sap') }}" class="btn btn-danger btn center">Print all - SENTA</a>
 
 				</div>
 				

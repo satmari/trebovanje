@@ -69,8 +69,11 @@ Route::post('/update_header/{id}', 'TableController@update_header');
 // Table SAP
 Route::get('/tablesap', 'TableSapController@index');
 Route::get('/tablesosap', 'TableSapController@indexso');
+
 Route::get('/tablesotodaysap', 'TableSapController@indexsotoday');
 Route::get('/tablesotodayksap', 'TableSapController@indexsotodayk');
+Route::get('/tablesotodayssap', 'TableSapController@indexsotodays');
+
 Route::get('/tabletoprintsap', 'TableSapController@toprint');
 Route::get('/tableallsap', 'TableSapController@indexall');
 Route::get('/tablesoallsap', 'TableSapController@indexsoall');
@@ -79,6 +82,7 @@ Route::get('/request_lines_sap/{id}', 'TableSapController@request_lines');
 Route::get('/print_sap/{id}', 'TableSapController@printrequest');
 Route::get('/printall_sap', 'TableSapController@printall');
 Route::get('/printallk_sap', 'TableSapController@printallk');
+Route::get('/printalls_sap', 'TableSapController@printalls');
 Route::get('/delete_header_sap/{id}', 'TableSapController@delete_header');
 Route::get('/delete_line_sap/{id}', 'TableSapController@delete_line');
 Route::get('/edit_header_sap/{id}', 'TableSapController@edit_header');

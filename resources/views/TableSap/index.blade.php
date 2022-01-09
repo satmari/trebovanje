@@ -63,6 +63,7 @@
 				           <th><span style="color: darkorange;">Qty</span></th>
 				           <th><span style="color: darkorange;">UoM</span></th>
 				           <th><span style="color: darkorange;">UoM Desc</span></th>
+				           <th><span style="color: darkorange;">TPA</span></th>
 				           {{--<th><span style="color: darkorange;">Hu</span></th>--}}
 				           
 				           <!-- <th>Created</th> -->
@@ -94,6 +95,7 @@
 				        	<td>{{ $d->standard_qty }}</td>
 				        	<td>{{ $d->uom }}</td>
 				        	<td>{{ $d->uom_desc }}</td>
+				        	<td>{{ $d->tpa }}</td>
 				        	{{--<td>{{ $d->created_at }}</td>--}}
 				        	<td>
 				        	@if ($d->status == "PRINTED")

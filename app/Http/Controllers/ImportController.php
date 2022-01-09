@@ -137,7 +137,7 @@ class ImportController extends Controller {
 	    foreach($getSheetName as $sheetName)
 	    {
 	       
-	        Excel::filter('chunk')->selectSheets($sheetName)->load(Request::file('file4'))->chunk(15000, function ($reader)
+	        Excel::filter('chunk')->selectSheets($sheetName)->load(Request::file('file4'))->chunk(50000, function ($reader)
 	            
 	            {
 	                $readerarray = $reader->toArray();
@@ -156,13 +156,17 @@ class ImportController extends Controller {
 						$bulk->description = $row['description'];
 						$bulk->standard_qty = $row['standard_qty'];
 						$bulk->uom_desc = $row['uom_desc'];
+						$bulk->tpa = $row['tpa'];
 						
 						$bulk->save();
+
+						// var_dump('done: '.$bulk->po);
 						
 	                }
 	            });
 	    }
-		return redirect('/');
+		// return redirect('/');
+		dd('Gotovo');
 	}
 }
 
