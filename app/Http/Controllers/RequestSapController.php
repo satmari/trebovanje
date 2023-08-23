@@ -371,8 +371,8 @@ class RequestSapController extends Controller {
 		  JOIN [posummary].[dbo].[pro] as p ON p.pro = po_sap
 		  */
 		 
-		$exist_skeda = DB::connection('sqlsrv')->select(DB::raw("SELECT id FROM request_header_sap WHERE skeda = '".$skeda."' AND module = '".$module."' "));
-		// dd($exist);
+		$exist_skeda = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM request_header_sap WHERE skeda = '".$skeda."' AND module = '".$module."' "));
+		// dd($exist_skeda);
 
 		if (isset($exist_skeda[0]->id)) {
 			$first_time_skeda = 'NO';
@@ -380,7 +380,14 @@ class RequestSapController extends Controller {
 			$first_time_skeda = 'YES';
 		}
 
-		$approval_int =  DB::connection('sqlsrv2')->select(DB::raw("SELECT [Approval] as approval FROM [BdkCLZG].[dbo].[CNF_PO] WHERE POnum like  '%".$po_sap."%' "));
+		$approval_int =  DB::connection('sqlsrv2')->select(DB::raw(" SELECT [Approval] as approval
+ 			FROM [BdkCLZG].[dbo].[CNF_PO]
+ 			WHERE POnum like  '%".$po_sap."%' 
+  			UNION ALL 
+ 			SELECT [Approval] as approval
+ 			FROM [172.27.161.221\INTEOSKKA].[BdkCLZKKA].[dbo].[CNF_PO]
+ 			WHERE POnum like  '%".$po_sap."%' "));
+		
 		// dd($approval_int);
 		if(isset($approval_int[0]->approval)) {
 			$approval = $approval_int[0]->approval;

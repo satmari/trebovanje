@@ -17,8 +17,7 @@ use DB;
 
 class ImportController extends Controller {
 
-	public function index()
-	{
+	public function index() {
 		//
 		return view('import.index');
 	}
@@ -50,6 +49,7 @@ class ImportController extends Controller {
 	    }
 		return redirect('/');
 	}
+
 	public function postImportColors(Request $request) {
 	    $getSheetName = Excel::load(Request::file('file2'))->getSheetNames();
 	    
@@ -78,6 +78,7 @@ class ImportController extends Controller {
 	    }
 		return redirect('/');
 	}
+
 	public function postImportSizes(Request $request) {
 	    $getSheetName = Excel::load(Request::file('file3'))->getSheetNames();
 	    
@@ -106,6 +107,7 @@ class ImportController extends Controller {
 	    }
 		return redirect('/');
 	}
+
 	public function postImportUpdatePass() {
 	    
 	    $sql = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM users"));
@@ -129,6 +131,7 @@ class ImportController extends Controller {
 
 		return redirect('/');
 	}
+	
 	public function postSAP(Request $request) {
 	    $getSheetName = Excel::load(Request::file('file4'))->getSheetNames();
 

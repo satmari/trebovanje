@@ -179,8 +179,8 @@ class RefreshController extends Controller {
 	public function refresh_requests() {
 
 
-		$requests = DB::connection('sqlsrv')->select(DB::raw("SELECT id, po_sap, approval FROM request_header_sap WHERE status != 'DELETED' "));
-		// dd($requests[0]->approval);
+		$requests = DB::connection('sqlsrv')->select(DB::raw("SELECT id, po_sap, approval FROM request_header_sap WHERE status != 'DELETED' AND created_at >= DATEADD(MONTH, -2, GETDATE()) "));
+		// dd($requests);
 
 
 		for ($i=0; $i < count($requests); $i++) {

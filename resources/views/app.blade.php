@@ -18,6 +18,7 @@
 	<!-- <link href="{{ asset('/css/jquery.dataTables.min.css') }}" rel='stylesheet' type='text/css'> -->
 	<link href="{{ asset('/css/jquery-ui.min.css') }}" rel='stylesheet' type='text/css'>
 	<link href="{{ asset('/css/custom.css') }}" rel='stylesheet' type='text/css'>
+	<!-- <link rel="manifest" href="{{ asset('/css/manifest.json') }}"> -->
 	
 		
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -87,7 +88,7 @@
 
 					<li><a href="{{ url('/printer') }}">Choose printer</a></li>
 					<!-- <li role="separator" class="divider"></li> -->
-					<li><a href="{{ url('/refresh_requests') }}">Refresh requests</a></li>
+					<li><a href="{{ url('/refresh_requests') }}">Refresh approval</a></li>
 					<li><a href="{{ url('/import') }}">Import file</a></li>	
 					
 					<!-- <li>
