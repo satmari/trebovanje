@@ -18,6 +18,7 @@
 	<!-- <link href="{{ asset('/css/jquery.dataTables.min.css') }}" rel='stylesheet' type='text/css'> -->
 	<link href="{{ asset('/css/jquery-ui.min.css') }}" rel='stylesheet' type='text/css'>
 	<link href="{{ asset('/css/custom.css') }}" rel='stylesheet' type='text/css'>
+	<!-- <link rel="manifest" href="{{ asset('/css/manifest.json') }}"> -->
 	
 		
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -37,10 +38,14 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="http://172.27.161.171/preparation"><b>Preparation App</b></a>
-				<a class="navbar-brand" href="">|</a>
-				<a class="navbar-brand" href="http://172.27.161.171/trebovanje"><b>Trebovanje App</b></a>
-				<a class="navbar-brand" href="">|</a>
+				<a class="navbar-brand" href="http://172.27.161.171/preparation"><b>Preparation</b></a>
+				<a class="navbar-brand" href="#">|</a>
+				<a class="navbar-brand" href="http://172.27.161.171/trebovanje"><b>Trebovanje</b></a>
+				<a class="navbar-brand" href="#">|</a>
+				<a class="navbar-brand" href="http://172.27.161.171/downtime"><b>Downtime</b></a>
+				<a class="navbar-brand" href="#">|</a>
+				<a class="navbar-brand" href="http://172.27.161.171/cutting"><b>Cutting</b></a>
+				<a class="navbar-brand" href="#">|</a>
 				@if(Auth::check() && Auth::user()->level() == 4)
 				<a class="navbar-brand" href="http://172.27.161.172/pdm"><span style="color:red;"><b>PDM</b></span></a></li>
 				<a class="navbar-brand" href="">|</a>
@@ -52,31 +57,41 @@
 					
 					@if(Auth::check() && Auth::user()->level() == 4)
 						{{-- <li><a href="{{ url('/') }}">Make request</a></li> --}}
-						<li><a href="{{ url('/table') }}">Trebovanje requests history</a></li>
+						{{--<li><a href="{{ url('/table') }}">Trebovanje history</a></li>--}}
+						<li><a href="{{ url('/tablesap') }}">Trebovanje history</a></li> 
 					@endif
 
-					@if(Auth::check() && Auth::user()->level() == 1)
-						<li><a href="{{ url('/tablesotoday') }}">Requests (today)</a></li>
-						<li><a href="{{ url('/tableso') }}">Requests (15 days)</a></li>
-						<li><a href="{{ url('/table') }}">Request lines (15 days)</a></li>
-						<li><a href="{{ url('/tabletoprint') }}">To Print</a></li>
-						<li><a href="{{ url('/tabletocreate') }}">To Create</a></li>
-						<li><a href="{{ url('/last_used') }}">Last used SO</a></li>
-						<li><a href="{{ url('/printer') }}">Choose printer</a></li>
-					
+					@if(Auth::check() && Auth::user()->level() == 2)
+						
+						<li><a href="{{ url('/tablesotodaysap') }}">Requests (Sub)</a></li>
+							<li><a href="{{ url('/tablesotodayksap') }}">Requests (Kik)</a></li>
+							<li><a href="{{ url('/tablesotodayssap') }}">Requests (Sen)</a></li>
+							<li><a href="{{ url('/tablesosap') }}">Requests (15 days)</a></li>
+							<li><a href="{{ url('/tablesap') }}">Request lines (15 days)</a></li>
+							<li><a href="{{ url('/tabletoprintsap') }}">To Print</a></li>
+							<!-- <li role="separator" class="divider"></li> -->
+							<!-- <li><a href="{{ url('/tablesoallsap') }}">Requests (all)</a></li>
+							<li><a href="{{ url('/tableallsap') }}">Request lines (all)</a></li> -->
+							<!-- <li role="separator" class="divider"></li> -->
 					<li>
 						 <button class="btn btn-default dropdown-toggle" style="margin: 6px 5px !important;" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-								    Tables
+								    History
 							    <span class="caret"></span>
 						  </button>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 						    
-							<li><a href="{{ url('/tablesoall') }}">Requests (all)</a></li>
-							<li><a href="{{ url('/tableall') }}">Request lines (all)</a></li>
+							<li><a href="{{ url('/tablesoallsap') }}">Requests (all)</a></li>
+							<li><a href="{{ url('/tableallsap') }}">Request lines (all)</a></li>
 							
 						</ul>
-					</li>	
-					<li>
+					</li>
+
+					<li><a href="{{ url('/printer') }}">Choose printer</a></li>
+					<!-- <li role="separator" class="divider"></li> -->
+					<li><a href="{{ url('/refresh_requests') }}">Refresh approval</a></li>
+					<li><a href="{{ url('/import') }}">Import file</a></li>	
+					
+					<!-- <li>
 						 <button class="btn btn-default dropdown-toggle" style="margin: 6px 5px !important;" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								    Functions
 							    <span class="caret"></span>
@@ -87,8 +102,8 @@
 							<li><a href="{{ url('/hu_refresh') }} " type="button">Hu Refresh</a></li>
 							
 						</ul>
-					</li>
-					<li>
+					</li> -->
+					<!-- <li>
 						 <button class="btn btn-default dropdown-toggle" style="margin: 6px 5px !important;" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								    Translations
 							    <span class="caret"></span>
@@ -103,6 +118,31 @@
 							
 						</ul>
 					</li>
+ -->
+					<!-- <li>
+						 <button class="btn btn-default dropdown-toggle" style="margin: 6px 5px !important;" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+								    with NAV
+							    <span class="caret"></span>
+						  </button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+
+						    
+						<li><a href="{{ url('/tablesotoday') }}">Requests (today)</a></li>
+						<li><a href="{{ url('/tablesotodayk') }}">Requests (today Kikinda)</a></li>
+						<li><a href="{{ url('/tableso') }}">Requests (15 days)</a></li>
+						<li><a href="{{ url('/table') }}">Request lines (15 days)</a></li>
+						<li><a href="{{ url('/tabletoprint') }}">To Print</a></li>
+						<li><a href="{{ url('/tabletocreate') }}">To Create</a></li>
+						<li><a href="{{ url('/last_used') }}">Last used SO</a></li>
+						<li><a href="{{ url('/printer') }}">Choose printer</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="{{ url('/transitem') }}">Item</a></li>
+						<li><a href="{{ url('/transsize') }}">Size</a></li>
+						<li><a href="{{ url('/transcolor') }}">Color</a></li>
+							
+							
+						</ul>
+					</li> -->
 
 					@endif
 
@@ -155,6 +195,11 @@ $(function() {
 		minLength: 3,
 		autoFocus: true,
 		source: '{{ URL('getpodata')}}'
+	});
+	$('#po_sap').autocomplete({
+		minLength: 3,
+		autoFocus: true,
+		source: '{{ URL('getpodatasap')}}'
 	});
 	$('#module').autocomplete({
 		minLength: 1,

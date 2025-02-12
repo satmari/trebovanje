@@ -45,8 +45,6 @@
 										{{ $line['std_qty'] }}
 										[{{ $line['std_uom'] }}]
 										
-										
-										
 							    	</label>
 							  	</div>
   						 	</td>

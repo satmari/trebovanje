@@ -18,7 +18,7 @@ class CreateRequestLinesTable extends Migration {
 
 			$table->integer('request_header_id');
 
-			$table->string('item',8);
+			$table->string('item'); // added to more than 8 
 			$table->string('item_t',32);
 
 			$table->string('size',8);

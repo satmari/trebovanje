@@ -10,13 +10,14 @@ use Request;
 use App\trans_color;
 use App\trans_item;
 use App\trans_size;
+
+use App\Sap_coois;
 use App\User;
 use DB;
 
 class ImportController extends Controller {
 
-	public function index()
-	{
+	public function index() {
 		//
 		return view('import.index');
 	}
@@ -48,6 +49,7 @@ class ImportController extends Controller {
 	    }
 		return redirect('/');
 	}
+
 	public function postImportColors(Request $request) {
 	    $getSheetName = Excel::load(Request::file('file2'))->getSheetNames();
 	    
@@ -76,6 +78,7 @@ class ImportController extends Controller {
 	    }
 		return redirect('/');
 	}
+
 	public function postImportSizes(Request $request) {
 	    $getSheetName = Excel::load(Request::file('file3'))->getSheetNames();
 	    
@@ -104,7 +107,70 @@ class ImportController extends Controller {
 	    }
 		return redirect('/');
 	}
+
+	public function postImportUpdatePass() {
+	    
+	    $sql = DB::connection('sqlsrv')->select(DB::raw("SELECT * FROM users"));
+
+	    for ($i=0; $i < count($sql) ; $i++) { 
+	    	
+	    	// dd($sql[$i]->password);
+
+	    	$password = bcrypt($sql[$i]->name);
+	    	// dd($password);
+
+			$sql2 = DB::connection('sqlsrv')->select(DB::raw("
+					SET NOCOUNT ON;
+					UPDATE [trebovanje].[dbo].[users]
+					SET password = '".$password."'
+					WHERE name = '".$sql[$i]->name."';
+					SELECT TOP 1 [id] FROM [trebovanje].[dbo].[users];
+				"));	    	
+
+	    }
+
+		return redirect('/');
+	}
 	
+	public function postSAP(Request $request) {
+	    $getSheetName = Excel::load(Request::file('file4'))->getSheetNames();
+
+	    DB::table('Sap_coois')->truncate();
+	    
+	    foreach($getSheetName as $sheetName)
+	    {
+	       
+	        Excel::filter('chunk')->selectSheets($sheetName)->load(Request::file('file4'))->chunk(50000, function ($reader)
+	            
+	            {
+	                $readerarray = $reader->toArray();
+	                //var_dump($readerarray);
+	                foreach($readerarray as $row)
+	                {
+	                	
+						$bulk = new Sap_coois;
+						$bulk->po = $row['po'];
+						$bulk->fg = $row['fg'];
+						$bulk->activity = $row['activity'];
+						$bulk->wc = $row['wc'];
+						$bulk->list = $row['list'];
+						$bulk->material = $row['material'];
+						$bulk->uom = $row['uom'];
+						$bulk->description = $row['description'];
+						$bulk->standard_qty = $row['standard_qty'];
+						$bulk->uom_desc = $row['uom_desc'];
+						$bulk->tpa = $row['tpa'];
+						
+						$bulk->save();
+
+						// var_dump('done: '.$bulk->po);
+						
+	                }
+	            });
+	    }
+		// return redirect('/');
+		dd('Gotovo');
+	}
 }
 
 

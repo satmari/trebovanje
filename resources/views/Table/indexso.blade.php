@@ -45,6 +45,7 @@
 				           {{-- <th><span style="color: blueviolet;">Name</span></th> --}}
 				           <th data-sortable="true"><span style="color: blueviolet;">Module</span></th>
 				           <th data-sortable="true"><span style="color: blueviolet;">Created</span></th>
+				           <th data-sortable="true"><span style="color: blueviolet;">Updated</span></th>
 				           <th><span style="color: blueviolet;">Style</span></th>
 				           <th><span style="color: blueviolet;">Color</span></th>
 				           <th><span style="color: blueviolet;">Size</span></th>
@@ -71,6 +72,7 @@
 				        	{{-- <td>{{ $d->name }}</td> --}}
 				        	<td>{{ $d->module }}</td>
 				        	<td>{{ substr($d->created_at, 0, 19) }}</td>
+				        	<td>{{ substr($d->updated_at, 0, 19) }}</td>
 				        	<td>{{ $d->stylefg }}</td>
 				        	<td>{{ $d->colorfg }}</td>
 				        	<td>{{ $d->sizefg }}</td>

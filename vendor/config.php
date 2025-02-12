@@ -1,7 +1,7 @@
 <?php return array (
   'app' => 
   array (
-    'debug' => true,
+    'debug' => false,
     'url' => 'http://localhost',
     'timezone' => 'CET',
     'locale' => 'en',
@@ -169,7 +169,7 @@
       'mysql' => 
       array (
         'driver' => 'mysql',
-        'host' => '172.27.161.221\\GPD',
+        'host' => '172.27.161.200',
         'database' => 'trebovanje',
         'username' => 'sa',
         'password' => 'gordon2013',
@@ -181,7 +181,7 @@
       'pgsql' => 
       array (
         'driver' => 'pgsql',
-        'host' => '172.27.161.221\\GPD',
+        'host' => '172.27.161.200',
         'database' => 'trebovanje',
         'username' => 'sa',
         'password' => 'gordon2013',
@@ -192,7 +192,7 @@
       'sqlsrv' => 
       array (
         'driver' => 'sqlsrv',
-        'host' => '172.27.161.221\\GPD',
+        'host' => '172.27.161.200',
         'database' => 'trebovanje',
         'username' => 'sa',
         'password' => 'gordon2013',
@@ -212,6 +212,15 @@
         'driver' => 'sqlsrv',
         'host' => '172.27.161.221\\GPD',
         'database' => 'Gordon_LIVE',
+        'username' => 'sa',
+        'password' => 'gordon2013',
+        'prefix' => '',
+      ),
+      'sqlsrv4' => 
+      array (
+        'driver' => 'sqlsrv',
+        'host' => '172.27.161.200',
+        'database' => 'posummary',
         'username' => 'sa',
         'password' => 'gordon2013',
         'prefix' => '',

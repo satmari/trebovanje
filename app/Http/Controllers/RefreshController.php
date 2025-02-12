@@ -16,6 +16,7 @@ use App\trans_size;
 use App\temp_print;
 use App\RequestHeader;
 use App\RequestLine;
+use App\RequestHeaderSap;
 use DB;
 
 use App\User;
@@ -40,9 +41,26 @@ class RefreshController extends Controller {
 		for ($i=0; $i < count($request); $i++) { 
 
 			$module = $request[$i]->module;
+			$crtica = substr($module, 1, 1);
 
-			$module_line = substr($module, 0, 1);
-			$module_name = substr($module, 1, 3);
+			if ($crtica == "-") {
+
+				$module_line = substr($module, 0, 1);
+	    		$module_name = substr($module, 2, 3);
+	    		
+	    		$module = $module_line." ".$module_name;
+
+	    		Session::set('module', $module);	
+
+			} else {
+
+				$module_line = substr($module, 0, 1);
+	    		$module_name = substr($module, 1, 3);
+	    		
+	    		$module = $module_line." ".$module_name;
+
+	    		Session::set('module', $module);	
+			}
 
 			try {			
 			$so = DB::connection('sqlsrv3')->select(DB::raw("
@@ -51,7 +69,7 @@ class RefreshController extends Controller {
 			   p.[No_] as so,
 			   l.[Item No_] as item,
 			   /*l.[Shortcut Dimension 2 Code],*/
-			   (RIGHT(l.[Shortcut Dimension 2 Code],5)) as po,
+			   (RIGHT(l.[Shortcut Dimension 2 Code],6)) as po,
 			   l.[PfsHorizontal Component] as size,
 			   l.[PfsVertical Component] as color
 			   /*p.[Description],*/
@@ -158,4 +176,40 @@ class RefreshController extends Controller {
 		}
 	}
 
+	public function refresh_requests() {
+
+
+		$requests = DB::connection('sqlsrv')->select(DB::raw("SELECT id, po_sap, approval FROM request_header_sap WHERE status != 'DELETED' AND created_at >= DATEADD(MONTH, -2, GETDATE()) "));
+		// dd($requests);
+
+
+		for ($i=0; $i < count($requests); $i++) {
+
+			$inteos = DB::connection('sqlsrv2')->select(DB::raw("
+				SELECT POnum, Approval
+				FROM [BdkCLZG].[dbo].[CNF_PO]
+				WHERE POnum like '%".$requests[$i]->po_sap."%' --AND (POClosed is null OR POClosed = 0)
+				UNION
+				SELECT POnum, Approval
+				FROM [172.27.161.221\INTEOSKKA].[BdkCLZKKA].[dbo].[CNF_PO]
+				WHERE POnum like '%".$requests[$i]->po_sap."%' --AND (POClosed is null OR POClosed = 0)
+			"));
+
+			// dd($inteos);
+			// var_dump($inteos[0]->Approval);
+
+			if (isset($inteos[0]->Approval)) {	
+				try {
+					$table = RequestHeaderSap::findOrFail($requests[$i]->id);
+					$table->approval = $inteos[0]->Approval;
+					$table->save();
+				 }
+					catch (\Illuminate\Database\QueryException $e) {
+					dd("Problem to save in table");
+				}	
+			}
+		}
+
+	return Redirect::to('/');
+	}
 }

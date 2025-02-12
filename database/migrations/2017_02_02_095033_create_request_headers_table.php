@@ -40,6 +40,10 @@ class CreateRequestHeadersTable extends Migration {
 			$table->timestamps();
 
 			$table->string('flash')->nullable(); // added latter
+			$table->string('postatus')->nullable(); // added latter
+			$table->dateTime('lastmodified')->nullable(); // added latter
+
+			$table->string('skeda')->nullable(); // added latter
 			
 		});
 	}

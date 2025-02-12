@@ -8,9 +8,14 @@
 				<div class="panel-heading">Request header table (to print)</div>
 
 				<div>
-					<a href="{{ url('/printall') }}" class="btn btn-info btn center">Print all</a>
-				</div>
+					<a href="{{ url('/printall') }}" class="btn btn-info btn center">Print all (Subotica)</a>
+					&nbsp
+					&nbsp
+					&nbsp	
+					<a href="{{ url('/printallk') }}" class="btn btn-info btn center">Print all (Kikinda)</a>
 
+				</div>
+				
 				<div class="input-group"> <span class="input-group-addon">Filter</span>
 				    <input id="filter" type="text" class="form-control" placeholder="Type here...">
                 </div>

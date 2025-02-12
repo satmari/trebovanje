@@ -8,7 +8,7 @@
 
 			@if(Auth::check() )
 
-			<div class="panel panel-default">
+			<!-- <div class="panel panel-default">
 				<div class="panel-heading">Import <b>Items</b> from Excel file</div>
 
 				{!! Form::open(['files'=>True, 'method'=>'POST', 'action'=>['ImportController@postImportItems']]) !!}
@@ -47,6 +47,21 @@
 					</div>
 					<div class="panel-body">
 						{!! Form::submit('Import Sizes', ['class' => 'btn btn-warning center-block']) !!}
+					</div>
+					@include('errors.list')
+				{!! Form::close() !!}
+
+			</div> -->
+
+			<div class="panel panel-default">
+				<div class="panel-heading">Import from SAP</div>
+
+				{!! Form::open(['files'=>True, 'method'=>'POST', 'action'=>['ImportController@postSAP']]) !!}
+					<div class="panel-body">
+						{!! Form::file('file4', ['class' => 'center-block']) !!}
+					</div>
+					<div class="panel-body">
+						{!! Form::submit('Import', ['class' => 'btn btn-warning center-block']) !!}
 					</div>
 					@include('errors.list')
 				{!! Form::close() !!}

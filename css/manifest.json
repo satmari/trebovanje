@@ -1,0 +1,11 @@
+{ 
+
+  "name": "Trebovanje app", 
+
+  "short_name": "Trebovanje app", 
+
+  "start_url": "http://172.27.161.171/trebovanje", 
+
+  "display": "standalone"
+
+}

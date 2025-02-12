@@ -16,7 +16,7 @@ class CreateTransItemsTable extends Migration {
 		{
 			$table->increments('id');
 
-			$table->string('item',8)->unique();
+			$table->string('item')->unique(); // added to more than 8
 			$table->string('item_t',50)->nullable();
 
 			$table->integer('std_qty')->nullable(); // added latter
