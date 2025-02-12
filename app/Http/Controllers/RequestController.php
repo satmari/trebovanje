@@ -57,6 +57,13 @@ class RequestController extends Controller {
 		if ($user->is('modul')) { 
 			return view('RequestSap.index');   
 		}
+		if ($user->is('cutting')) { 
+			// dd('please login with different user, cutting user is not valid in trebovanje app, you should clear all history in browser with Ctrl+Shift+Delete');
+			// var_dump('please login with different user');
+			return Redirect::to('/auth/logout');
+		}
+
+
 
 		// return view('Request.index');
 		return Redirect::to('/');

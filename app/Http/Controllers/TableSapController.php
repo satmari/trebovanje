@@ -28,8 +28,7 @@ use Validator;
 
 class TableSapController extends Controller {
 
-	public function __construct()
-	{
+	public function __construct() {
 		$this->middleware('auth');
 	}
 
@@ -659,6 +658,15 @@ class TableSapController extends Controller {
 			return view('printer');
 		}
 
+		if (($printer_name == 'Cutting A4') OR  ($printer_name == 'Magacin A4') OR ($printer_name == 'Workstudy A4') OR ($printer_name == 'IT')) {
+			
+		} elseif  (($printer_name == 'Kikinda Magacin A4') OR ($printer_name == 'Kikinda Magacin Office A4')) {
+			dd('Error, selected printer is for Kikinda, please check!!! ');
+		} elseif ($printer_name == 'Senta A4') {
+			dd('Error, selected printer is for Senta, please check!!! ');
+		}
+		// dd('stop');
+
 		$main = DB::connection('sqlsrv')->select(DB::raw("SELECT
 				id,
 				--so,
@@ -932,6 +940,15 @@ class TableSapController extends Controller {
 			return view('printer');
 		}
 
+		if (($printer_name == 'Cutting A4') OR  ($printer_name == 'Magacin A4') OR ($printer_name == 'Workstudy A4') OR ($printer_name == 'IT')) {
+			dd('Error, selected printer is for Subotica, please check!!! ');
+		} elseif  (($printer_name == 'Kikinda Magacin A4') OR ($printer_name == 'Kikinda Magacin Office A4')) {
+		
+		} elseif ($printer_name == 'Senta A4') {
+			dd('Error, selected printer is for Senta, please check!!! ');
+		}
+		// dd('stop');
+
 		$main = DB::connection('sqlsrv')->select(DB::raw("SELECT
 				id,
 				--so,
@@ -1198,6 +1215,16 @@ class TableSapController extends Controller {
 		} else {
 			return view('printer');
 		}
+		
+		if (($printer_name == 'Cutting A4') OR  ($printer_name == 'Magacin A4') OR ($printer_name == 'Workstudy A4') OR ($printer_name == 'IT')) {
+			dd('Error, selected printer is for Subotica, please check!!! ');
+		} elseif  (($printer_name == 'Kikinda Magacin A4') OR ($printer_name == 'Kikinda Magacin Office A4')) {
+			dd('Error, selected printer is for Kikinda, please check!!! ');
+		} elseif ($printer_name == 'Senta A4') {
+			
+		}
+		// dd('stop');
+
 
 		$main = DB::connection('sqlsrv')->select(DB::raw("SELECT
 				id,

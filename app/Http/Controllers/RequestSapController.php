@@ -207,7 +207,7 @@ class RequestSapController extends Controller {
 			// var_dump($material);
 			// dd($standard_qty);
 		} else {
-			$msg = 'Can not find components in coois_sap table !!!';
+			$msg = 'Can not find components in coois_sap table !!! First check with planers, if problem still exist call IT';
 			return view('RequestSap.error',compact('msg'));
 		}
 		
