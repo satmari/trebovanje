@@ -42,8 +42,8 @@
 				<a class="navbar-brand" href="#">|</a>
 				<a class="navbar-brand" href="http://172.27.161.171/trebovanje"><b>Trebovanje</b></a>
 				<a class="navbar-brand" href="#">|</a>
-				<a class="navbar-brand" href="http://172.27.161.171/downtime"><b>Downtime</b></a>
-				<a class="navbar-brand" href="#">|</a>
+				<!-- <a class="navbar-brand" href="http://172.27.161.171/downtime"><b>Downtime</b></a>
+				<a class="navbar-brand" href="#">|</a> -->
 				<a class="navbar-brand" href="http://172.27.161.171/cutting"><b>Cutting</b></a>
 				<a class="navbar-brand" href="#">|</a>
 				@if(Auth::check() && Auth::user()->level() == 4)
