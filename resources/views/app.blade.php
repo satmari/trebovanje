@@ -38,7 +38,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="http://172.27.161.171/preparation"><b>Preparation</b></a>
+				<a class="navbar-brand" href="http://172.27.161.193/preparation"><b>Preparation</b></a>
 				<a class="navbar-brand" href="#">|</a>
 				<a class="navbar-brand" href="http://172.27.161.171/trebovanje"><b>Trebovanje</b></a>
 				<a class="navbar-brand" href="#">|</a>
